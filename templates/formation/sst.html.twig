@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formation - Sauveteur Secouriste du Travail{% endblock %}
+
+{% block description %}
+    La formation SST vous rend acteur de la prévention des risques des maladies professionnelles et des accidents de travail. Vous serez formé au secourisme incluant la conduite à tenir et les gestes de premiers secours.
+{% endblock %}
+
+{% block body %}
+    <div id="corps" class="container-fluid">
+        <div class="row">
+            <div class="sst-title">
+                <div class="text-title section">
+                    <h1 class="text-brand">
+                        Sauveteur et Secouriste du Travail
+                    </h1>
+                    <p>
+                        La formation SST a pour but de sensibiliser l’apprenant à l’environnement accidentogène
+                        au travail, à son rôle actif dans la prévention des risques ainsi que pour porter
+                        secours en cas d'accident.
+                    </p>
+                    <div class="d-flex">
+                        <a
+                                class="btn btn-second btn-lg"
+                                href="{{ path('app_ask') }}"
+                        >
+                            <i class="fa fa-play" aria-hidden="true"></i>
+                            &nbsp;Faire une demande de formation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row section bg-brand-gradient-light text-light box-radius my-4">
+            <div class="col-12 col-md-7 col-sm-9 order-2 order-sm-1 p-4">
+                <p>
+                    Cette formation vous qualifiera pour vous rendre capable de participer à la
+                    prévention au sein de votre entreprise. Lors d'une situation d'accident du travail,
+                    vous serez préparé à réagir pour intervenir rapidement et efficacement.
+                </p>
+
+                <p>
+                    Réalisée par un formateur SST habilité, vous suivrez une formation très
+                    <strong>vivante</strong> et ponctuée de nombreuses <strong>mises en situation</strong>
+                    inspirées des risques liés à votre activité.
+                </p>
+            </div>
+            <div class="col-10 col-md-5 col-sm-3 order-1 order-sm-2 p-4">
+                <picture>
+                    <source srcset="{{ asset('build/images/first-aid.webp') }}" type="image/webp" class="">
+                    <source srcset="{{ asset('build/images/first-aid.jpg') }}" type="image/jpeg" class="">
+                    <img src="{{ asset('build/images/first-aid.jpg') }}" alt="Un défibrilateur" class="w-100">
+                </picture>
+            </div>
+        </div>
+
+        <div class="row section">
+            <div class="my-5">
+                <h2 class="text-center size-2 text-brand-dark">Objectifs de la formation</h2>
+                <p>
+                    Vous apprendrez à...
+                <ul>
+                    <li>
+                        Savoir prévenir les risques d’accidents au travail.
+                    </li>
+                    <li>
+                        Être capable de protéger, examiner, faire alerter et porter secours sur une situation d’accident.
+                    </li>
+                    <li>
+                        Connaître les gestes de premiers secours face à une victime.
+                    </li>
+                </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="box-shadow bg-second-light text-brand row">
+                <div class="col-12 col-sm-4 text-center align-self-center">
+                    <i class="fas fa-user size-big"></i>
+                </div>
+
+                <div class="col-12 col-sm-8 pt-4">
+                    <h2 class="size-2 mb-5">A qui s'adresse la formation</h2>
+
+                    <p>
+                        Personnels motivés par l'acquisition des gestes de secours et la
+                        prévention des risques. Vous obtiendrez un certificat SST valable 2 ans.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        {% include 'formation/call_to_action.html.twig' %}
+    </div>
+
+    {% include 'formation/documentation.html.twig' %}
+{% endblock %}

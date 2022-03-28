@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Demande de formation
+{% endblock %}
+
+{% block description %}
+    Augmentez en compétences et faites une demande de formation avec LAGOON Formations en ligne.
+{% endblock %}
+
+{% block body %}
+    <main id="corps" class="mt-5 container">
+        <div class="pt-5 pb-2 text-center">
+            <h1>
+                Faire une demande de formation en ligne
+            </h1>
+
+            <p class="p-3">
+                <em>Une nouvelle opportunité s'ouvre peut être à vous derrière ce simple formulaire...</em>
+            </p>
+
+            <div class="w-adaptative mx-auto bg-white d-flex justify-content-around">
+                <img src="{{ asset('build/images/datadock.png') }}" alt="Logo de datadock" class="img-size">
+                <div class="d-flex align-items-center">
+                    <img src="{{ asset('build/images/qualiopi.png') }}" alt="Certification Qualiopi de notre formation" class="img-size">
+                    <a
+                            href="https://certificats-attestations.afnor.org/certification=128289183752"
+                            target="_blank"
+                    >
+                        <img src="{{ asset('build/images/formation/qr.png') }}" alt="QR code prouvant la validité de notre certification Qualiopi" class="img-size">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </main>
+
+
+
+
+{% endblock %}

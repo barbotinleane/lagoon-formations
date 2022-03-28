@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les formations proposées par l'organisme LAGOON&reg; Formations{% endblock %}
+
+{% block description %}De l'installation de bassin LAGOON&reg; à la formation Sauveteur Secouriste du Travail en passant par la mise en place d'un local technique écologique. Formez vous aux techniques et aux matériaux d'éco-construction ou a la sécurité au travail.{% endblock %}
+
+{% block body %}
+<div id="corps" class="mt-5 container-fluid">
+    <div class="row section">
+        <h1>Nos formations</h1>
+        <p>
+            Découvrez nos différentes formations pour se reconvertir ou
+            gagner en compétences avec LAGOON Formations...
+        </p>
+    </div>
+
+    <div class="section">
+        {% include 'formation/list.html.twig' %}
+    </div>
+</div>
+{% endblock %}

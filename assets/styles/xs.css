@@ -1,0 +1,73 @@
+.bassin-title {
+  background-image: url(../photos/formation/formation.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center top;
+  color: rgba(255, 255, 255, 0);
+  margin-top: 26px;
+}
+
+.traitement-title {
+  background-image: url(../photos/traitement_eau.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center top;
+  color: rgba(255, 255, 255, 0);
+  margin-top: 26px;
+}
+
+.gestes-title {
+  background-image: url(../photos/corps.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center top;
+  color: rgba(255, 255, 255, 0);
+  margin-top: 26px;
+}
+
+.sst-title {
+  background-image: url(../photos/sst.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center top;
+  color: rgba(255, 255, 255, 0);
+  margin-top: 26px;
+}
+
+.text-title {
+  background: rgba(255, 255, 255, 0.922006);
+  margin-top: 230px;
+  margin-right: auto;
+  margin-left: auto;
+  color: #212529;
+  width: 98%;
+}
+
+.w-adaptative {
+  width: 100%;
+}
+
+.overlay-picture {
+  position: relative;
+  margin-left: 0px;
+  margin-top: -60px;
+}
+
+.img-size {
+  height: 60px;
+}
+
+.section {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.section-x {
+  padding-top: 30px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+/*# sourceMappingURL=xs.css.map */

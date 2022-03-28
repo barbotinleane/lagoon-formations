@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    LAGOON® Formations - Formations en éco-construction et prévention des risques au travail
+{% endblock %}
+
+{% block description %}
+    Venez apprendre à installer des piscines ou encore des filtrations écologiques aux côtés de professionnels.
+    Formez-vous aux enjeux de santé et sécurité au travail. Nous sommes un organisme de formation professionnelle
+    certifié Qualiopi et basé dans les Alpes Maritimes.
+{% endblock %}
+
+{% block body %}
+    <div id="corps" class="container-fluid mt-5">
+        <div class="row section bg-brand-gradient text-light align-items-center">
+            <div class="col-12 col-sm-7 order-2 order-sm-1 mt-4">
+                <h1>
+                    Prêts à aller vers le monde
+                    <span class="text-brand-light">de demain</span> ?
+                </h1>
+                <p>
+                    Formation aux métiers d'avenir et prévention des risques
+                    liés au travail.
+                </p>
+                <a
+                        class="btn btn-second"
+                        href="{{ path('app_formation') }}"
+                >
+                    Découvrir nos formations
+                </a>
+            </div>
+            <div class="col-12 col-sm-5 order-1 order-sm-2">
+                <img
+                        src="{{ asset('build/images/accueil.jpg') }}"
+                        class="w-100 rounded-circle"
+                        alt="Un homme et une femme heureux en situation de travail."
+                />
+            </div>
+        </div>
+
+        <div class="row section">
+            <div class="col-12 col-sm-4 py-4">
+                <div class="text-center text-brand-dark">
+                    <i class="fas fa-hands-helping size-3"></i>
+                    <h2>Main dans la main</h2>
+                </div>
+                <p>
+                    Des formateurs expérimentés, qui vous accompagneront sur la durée.
+                </p>
+            </div>
+            <div class="col-12 col-sm-4 py-4">
+                <div class="text-center text-brand-dark">
+                    <i class="fas fa-thumbs-up size-3"></i>
+                    <h2>Testées et approuvées</h2>
+                </div>
+                <p>
+                    Nous avons un taux de satisfaction de 95%. Découvrez des
+                    commentaires sur nos formations.
+                </p>
+            </div>
+            <div class="col-12 col-sm-4 py-4">
+                <div class="text-center text-brand-dark">
+                    <i class="fas fa-certificate size-3"></i>
+                    <h2>Des formations certifiées Qualiopi</h2>
+                </div>
+                <p>
+                    Qualiopi un est organisme tiers  mis en place par l'Etat qui vous
+                    assure de notre capacité à dispenser des formation de qualité.
+                </p>
+                <div class="text-center">
+                    <img src="{{ asset('build/images/qualiopi.png') }}" alt="Qualiopi QR code LAGOON" height="50">
+                    <img src="{{ asset('build/images/datadock.png') }}" alt="Datadock LAGOON" height="50">
+                </div>
+            </div>
+        </div>
+
+        <div class="row section text-brand bg-second-light align-items-center justify-content-between">
+            <div class="col-12 col-sm-2 pb-2 text-center">
+                <i class="fa fa-university size-1" aria-hidden="true"></i>
+            </div>
+            <div class="col-12 col-sm-10 ps-none ps-sm-5">
+                <p class="size-3 raleway-black">
+                    Nos formations peuvent être financées en tout ou partie par l’état
+                </p>
+                <p>
+                    N'hésitez pas à contacter votre organisme collecteur qui vous aidera pour son
+                    financement (<a href="https://www.fifpl.fr/" target="_blank" class="text-darkblue">
+                        FIFPL</a>, <a href="https://www.ocapiat.fr/" target="_blank" class="text-darkblue">
+                        OCAPIAT</a>, <a href="https://www.fafcea.com/" target="_blank" class="text-darkblue">
+                        FAFCEA</a>, <a href="https://communication-agefice.fr/" target="_blank" class="text-darkblue">
+                        AGEFICE</a>...).
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="text-center size-2 pb-5">Nos formations</h2>
+            {% include 'formation/list.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
