@@ -19,17 +19,8 @@ final class Version20220322171933 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE artisan (id INT AUTO_INCREMENT NOT NULL, siren_or_rm VARCHAR(255) DEFAULT NULL, activity_category VARCHAR(255) DEFAULT NULL, handicap TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE auto_entrepreneur (id INT AUTO_INCREMENT NOT NULL, siret VARCHAR(255) DEFAULT NULL, activity_category VARCHAR(255) DEFAULT NULL, handicap TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE company_director (id INT AUTO_INCREMENT NOT NULL, company_name VARCHAR(255) DEFAULT NULL, siren_or_rm VARCHAR(255) DEFAULT NULL, activity_category VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE formation_ask (id INT AUTO_INCREMENT NOT NULL, formation_id INT NOT NULL, session_id INT DEFAULT NULL, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, goal VARCHAR(255) DEFAULT NULL, email VARCHAR(255) NOT NULL, phone_number INT NOT NULL, address VARCHAR(255) NOT NULL, postal_code INT DEFAULT NULL, city VARCHAR(255) NOT NULL, department VARCHAR(255) DEFAULT NULL, country VARCHAR(255) NOT NULL, knows_us VARCHAR(255) DEFAULT NULL, consents LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', INDEX IDX_DF768F945200282E (formation_id), INDEX IDX_DF768F94613FECDF (session_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE other_status (id INT AUTO_INCREMENT NOT NULL, handicap TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE searching_job (id INT AUTO_INCREMENT NOT NULL, id_pole_emploi VARCHAR(255) DEFAULT NULL, handicap TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE stagiaire (id INT AUTO_INCREMENT NOT NULL, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, phone_number INT DEFAULT NULL, current_job VARCHAR(255) DEFAULT NULL, handicap TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE formation_ask ADD CONSTRAINT FK_DF768F945200282E FOREIGN KEY (formation_id) REFERENCES formation_libelles (id)');
-        $this->addSql('ALTER TABLE formation_ask ADD CONSTRAINT FK_DF768F94613FECDF FOREIGN KEY (session_id) REFERENCES formation_sessions (id)');
-        $this->addSql('DROP TABLE formation_asks');
+        $this->addSql('ALTER TABLE formation_sessions ADD formation_id INT NOT NULL');
         $this->addSql('ALTER TABLE formation_sessions ADD CONSTRAINT FK_5DF2CAE25200282E FOREIGN KEY (formation_id) REFERENCES formation_libelles (id)');
         $this->addSql('CREATE INDEX IDX_5DF2CAE25200282E ON formation_sessions (formation_id)');
     }

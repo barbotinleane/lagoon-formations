@@ -58,11 +58,11 @@ class Asks
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $activityCategory;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: 'string', nullable: true)]
     private $handicap;
 
-    #[ORM\Column(type: 'json', nullable: true)]
-    private $prerequisites = [];
+    #[ORM\Column(type: 'string', nullable: true)]
+    private $prerequisites;
 
     #[ORM\Column(type: 'array', nullable: true)]
     private $knowsUs = [];
@@ -79,12 +79,12 @@ class Asks
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $idPoleEmploi;
 
-    #[ORM\ManyToMany(targetEntity: Stagiaires::class, inversedBy: 'asks')]
+    #[ORM\ManyToMany(targetEntity: Stagiaires::class, inversedBy: 'asks', cascade: ['persist'])]
     private $stagiaires;
 
     public function __construct()
     {
-        $this->workers = new ArrayCollection();
+        $this->stagiaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -260,24 +260,24 @@ class Asks
         return $this;
     }
 
-    public function getHandicap(): ?bool
+    public function getHandicap(): ?string
     {
         return $this->handicap;
     }
 
-    public function setHandicap(bool $handicap): self
+    public function setHandicap(string $handicap): self
     {
         $this->handicap = $handicap;
 
         return $this;
     }
 
-    public function getPrerequisites(): ?array
+    public function getPrerequisites(): ?string
     {
         return $this->prerequisites;
     }
 
-    public function setPrerequisites(?array $prerequisites): self
+    public function setPrerequisites(?string $prerequisites): self
     {
         $this->prerequisites = $prerequisites;
 
@@ -354,7 +354,7 @@ class Asks
 
     public function addStagiaire(Stagiaires $stagiaire): self
     {
-        if (!$this->stagiaires->contains($stagiaire)) {
+        if(!$this->stagiaires->contains($stagiaire)) {
             $this->stagiaires[] = $stagiaire;
         }
 

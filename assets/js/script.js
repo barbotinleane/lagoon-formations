@@ -86,19 +86,26 @@ $(document).ready(function() {
   var $formation = $('#asks_formationLibelle');
   // When formation gets selected ...
   $formation.change(function() {
-    alert("change");
     $('#asks_formationSession').html('<div class="loader"></div>')
     // ... retrieve the corresponding form.
     var $form = $(this).closest('form');
     // Simulate form data, but only include the selected formation value.
     var data = {};
     data[$formation.attr('name')] = $formation.val();
+
+    if($formation.val() == 1) {
+      $('#asks_prerequisites').val('true');
+      $('#prerequisites').show();
+    } else {
+      $('#asks_prerequisites').val('null');
+      $('#prerequisites').hide();
+    }
     // Submit data via AJAX to the form's action path.
     $.ajax({
-      url : $form.attr('action'),
+      url: $form.attr('action'),
       type: $form.attr('method'),
-      data : data,
-      complete: function(html) {
+      data: data,
+      complete: function (html) {
         // Replace current session field ...
         $('#asks_formationSession').replaceWith(
             // ... with the returned one from the AJAX response.
@@ -110,15 +117,80 @@ $(document).ready(function() {
   });
 
 
+
+  const addStagiaireFormDeleteLink = (item) => {
+    const container = document.createElement('div');
+    container.classList.add("text-center");
+
+    const removeFormButton = document.createElement('button');
+    removeFormButton.classList.add("btn");
+    removeFormButton.classList.add("btn-warning");
+    removeFormButton.innerHTML = '<i class="fas fa-user-minus"></i>&nbsp;Supprimer ce stagiaire';
+
+    container.appendChild(removeFormButton);
+    item.append(container);
+
+    removeFormButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      item.remove();
+    });
+  }
+
+  const addStagiaireToCollection = (e) => {
+    const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+    /*const container = document.createElement('div');
+    container.classList.add("col-12");
+    container.classList.add("col-sm-6");*/
+
+    const item = document.createElement('li');
+    item.classList.add("bg-brand-dark");
+    item.classList.add("text-light");
+    item.classList.add("shadow-lg");
+    item.classList.add("p-4");
+    item.classList.add("m-2");
+
+
+    item.innerHTML = '<h4 class="text-center">STAGIAIRE</h4>';
+
+    item.insertAdjacentHTML('beforeend', collectionHolder
+        .dataset
+        .prototype
+        .replace(
+            /__name__/g,
+            collectionHolder.dataset.index
+        ));
+
+    /*container.appendChild(item);*/
+    collectionHolder.appendChild(item);
+
+    collectionHolder.dataset.index++;
+
+    addStagiaireFormDeleteLink(item);
+  };
+
+  document
+      .querySelectorAll('.add_stagiaire_link')
+      .forEach(btn => {
+        btn.addEventListener("click", addStagiaireToCollection)
+      })
+
+  document
+      .querySelectorAll('div.stagiaires div')
+      .forEach((stagiaire) => {
+        addStagiaireFormDeleteLink(stagiaire)
+      })
+
+
   var $consents = [$('#asks_consents_0'), $('#asks_consents_1'), $('#asks_consents_2')];
 
   $.each($consents, function( index, value ) {
     value.change(function() {
       //if all checked
       if($consents[0].is(':checked') && $consents[1].is(':checked') && $consents[2].is(':checked')) {
-        $('#valider').prop('disabled', false);
+        $('#asks_save').prop('disabled', false);
       } else {
-        $('#valider').prop('disabled', true);
+        $('#asks_save').prop('disabled', true);
       }
     })
   });

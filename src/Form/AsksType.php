@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Asks;
 use App\Entity\FormationLibelles;
 use App\Entity\FormationSessions;
+use App\Entity\Status;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -13,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -32,14 +34,8 @@ class AsksType extends AbstractType
         }
 
         $builder
-            ->add('status', ChoiceType::class, [
-                'choices' => [
-                    'Chef d\'entreprise' => 1,
-                    'Artisan' => 2,
-                    'Autoentrepreneur' => 3,
-                    'Demandeur d\'emploi' => 4,
-                    'Autre' => 5,
-                ],
+            ->add('status', EntityType::class, [
+                'class' => Status::class,
                 'label' => 'Statut',
                 'attr' => [
                     'class' => 'buttons-group',
@@ -50,22 +46,22 @@ class AsksType extends AbstractType
             ->add('activityCategory', ChoiceType::class, [
                 'label' => 'Catégorie d\'Activité',
                 'choices' => [
-                    'Aménagement Paysager' => 1,
-                    'Application de résine' => 2,
-                    'Terrassement' => 3,
-                    'Construction' => 4,
-                    'Piscine' => 5,
-                    'Autre' => 6,
+                    'Aménagement Paysager' => 'Aménagement Paysager',
+                    'Application de résine' => 'Application de résine',
+                    'Terrassement' => 'Terrassement',
+                    'Construction' => 'Construction',
+                    'Piscine' => 'Piscine',
+                    'Autre' => 'Autre',
                 ],
                 'expanded' => true
             ])
             ->add('goal', ChoiceType::class, [
                 'choices' => [
-                    'Reconversion professionnelle' => 1,
-                    'Création d\'une entreprise' => 2,
-                    'Création d\'un département LAGOON® dans votre entreprise' => 3,
-                    'Simplement acquérir les compétences liées à cette formation' => 4,
-                    'Autre' => 5,
+                    'Reconversion professionnelle' => 'Reconversion professionnelle',
+                    'Création d\'une entreprise' => 'Création d\'une entreprise',
+                    'Création d\'un département LAGOON® dans votre entreprise' => 'Création d\'un département LAGOON® dans votre entreprise',
+                    'Simplement acquérir les compétences liées à cette formation' => 'Simplement acquérir les compétences liées à cette formation',
+                    'Autre' => 'Autre',
                 ],
                 'label' => 'Quel est votre objectif :',
                 'expanded' => true
@@ -74,18 +70,7 @@ class AsksType extends AbstractType
                 'class' => FormationLibelles::class,
                 'choice_label' => 'libelle',
                 'label' => 'Formation demandée : ',
-            ])
-            ->add('companyName', TextType::class, [
-                'label' => 'Nom de l\'entreprise'
-            ])
-            ->add('sirenOrRm', TextType::class, [
-                'label' => 'SIREN ou RM'
-            ])
-            ->add('siret', TextType::class, [
-                'label' => 'SIRET'
-            ])
-            ->add('idPoleEmploi', TextType::class, [
-                'label' => 'Identifiant Pole Emploi'
+                'placeholder' => 'Choisissez une formation...'
             ])
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom'
@@ -112,27 +97,25 @@ class AsksType extends AbstractType
                 'label' => 'Département',
                 'choices' => $departmentsNames
             ])
-            ->add('country', CountryType::class, [
+            ->add('country', TextType::class, [
                 'label' => 'Pays',
-                'invalid_message' => 'Le pays sélectionné n\'est pas valide.',
             ])
             ->add('handicap', CheckboxType::class, [
                 'label' => 'Je suis en situation de handicap, je souhaite que vous étudiiez les solutions possibles pour que j\'accède à cette formation.',
-            ])
-            ->add('stagiaires', CollectionType::class, [
-                'entry_type' => StagiairesType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
+                'attr' => [
+                    'value' => 'null',
+                ],
+                'required' => false,
             ])
             ->add('knowsUs', ChoiceType::class, [
                 'label' => 'Comment avez-vous connu notre centre de formation ?',
                 'choices' => [
-                    'Recommandation par un proche/collègue' => 1,
-                    'Article ou Publicité dans un magazine' => 2,
-                    'Lors d’un salon' => 3,
-                    'Par un site internet' => 4,
-                    'Dans une boutique' => 5,
-                    'Autre' => 6,
+                    'Recommandation par un proche/collègue' => 'Recommandation par un proche/collègue',
+                    'Article ou Publicité dans un magazine' => 'Article ou Publicité dans un magazine',
+                    'Lors d’un salon' => 'Lors d’un salon',
+                    'Par un site internet' => 'Par un site internet',
+                    'Dans une boutique' => 'Dans une boutique',
+                    'Autre' => 'Autre',
                 ],
                 'multiple' => true,
                 'expanded' => true
@@ -154,8 +137,56 @@ class AsksType extends AbstractType
                 'expanded' => true,
                 'required' => true
             ])
+
+
+            ->add('companyName', TextType::class, [
+                'label' => 'Nom de l\'entreprise',
+                'attr' => [
+                    'value' => 'null',
+                ],
+            ])
+            ->add('sirenOrRm', TextType::class, [
+                'label' => 'SIREN ou RM',
+                'attr' => [
+                    'value' => 'null',
+                ],
+            ])
+            ->add('idPoleEmploi', TextType::class, [
+                'label' => 'Identifiant Pole Emploi',
+                'attr' => [
+                    'value' => 'null',
+                ],
+            ])
+            ->add('siret', TextType::class, [
+                'label' => 'SIRET',
+                'attr' => [
+                    'value' => 'null',
+                ],
+            ])
+            ->add('prerequisites', TextType::class, [
+                'attr' => [
+                    'value' => 'null',
+                ],
+            ])
+            ->add('stagiaires', CollectionType::class, [
+                'entry_type' => StagiairesType::class,
+                'entry_options' => ['label' => 'Les stagiaires'],
+                'allow_add' => true,
+                'attr' => ['value' => 'null']
+            ])
+
+
+            ->add('save', SubmitType::class, [
+                'label' => 'Valider',
+                'disabled' => true,
+                'attr' => [
+                    'class' => 'btn btn-lg btn-brand mt-5',
+                ]
+            ])
         ;
 
+
+        //display each sessions depending formation's choice
         $addSession = function (FormInterface $form, FormationLibelles $formation = null) {
             $sessions = null === $formation ? [] : $formation->getFormationSessions();
 
@@ -174,6 +205,15 @@ class AsksType extends AbstractType
                 $data = $event->getData();
 
                 $addSession($event->getForm(), $data->getFormationLibelle());
+            }
+        );
+
+        $builder->get('formationLibelle')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($addSession) {
+                $formation = $event->getForm()->getData();
+
+                $addSession($event->getForm()->getParent(), $formation);
             }
         );
     }

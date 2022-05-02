@@ -11,6 +11,7 @@ use App\Entity\FormationAsks;
 use App\Entity\FormationSessions;
 use App\Entity\OtherStatus;
 use App\Entity\SearchingJob;
+use App\Entity\Stagiaires;
 use App\Form\ArtisanType;
 use App\Form\AsksType;
 use App\Form\AutoEntrepreneurType;
@@ -86,16 +87,61 @@ class FormationController extends AbstractController
     public function ask(EntityManagerInterface $entityManager, Request $request, DepartmentsRepository $departmentsRepository)
     {
         $ask = new Asks();
+
         $departments = $departmentsRepository->findAll();
         $form = $this->createForm(AsksType::class, $ask, ['departments' => $departments]);
         $form->handleRequest($request);
 
-        if ($request->isXmlHttpRequest()) {
-
-        } else {
+        if (!$request->isXmlHttpRequest()) {
             if ($form->isSubmitted() && $form->isValid()) {
+                if($_POST['asks']['prerequisites'] === "true") {
+                    $prerequisites = [
+                      'visseuse' => $_POST['visseuse'],
+                      'perceuse' => $_POST['perceuse'],
+                      'taloche' => $_POST['taloche'],
+                      'malaxeur' => $_POST['malaxeur'],
+                      'malaxeurv' => $_POST['malaxeurv'],
+                      'commentaires-outils' => $_POST['commentaires-outils']
+                    ];
+                    $ask->setPrerequisites(json_encode($prerequisites));
+                } else {
+                    $ask->setPrerequisites(null);
+                }
+
+                foreach ($_POST['other'] as $key => $value) {
+                    if($value !== "") {
+                        switch($key) {
+                            case 'status':
+                                $ask->setStatus($value);
+                                break;
+                            case 'goal':
+                                $ask->setGoal($value);
+                                break;
+                            case 'activityCategory':
+                                $ask->setActivityCategory($value);
+                                break;
+                            case 'knowsUs':
+                                $knowsUs = $ask->getKnowsUs();
+                                $knowsUs[] = $value;
+                                $ask->setKnowsUs($knowsUs);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+
+                if($ask->getStagiaires() !== null) {
+                    foreach ($ask->getStagiaires() as $stagiaire) {
+                        $entityManager->persist($stagiaire);
+                    }
+                }
+
                 $entityManager->persist($ask);
                 $entityManager->flush();
+
+                $this->addFlash('success', 'Votre demande de formation a bien été envoyée.');
+                return $this->redirectToRoute('app_ask');
             }
         }
 

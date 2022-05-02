@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BaseController extends AbstractController
 {
-    #[Route('/', name: 'home')]
+    #[Route('/', name: 'app_home')]
     public function index(FormationLibellesRepository $libellesRepository): Response
     {
         $libelles = $libellesRepository->findAll();
@@ -19,7 +19,7 @@ class BaseController extends AbstractController
         ]);
     }
 
-    #[Route('/a_propos', name: 'about_us')]
+    #[Route('/a_propos', name: 'app_about_us')]
     public function aboutUs(FormationLibellesRepository $libellesRepository) : Response
     {
         $libelles = $libellesRepository->findAll();
@@ -29,7 +29,7 @@ class BaseController extends AbstractController
         ]);
     }
 
-    #[Route('/politique_de_confidentialite', name: 'politic')]
+    #[Route('/politique_de_confidentialite', name: 'app_politic')]
     public function politic()
     {
         return $this->render('base/politic.html.twig');

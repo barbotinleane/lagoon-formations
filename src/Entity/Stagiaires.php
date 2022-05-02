@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\StagiaireRepository;
+use App\Repository\StagiairesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: StagiaireRepository::class)]
+#[ORM\Entity(repositoryClass: StagiairesRepository::class)]
 class Stagiaires
 {
     #[ORM\Id]
@@ -130,7 +130,7 @@ class Stagiaires
     {
         if (!$this->asks->contains($ask)) {
             $this->asks[] = $ask;
-            $ask->addWorker($this);
+            $ask->addStagiaire($this);
         }
 
         return $this;
@@ -139,7 +139,7 @@ class Stagiaires
     public function removeAsk(Asks $ask): self
     {
         if ($this->asks->removeElement($ask)) {
-            $ask->removeWorker($this);
+            $ask->removeStagiaire($this);
         }
 
         return $this;

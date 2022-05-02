@@ -10,6 +10,13 @@
 
 {% block body %}
     <main id="corps" class="mt-5 container">
+        {% for message in app.flashes('success') %}
+            <div class="alert bg-second alert-success-form alert-dismissible fade show" role="alert">
+                <strong>{{ message }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+
         <div class="pt-5 pb-2 text-center">
             <h1>
                 Faire une demande de formation en ligne
@@ -52,7 +59,7 @@
                         <label for="autre1" class="mt-none">
                             Veuillez préciser :
                         </label><br>
-                        <input type="text" class="form-control" id="autre1" name="autre_stt">
+                        <input type="text" class="form-control" id="autre1" name="other[status]">
                     </div>
                 </div><br>
 
@@ -62,7 +69,7 @@
 
                 <div class="col-12 col-md-8" id="autre_obj_champ" style="display:none;">
                     <label for="autre_objectif_champ">Veuillez renseigner votre objectif :</label><br>
-                    <input type="text" class="form-control" id="autre_objectif_champ" name="autre_objectif_champ">
+                    <input type="text" class="form-control" id="autre_objectif_champ" name="other[goal]">
                 </div>
             </div>
 
@@ -93,10 +100,10 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-12 col-md-6 col-lg-3" id="company_name" style="display:none;">
+                    <div class="col-12 col-md-6 col-lg-3" id="companyName" style="display:none;">
                         {{ form_row(form.companyName) }}
                     </div>
-                    <div class="col-12 col-md-6 col-lg-3" id="siren_or_rm" style="display:none;">
+                    <div class="col-12 col-md-6 col-lg-3" id="sirenOrRm" style="display:none;">
                         {{ form_row(form.sirenOrRm) }}
                     </div>
                 </div>
@@ -107,7 +114,7 @@
                     </div>
                 </div>
 
-                <div class="row" id="id_pole_emploi" style="display:none;">
+                <div class="row" id="idPoleEmploi" style="display:none;">
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12">
                         {{ form_row(form.idPoleEmploi) }}
                     </div>
@@ -158,23 +165,16 @@
                     </div>
                 </div>
 
-                <div id="activite" style="display:block;">
+                <div id="activite">
                     {{ form_row(form.activityCategory) }}
                 </div>
 
-                <div class="col-12 col-md-8" id="autre_ctg_champ" style="display:none;">
-                    <label for="autre_categorie_champ">
-                        Veuillez renseigner votre catégorie d'activité :
-                    </label><br>
-                    <input
-                            type="text"
-                            class="form-control"
-                            id="autre_categorie_champ"
-                            name="autre_categorie_champ"
-                    >
+                <div class="col-12 col-md-8" id="autre_activite_champ" style="display:none;">
+                    <label for="autre_act_champ">Veuillez renseigner votre catégorie d'activité :</label><br>
+                    <input type="text" class="form-control" id="autre_act_champ" name="other[activityCategory]">
                 </div>
 
-                <div class="mt-4" id="handicap" style="display:block;">
+                <div class="mt-4" id="handicap">
                     {{ form_row(form.handicap) }}
                 </div>
             </div>
@@ -184,15 +184,27 @@
                     Les stagiaires :
                 </h3>
 
-                <button type="button" class="add_stagiaire_link" data-collection-holder-class="stagiaires">Ajouter un stagiaire</button>
-
-                <ul class="stagiaires"
-                    data-index="{{ form.stagiaires|length > 0 ? form.stagiaires|last.vars.name + 1 : 0 }}"
+                <ul class="stagiaires row"
+                    id="asks_stagiaires"
+                    data-index="{{ form.stagiaires|length }}"
                     data-prototype="{{ form_widget(form.stagiaires.vars.prototype)|e('html_attr') }}"
-                ></ul>
+                >
+                    <div class="d-none">
+                        {{ form_row(form.stagiaires) }}
+                    </div>
+                </ul>
+
+
+
+                <div class="text-center">
+                    <button type="button" class="add_stagiaire_link btn btn-second" data-collection-holder-class="stagiaires">
+                        <i class="fas fa-user-plus"></i>
+                        Ajouter un stagiaire
+                    </button>
+                </div>
             </div>
 
-            <div class="p-4 my-3 bg-second-light">
+            <div class="p-4 my-3 bg-second-light" id="prerequisites" style="display:none;">
                 <div class="d-flex justify-content-between align-items-center">
                     <h3 class="  size-3">Pré-requis : </h3>
                     <div>
@@ -207,6 +219,10 @@
                     Savez-vous utiliser les outils suivants ?
                 </label>
 
+                <div style="display:none">
+                    {{ form_row(form.prerequisites) }}
+                </div>
+
                 <div class="ms-3">
                     <div>
                         <label>Visseuse</label><br>
@@ -217,7 +233,6 @@
                                 id="oui-visseuse"
                                 value="oui"
                                 autocomplete="off"
-                                required
                         >
                         <label class="btn btn-outline-success" for="oui-visseuse">Oui</label>
 
@@ -241,7 +256,6 @@
                                 id="oui-perceuse"
                                 value="oui"
                                 autocomplete="off"
-                                required
                         >
                         <label class="btn btn-outline-success" for="oui-perceuse">Oui</label>
 
@@ -265,7 +279,6 @@
                                 id="oui-taloche"
                                 value="oui"
                                 autocomplete="off"
-                                required
                         >
                         <label class="btn btn-outline-success" for="oui-taloche">Oui</label>
 
@@ -289,7 +302,6 @@
                                 id="oui-malaxeur"
                                 value="oui"
                                 autocomplete="off"
-                                required
                         >
                         <label class="btn btn-outline-success" for="oui-malaxeur">Oui</label>
 
@@ -313,7 +325,6 @@
                                 id="oui-malaxeurv"
                                 value="oui"
                                 autocomplete="off"
-                                required
                         >
                         <label class="btn btn-outline-success" for="oui-malaxeurv">Oui</label>
 
@@ -358,7 +369,7 @@
                                 type="text"
                                 class="form-control"
                                 id="autre_connu_champ"
-                                name="autre_connu_champ"
+                                name="other[knowsUs]"
                         >
                     </div>
                 </div>
@@ -366,7 +377,9 @@
 
             {{ form_row(form.consents) }}
 
-            <input type="submit" id="valider" class="btn btn-lg btn-brand mt-5" value="Valider" disabled/>
+            <div class="text-center">
+                {{ form_row(form.save) }}
+            </div>
         {{ form_end(form) }}
     </main>
 
