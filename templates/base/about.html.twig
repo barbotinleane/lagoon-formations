@@ -40,102 +40,12 @@
             </p>
         </div>
 
-        <div class="row section">
+        <div class="row section text-center">
             <picture>
                 <source srcset="{{ asset('build/images/a_propos.webp') }}" type="image/webp" class="">
                 <source srcset="{{ asset('build/images/a_propos.jpg') }}" type="image/jpeg" class="">
                 <img src="{{ asset('build/images/a_propos.jpg') }}" alt="Un formateur LAGOON formant quelques stagiaires avec un tableau en salle" class="w-adaptative mx-auto">
             </picture>
         </div>
-
-        <section class="section" id="contacter">
-            <form action="php/envoi_contact.php" method="post">
-                <div class="p-4 my-3 bg-second-light">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h2>Nous contacter : </h2>
-                            <div>
-                                <i class="far fa-envelope form-icon"></i>
-                            </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12 col-md-6 col-lg-3">
-                            <label for="firstname">Prénom :</label><br>
-                            <input type="text" class="form-control" id="firstname" name="firstname">
-                        </div>
-
-                        <div class="col-12 col-md-6 col-lg-3">
-                            <label for="name">Nom :</label><br>
-                            <input type="text" class="form-control" id="name" name="name">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12 col-md-7 col-lg-4">
-                            <label for="email">Email :</label><br>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-
-                        <div class="col-12 col-md-5 col-lg-3">
-                            <label for="phone">Numéro de téléphone :</label><br>
-                            <input type="tel" class="form-control" id="phone" name="phone" required>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="subject">Votre message concerne la formation...</label><br>
-                            <select class="form-select" id="subject">
-                                <option selected>Sélectionner</option>
-                                {% for formation in formations %}
-                                    <option value="{{ formation.libelle }}">
-                                        {{ formation.libelle }}
-                                    </option>
-                                {% endfor %}
-                                <option value="Autre">Autre</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <label for="message">Votre message</label><br>
-                        <textarea
-                                id="message"
-                                class="form-control"
-                                name="message"
-                                rows="4"
-                        ></textarea>
-                    </div>
-
-                    <br>
-
-                    <div class="form-check small text-brand-dark">
-                        <input
-                                class="form-check-input"
-                                type="checkbox"
-                                value="1"
-                                name="consentement"
-                                id="consentement_donnees"
-                                onclick="able_submit(['consentement_donnees'])"
-                        >
-                        En soumettant ce formulaire, j’accepte que mes informations soient utilisées
-                        exclusivement dans le cadre de ma demande et de la relation commerciale éthique et
-                        personnalisée qui pourrait en découler si je le souhaite et je reconnais avoir pris
-                        connaissance de la politique de traitement et d'utilisation des données relative à la RGPD
-                        disponible en
-                        <a
-                                href="./documentation/RGPD.pdf"
-                                target=_blank
-                        >
-                            cliquant ici
-                        </a>.
-                    </div>
-
-                    <div class="text-center mb-5">
-                        <input type="submit" id="valider" class="btn btn-lg btn-brand mt-5" value="Valider" disabled/>
-                    </div>
-                </div>
-            </form>
-        </section>
     </div>
 {% endblock %}

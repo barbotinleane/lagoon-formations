@@ -19,7 +19,7 @@ final class Version20220322171933 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('CREATE TABLE stagiaire (id INT AUTO_INCREMENT NOT NULL, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, phone_number INT DEFAULT NULL, current_job VARCHAR(255) DEFAULT NULL, handicap TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE stagiaires (id INT AUTO_INCREMENT NOT NULL, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, phone_number INT DEFAULT NULL, current_job VARCHAR(255) DEFAULT NULL, handicap TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE formation_sessions ADD formation_id INT NOT NULL');
         $this->addSql('ALTER TABLE formation_sessions ADD CONSTRAINT FK_5DF2CAE25200282E FOREIGN KEY (formation_id) REFERENCES formation_libelles (id)');
         $this->addSql('CREATE INDEX IDX_5DF2CAE25200282E ON formation_sessions (formation_id)');

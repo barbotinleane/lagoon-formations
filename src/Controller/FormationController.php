@@ -40,8 +40,6 @@ class FormationController extends AbstractController
     {
         $libelles = $libellesRepository->findAll();
 
-        dump($libelles[0]->getFormationSessions());
-
         return $this->render('formation/index.html.twig', [
             'formations' => $libelles
         ]);
@@ -141,7 +139,7 @@ class FormationController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Votre demande de formation a bien été envoyée.');
-                return $this->redirectToRoute('app_ask');
+                return $this->redirectToRoute('app_home');
             }
         }
 

@@ -10,13 +10,6 @@
 
 {% block body %}
     <main id="corps" class="mt-5 container">
-        {% for message in app.flashes('success') %}
-            <div class="alert bg-second alert-success-form alert-dismissible fade show" role="alert">
-                <strong>{{ message }}</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endfor %}
-
         <div class="pt-5 pb-2 text-center">
             <h1>
                 Faire une demande de formation en ligne

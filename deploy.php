@@ -15,6 +15,7 @@ add('writable_dirs', []);
 
 host('lagoonformations')
     ->set('remote_user', 'lagoonk')
+    ->set('http_user', 'lagoonk')
     ->set('deploy_path', '~/lagoonFormGit');
 
 // Tasks

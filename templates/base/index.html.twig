@@ -12,6 +12,13 @@
 
 {% block body %}
     <div id="corps" class="container-fluid mt-5">
+        {% for message in app.flashes('success') %}
+            <div class="alert bg-second alert-success-form alert-dismissible fade show" role="alert">
+                <strong>{{ message }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+
         <div class="row section bg-brand-gradient text-light align-items-center">
             <div class="col-12 col-sm-7 order-2 order-sm-1 mt-4">
                 <h1>
