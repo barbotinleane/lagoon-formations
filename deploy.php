@@ -67,6 +67,4 @@ after('deploy:failed', 'deploy:unlock');
 
 
 // Migrate database before symlink new release.
-before('deploy:unlock', 'database:migrate');
-
-after('deploy:failed', 'deploy:unlock');
+//before('deploy:unlock', 'database:migrate');
