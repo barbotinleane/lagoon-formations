@@ -6,7 +6,7 @@
         <div class='col-12 col-sm-6'>
             <div class="box-shadow my-3
                 {% if formation.agrement == 0 %}
-                    btn-brand-{{ color[index] }}-disabled">
+                    btn-{{ color[index] }}-disabled">
                 {% else %}
                     btn-{{ color[index] }}" onclick="location.href = '{{ path(formation.route) }}'">
                 {% endif %}
