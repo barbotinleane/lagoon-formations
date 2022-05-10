@@ -35,7 +35,7 @@ class BaseController extends AbstractController
         return $this->render('base/politic.html.twig');
     }
 
-    #[Route('/404', name: '404_error')]
+    #[Route('/404', name: 'app_404_error')]
     public function error()
     {
         return $this->render('base/404.html.twig');

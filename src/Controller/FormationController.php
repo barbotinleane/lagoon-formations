@@ -142,8 +142,8 @@ class FormationController extends AbstractController
                 $entityManager->flush();
                 $this->sendMail($ask, $mailer, $ask->getStatus());
 
-                //$this->addFlash('success', 'Votre demande de formation a bien été envoyée.');
-                //return $this->redirectToRoute('app_ask');
+                $this->addFlash('success', 'Votre demande de formation a bien été envoyée.');
+                return $this->redirectToRoute('app_home');
             }
         }
 
