@@ -25,7 +25,7 @@
                             <div>
                                 <a
                                         class="btn btn-outline-dark"
-                                        href="./documentation/charte_qualite.pdf"
+                                        href="{{ path('app_doc_quality') }}"
                                         target="_blank"
                                 >
                                     <i class="fa fa-file-o" aria-hidden="true"></i>
@@ -35,7 +35,7 @@
                             <div>
                                 <a
                                         class="btn btn-outline-dark"
-                                        href="./documentation/livret_accueil.pdf"
+                                        href="{{ path('app_doc_livret') }}"
                                         target="_blank"
                                 >
                                     <i class="fa fa-file-o" aria-hidden="true"></i>
@@ -56,7 +56,7 @@
                             <div>
                                 <a
                                         class="btn btn-outline-dark"
-                                        href="{{ program }}"
+                                        href="{{ path('app_doc_'~program) }}"
                                         target="_blank"
                                 >
                                     <i class="fa fa-file-o" aria-hidden="true"></i>
@@ -78,11 +78,11 @@
 
                     <div>
                         <h4 class=" ">Règlements : </h4>
-                        <a href="./documentation/RGPD.pdf" target=_blank>Règlement RGPD</a><br>
-                        <a href="./documentation/conditions_generales_vente.pdf" target=_blank>
+                        <a href="{{ path('app_doc_rgpd') }}" target=_blank>Règlement RGPD</a><br>
+                        <a href="{{ path('app_doc_cgv') }}" target=_blank>
                             Conditions générales de ventes
                         </a><br>
-                        <a href="./documentation/reglement_interieur.pdf" target=blank>
+                        <a href="{{ path('app_doc_reglement') }}" target=blank>
                             Règlement intérieur LAGOON&reg;
                         </a>
                     </div>

@@ -25,10 +25,13 @@ use App\Repository\DepartmentsRepository;
 use App\Repository\FormationLibellesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Uid\Uuid;
 
@@ -49,8 +52,8 @@ class FormationController extends AbstractController
     public function bassin(): Response
     {
         return $this->render('formation/bassin.html.twig', [
-            'program' => './documentation/bassin.pdf',
-            'formationName' => 'Installation de Bassin Paysager de type LAGOON'
+            'program' => 'bassin',
+            'formationName' => 'Installation de Bassin Paysager de type LAGOON',
         ]);
     }
 
@@ -58,7 +61,7 @@ class FormationController extends AbstractController
     public function sst(): Response
     {
         return $this->render('formation/sst.html.twig', [
-            'program' => './documentation/sst.pdf',
+            'program' => 'sst',
             'formationName' => 'Sauveteur Secouriste du Travail'
         ]);
     }
@@ -67,7 +70,7 @@ class FormationController extends AbstractController
     public function treatment(): Response
     {
         return $this->render('formation/treatment.html.twig', [
-            'program' => './documentation/traitement.pdf',
+            'program' => 'domotique',
             'formationName' => 'Domotique et traitement de l\'eau écologique et environnemental'
         ]);
     }
@@ -76,13 +79,13 @@ class FormationController extends AbstractController
     public function gestes(): Response
     {
         return $this->render('formation/gestes.html.twig', [
-            'program' => './documentation/gestes.pdf',
+            'program' => 'gestes',
             'formationName' => 'Gestes et Postures au travail'
         ]);
     }
 
     #[Route('/formations/demande', name: 'app_ask')]
-    public function ask(EntityManagerInterface $entityManager, Request $request, DepartmentsRepository $departmentsRepository)
+    public function ask(EntityManagerInterface $entityManager, Request $request, DepartmentsRepository $departmentsRepository, MailerInterface $mailer)
     {
         $ask = new Asks();
 
@@ -137,14 +140,46 @@ class FormationController extends AbstractController
 
                 $entityManager->persist($ask);
                 $entityManager->flush();
+                $this->sendMail($ask, $mailer, $ask->getStatus());
 
-                $this->addFlash('success', 'Votre demande de formation a bien été envoyée.');
-                return $this->redirectToRoute('app_home');
+                //$this->addFlash('success', 'Votre demande de formation a bien été envoyée.');
+                //return $this->redirectToRoute('app_ask');
             }
         }
 
         return $this->renderForm('formation/ask.html.twig', [
             "form" => $form,
         ]);
+    }
+
+    public function sendMail(Asks $ask, MailerInterface $mailer, $status = null) {
+        $stagiaires = [];
+        if($ask->getStatus()->getId() == 1) {
+            $stagiaires = $ask->getStagiaires();
+        }
+
+        $prerequisites = [];
+        if($ask->getFormationLibelle()->getId() == 1) {
+            $prerequisites = json_decode($ask->getPrerequisites(), true);
+        }
+
+        $email = (new TemplatedEmail())
+            ->from('form@lagoon-formations.com')
+            ->to('barbotinleane@gmail.com')
+            ->subject('Nouvelle demande de formation !')
+            ->htmlTemplate('email/email_ask.html.twig')
+            ->context([
+                'ask' => $ask,
+                'stagiaires' => $stagiaires,
+                'prerequisites' => $prerequisites,
+                'status' => $status,
+            ])
+        ;
+
+        try {
+            $mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            return $this->redirectToRoute('app_404_error');
+        }
     }
 }
