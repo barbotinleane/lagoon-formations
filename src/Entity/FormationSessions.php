@@ -7,6 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+/***
+ * Entity used to store the dates of all the sessions available for each formation
+ *
+ * @author Léane Barbotin <barbotinleane@gmail.com>
+ */
 #[ORM\Entity(repositoryClass: FormationSessionsRepository::class)]
 class FormationSessions
 {

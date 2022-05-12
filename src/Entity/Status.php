@@ -5,6 +5,11 @@ namespace App\Entity;
 use App\Repository\StatusRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/***
+ * Entity used to store the different status for an asker which wants to make a formation ask
+ *
+ * @author Léane Barbotin <barbotinleane@gmail.com>
+ */
 #[ORM\Entity(repositoryClass: StatusRepository::class)]
 class Status
 {

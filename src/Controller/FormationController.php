@@ -35,9 +35,19 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Uid\Uuid;
 
-
+/***
+ * Controller used to display the formation's list and the details of each of them
+ *
+ * @author Léane Barbotin <barbotinleane@gmail.com>
+ */
 class FormationController extends AbstractController
 {
+    /***
+     * Displays the list of all formations
+     *
+     * @param FormationLibellesRepository $libellesRepository
+     * @return Response
+     */
     #[Route('/formations', name: 'app_formation')]
     public function index(FormationLibellesRepository $libellesRepository): Response
     {
@@ -48,7 +58,12 @@ class FormationController extends AbstractController
         ]);
     }
 
-    #[Route('/formations/bassin', name: 'app_formation_bassin')]
+    /***
+     * Display details of formation 'Installation de Bassin paysager de type Lagoon'
+     *
+     * @return Response
+     */
+    #[Route('/formations/installation-bassin-paysager', name: 'app_formation_bassin')]
     public function bassin(): Response
     {
         return $this->render('formation/bassin.html.twig', [
@@ -57,7 +72,12 @@ class FormationController extends AbstractController
         ]);
     }
 
-    #[Route('/formations/sst', name: 'app_formation_sst')]
+    /***
+     * Display details of formation 'Sauveteur Secouriste du Travail'
+     *
+     * @return Response
+     */
+    #[Route('/formations/sauveteur-secouriste-travail', name: 'app_formation_sst')]
     public function sst(): Response
     {
         return $this->render('formation/sst.html.twig', [
@@ -66,7 +86,12 @@ class FormationController extends AbstractController
         ]);
     }
 
-    #[Route('/formations/traitement-eau', name: 'app_formation_traitement')]
+    /***
+     * Display details of formation 'Domotique et traitement de l'eau écologique et environnemental'
+     *
+     * @return Response
+     */
+    #[Route('/formations/domotique-traitement-eau-ecologique', name: 'app_formation_traitement')]
     public function treatment(): Response
     {
         return $this->render('formation/treatment.html.twig', [
@@ -75,6 +100,11 @@ class FormationController extends AbstractController
         ]);
     }
 
+    /***
+     * Display details of formation 'Gestes et Postures au travail'
+     *
+     * @return Response
+     */
     #[Route('/formations/gestes-postures', name: 'app_formation_gestes')]
     public function gestes(): Response
     {
@@ -82,104 +112,5 @@ class FormationController extends AbstractController
             'program' => 'gestes',
             'formationName' => 'Gestes et Postures au travail'
         ]);
-    }
-
-    #[Route('/formations/demande', name: 'app_ask')]
-    public function ask(EntityManagerInterface $entityManager, Request $request, DepartmentsRepository $departmentsRepository, MailerInterface $mailer)
-    {
-        $ask = new Asks();
-
-        $departments = $departmentsRepository->findAll();
-        $form = $this->createForm(AsksType::class, $ask, ['departments' => $departments]);
-        $form->handleRequest($request);
-
-        if (!$request->isXmlHttpRequest()) {
-            if ($form->isSubmitted() && $form->isValid()) {
-                if($_POST['asks']['prerequisites'] === "true") {
-                    $prerequisites = [
-                      'visseuse' => $_POST['visseuse'],
-                      'perceuse' => $_POST['perceuse'],
-                      'taloche' => $_POST['taloche'],
-                      'malaxeur' => $_POST['malaxeur'],
-                      'malaxeurv' => $_POST['malaxeurv'],
-                      'commentaires-outils' => $_POST['commentaires-outils']
-                    ];
-                    $ask->setPrerequisites(json_encode($prerequisites));
-                } else {
-                    $ask->setPrerequisites(null);
-                }
-
-                foreach ($_POST['other'] as $key => $value) {
-                    if($value !== "") {
-                        switch($key) {
-                            case 'status':
-                                $ask->setStatus($value);
-                                break;
-                            case 'goal':
-                                $ask->setGoal($value);
-                                break;
-                            case 'activityCategory':
-                                $ask->setActivityCategory($value);
-                                break;
-                            case 'knowsUs':
-                                $knowsUs = $ask->getKnowsUs();
-                                $knowsUs[] = $value;
-                                $ask->setKnowsUs($knowsUs);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-
-                if($ask->getStagiaires() !== null) {
-                    foreach ($ask->getStagiaires() as $stagiaire) {
-                        $entityManager->persist($stagiaire);
-                    }
-                }
-
-                $entityManager->persist($ask);
-                $entityManager->flush();
-                $this->sendMail($ask, $mailer, $ask->getStatus());
-
-                $this->addFlash('success', 'Votre demande de formation a bien été envoyée.');
-                return $this->redirectToRoute('app_home');
-            }
-        }
-
-        return $this->renderForm('formation/ask.html.twig', [
-            "form" => $form,
-        ]);
-    }
-
-    public function sendMail(Asks $ask, MailerInterface $mailer, $status = null) {
-        $stagiaires = [];
-        if($ask->getStatus()->getId() == 1) {
-            $stagiaires = $ask->getStagiaires();
-        }
-
-        $prerequisites = [];
-        if($ask->getFormationLibelle()->getId() == 1) {
-            $prerequisites = json_decode($ask->getPrerequisites(), true);
-        }
-
-        $email = (new TemplatedEmail())
-            ->from('form@lagoon-formations.com')
-            ->to('barbotinleane@gmail.com')
-            ->subject('Nouvelle demande de formation !')
-            ->htmlTemplate('email/email_ask.html.twig')
-            ->context([
-                'ask' => $ask,
-                'stagiaires' => $stagiaires,
-                'prerequisites' => $prerequisites,
-                'status' => $status,
-            ])
-        ;
-
-        try {
-            $mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            return $this->redirectToRoute('app_404_error');
-        }
     }
 }

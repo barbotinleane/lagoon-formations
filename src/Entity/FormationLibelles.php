@@ -7,6 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+/***
+ * Entity used to store all the formations proposed
+ *
+ * @author Léane Barbotin <barbotinleane@gmail.com>
+ */
 #[ORM\Entity(repositoryClass: FormationLibellesRepository::class)]
 class FormationLibelles
 {

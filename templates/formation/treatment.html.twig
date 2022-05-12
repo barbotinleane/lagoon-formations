@@ -76,9 +76,9 @@
                 </p>
                 <div class="w-adaptative mx-auto">
                     <picture>
-                        <source srcset="../../photos/eau.webp" type="image/webp" class="">
-                        <source srcset="../../photos/eau.jpg" type="image/jpeg" class="">
-                        <img src="../../photos/eau.jpg" alt="Une femme dans une piscine avec une eau claire" class="w-100">
+                        <source srcset="{{ asset('build/images/eau.webp') }}" type="image/webp" class="">
+                        <source srcset="{{ asset('build/images/eau.jpg') }}" type="image/jpeg" class="">
+                        <img src="{{ asset('build/images/eau.jpg') }}" alt="Une femme dans une piscine avec une eau claire" class="w-100">
                     </picture>
                 </div>
             </div>
@@ -102,8 +102,8 @@
             </div>
         </div>
 
-        {% include 'formation/call_to_action.html.twig' %}
+        {% include 'formation/reusables/call_to_action.html.twig' %}
     </div>
 
-    {% include 'formation/documentation.html.twig' %}
+    {% include 'formation/reusables/documentation.html.twig' %}
 {% endblock %}

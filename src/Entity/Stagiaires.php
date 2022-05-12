@@ -7,6 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+/***
+ * Entity used to store each stagiaires when a company director wants to subscribe his employees
+ *
+ * @author Léane Barbotin <barbotinleane@gmail.com>
+ */
 #[ORM\Entity(repositoryClass: StagiairesRepository::class)]
 class Stagiaires
 {

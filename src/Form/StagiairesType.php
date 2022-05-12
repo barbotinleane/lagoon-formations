@@ -10,6 +10,12 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/***
+ * Form related to Stagiaires entity to add a stagiaire in the ask for a formation.
+ * Used when the asker is a company director and wants to susbcribe his employees to the formation.
+ *
+ * @author Léane Barbotin <barbotinleane@gmail.com>
+ */
 class StagiairesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

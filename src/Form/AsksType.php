@@ -23,6 +23,11 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/***
+ * Form related to Asks entity to make a formation ask
+ *
+ * @author Léane Barbotin <barbotinleane@gmail.com>
+ */
 class AsksType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -185,7 +190,6 @@ class AsksType extends AbstractType
             ])
         ;
 
-
         //display each sessions depending formation's choice
         $addSession = function (FormInterface $form, FormationLibelles $formation = null) {
             $sessions = null === $formation ? [] : $formation->getFormationSessions();
@@ -199,6 +203,7 @@ class AsksType extends AbstractType
             ]);
         };
 
+        //get the sessions for the preselected formation
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) use ($addSession) {
@@ -208,6 +213,7 @@ class AsksType extends AbstractType
             }
         );
 
+        //get the sessions when selected formationLibelle change
         $builder->get('formationLibelle')->addEventListener(
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) use ($addSession) {

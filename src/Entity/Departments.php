@@ -5,6 +5,12 @@ namespace App\Entity;
 use App\Repository\DepartmentsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/***
+ * Entity used to store departments of France.
+ * Will be used to allow the asker to choose his department in the formation ask.
+ *
+ * @author Léane Barbotin <barbotinleane@gmail.com>
+ */
 #[ORM\Entity(repositoryClass: DepartmentsRepository::class)]
 class Departments
 {

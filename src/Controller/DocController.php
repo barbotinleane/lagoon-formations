@@ -6,6 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/***
+ * Controller called to display documentation for each formation in a pdf reader
+ *
+ * @author Léane Barbotin <barbotinleane@gmail.com>
+ */
 class DocController extends AbstractController
 {
     #[Route('/documentation/rgpd', name: 'app_doc_rgpd')]
@@ -39,7 +44,7 @@ class DocController extends AbstractController
     public function bassin(): Response
     {
         return $this->render('doc/index.html.twig', [
-            'fileName' => 'charte_qualite',
+            'fileName' => 'bassin',
             'name' => 'Programme de la formation Installation de Bassin Paysager de type Lagoon'
         ]);
     }
