@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Asks;
 use App\Entity\FormationLibelles;
 use App\Entity\FormationSessions;
+use App\Repository\FormationLibellesRepository;
 use App\Entity\Status;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -73,6 +74,10 @@ class AsksType extends AbstractType
             ])
             ->add('formationLibelle', EntityType::class, [
                 'class' => FormationLibelles::class,
+                'query_builder' => function (FormationLibellesRepository $flr) {
+                    return $flr->createQueryBuilder('fl')
+                        ->where('fl.agrement = 1');
+                },
                 'choice_label' => 'libelle',
                 'label' => 'Formation demandée : ',
                 'placeholder' => 'Choisissez une formation...'
