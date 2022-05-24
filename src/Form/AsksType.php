@@ -157,21 +157,21 @@ class AsksType extends AbstractType
                 'required' => false,
             ])
             ->add('sirenOrRm', TextType::class, [
-                'label' => 'SIREN ou RM',
+                'label' => 'SIREN ou RM (facultatif)',
                 'attr' => [
                     'value' => 'null',
                 ],
                 'required' => false,
             ])
             ->add('idPoleEmploi', TextType::class, [
-                'label' => 'Identifiant Pole Emploi',
+                'label' => 'Identifiant Pole Emploi (facultatif)',
                 'attr' => [
                     'value' => 'null',
                 ],
                 'required' => false,
             ])
             ->add('siret', TextType::class, [
-                'label' => 'SIRET',
+                'label' => 'SIRET (facultatif)',
                 'attr' => [
                     'value' => 'null',
                 ],
