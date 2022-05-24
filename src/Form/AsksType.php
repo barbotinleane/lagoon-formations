@@ -154,35 +154,41 @@ class AsksType extends AbstractType
                 'attr' => [
                     'value' => 'null',
                 ],
+                'required' => false,
             ])
             ->add('sirenOrRm', TextType::class, [
                 'label' => 'SIREN ou RM',
                 'attr' => [
                     'value' => 'null',
                 ],
+                'required' => false,
             ])
             ->add('idPoleEmploi', TextType::class, [
                 'label' => 'Identifiant Pole Emploi',
                 'attr' => [
                     'value' => 'null',
                 ],
+                'required' => false,
             ])
             ->add('siret', TextType::class, [
                 'label' => 'SIRET',
                 'attr' => [
                     'value' => 'null',
                 ],
+                'required' => false,
             ])
             ->add('prerequisites', TextType::class, [
                 'attr' => [
                     'value' => 'null',
                 ],
+                'required' => false,
             ])
             ->add('stagiaires', CollectionType::class, [
                 'entry_type' => StagiairesType::class,
                 'entry_options' => ['label' => 'Les stagiaires'],
                 'allow_add' => true,
-                'attr' => ['value' => 'null']
+                'attr' => ['value' => 'null'],
+                'required' => false,
             ])
 
 
