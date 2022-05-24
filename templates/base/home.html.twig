@@ -37,11 +37,15 @@
                 </a>
             </div>
             <div class="col-12 col-sm-5 order-1 order-sm-2">
-                <img
-                        src="{{ asset('build/images/accueil.jpg') }}"
-                        class="w-100 rounded-circle"
-                        alt="Un homme et une femme heureux en situation de travail."
-                />
+                <picture>
+                    <source srcset="{{ asset('build/images/accueil.webp') }}" type="image/webp" class="w-100 rounded-circle">
+                    <source srcset="{{ asset('build/images/accueil.jpg') }}" type="image/jpeg" class="w-100 rounded-circle">
+                    <img
+                            src="{{ asset('build/images/accueil.jpg') }}"
+                            alt="Un homme et une femme heureux en situation de travail."
+                            class="w-100 rounded-circle"
+                    >
+                </picture>
             </div>
         </div>
 
@@ -75,8 +79,24 @@
                     assure de notre capacité à dispenser des formation de qualité.
                 </p>
                 <div class="text-center">
-                    <img src="{{ asset('build/images/qualiopi.png') }}" alt="Qualiopi QR code LAGOON" height="50">
-                    <img src="{{ asset('build/images/datadock.png') }}" alt="Datadock LAGOON" height="50">
+                    <picture>
+                        <source srcset="{{ asset('build/images/qualiopi.webp') }}" type="image/webp" height="50">
+                        <source srcset="{{ asset('build/images/qualiopi.png') }}" type="image/png" height="50">
+                        <img
+                                src="{{ asset('build/images/qualiopi.png') }}"
+                                alt="Qualiopi QR code LAGOON"
+                                height="50"
+                        >
+                    </picture>
+                    <picture>
+                        <source srcset="{{ asset('build/images/datadock.webp') }}" type="image/webp" height="50">
+                        <source srcset="{{ asset('build/images/datadock.png') }}" type="image/png" height="50">
+                        <img
+                                src="{{ asset('build/images/datadock.png') }}"
+                                alt="Datadock LAGOON"
+                                height="50"
+                        >
+                    </picture>
                 </div>
             </div>
         </div>
