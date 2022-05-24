@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/php:7.4-node-browsers
+      - image: cimg/php:8.1.5
         environment:
           MYSQL_HOST: lagoonkform.mysql.db
           MYSQL_DB: lagoonkform
