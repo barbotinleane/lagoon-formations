@@ -42,6 +42,7 @@ class FormationLibelles
     private $route;
 
     #[ORM\OneToMany(mappedBy: 'formation', targetEntity: FormationSessions::class, orphanRemoval: true)]
+    #[ORM\OrderBy(["dateStart" => "ASC"])]
     private $formationSessions;
 
     #[ORM\OneToMany(mappedBy: 'formationLibelle', targetEntity: Asks::class)]
