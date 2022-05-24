@@ -49,7 +49,6 @@ jobs:
           paths:
             - node_modules
       - run: yarn run encore production
-      - run: php bin/console security:check
 
 workflows:
   version: 2
