@@ -10,11 +10,16 @@ jobs:
           MYSQL_USER: lagoonkform
           MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_PASSWORD: lVDrP22Mb906GYZgsKlU
+          MYSQL_ROOT_PASSWORD: lVDrP22Mb906GYZgsKlU
+          MYSQL_RANDOM_ROOT_PASSWORD: lVDrP22Mb906GYZgsKlU
       - image: mysql:5.7
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --innodb-large-prefix=true --innodb-file-format=Barracuda
         environment:
           MYSQL_USER: lagoonkform
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_PASSWORD: lVDrP22Mb906GYZgsKlU
+          MYSQL_ROOT_PASSWORD: lVDrP22Mb906GYZgsKlU
+          MYSQL_RANDOM_ROOT_PASSWORD: lVDrP22Mb906GYZgsKlU
     working_directory: ~/lagoonsymfony # directory where steps will run
     steps: # a set of executable commands
       - checkout # special step to check out source code to working directory
@@ -28,6 +33,7 @@ jobs:
             - composer-v1-{{ checksum "composer.lock" }}
             # fallback to using the latest cache if no exact match is found (See https://circleci.com/docs/2.0/caching/)
             - composer-v1-
+      - run: composer update
       - run: composer install -n --prefer-dist --no-scripts
       - save_cache: # special step to save the dependency cache with the `composer.lock` cache key template
           key: composer-v1-{{ checksum "composer.lock" }}
