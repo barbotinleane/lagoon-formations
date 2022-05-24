@@ -10,7 +10,7 @@ jobs:
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --innodb-large-prefix=true --innodb-file-format=Barracuda
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
-    working_directory: ~/lagoonsymfony # directory where steps will run
+    working_directory: ~/symfony # directory where steps will run
     steps: # a set of executable commands
       - checkout # special step to check out source code to working directory
       - run: sudo apt update
