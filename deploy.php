@@ -17,6 +17,7 @@ host('lagoonformations')
     ->set('remote_user', 'lagoonk')
     ->set('http_user', 'lagoonk')
     ->set('deploy_path', '~/lagoonsymfony')
+    ->set('branch', 'prod')
     ->set('writable_mode', 'chmod');
 
 // Tasks

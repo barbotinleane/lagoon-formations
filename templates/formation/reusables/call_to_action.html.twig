@@ -8,11 +8,11 @@
             </picture>
         </div>
         <div class="text-end">
-            <img
-                    src="{{ asset('build/images/femme_confiante.jpeg') }}"
-                    alt="Une femme souriant confiante"
-                    class="w-25 img-rounded-right"
-            >
+            <picture>
+                <source srcset="{{ asset('build/images/femme_confiante.webp') }}" type="image/webp" class="w-25 img-rounded-right">
+                <source srcset="{{ asset('build/images/femme_confiante.jpeg') }}" type="image/jpeg" class="w-25 img-rounded-right">
+                <img src="{{ asset('build/images/femme_confiante.jpeg') }}" alt="Une femme souriant confiante" class="w-25 img-rounded-right">
+            </picture>
         </div>
     </div>
     <div class="col-12 col-md-8 p-3">
