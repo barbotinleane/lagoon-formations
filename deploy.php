@@ -13,7 +13,8 @@ add('writable_dirs', []);
 
 // Hosts
 
-host('ssh.cluster031.hosting.ovh.net')
+host('lagoon-formations.com')
+    ->set('hostname', 'ssh.cluster031.hosting.ovh.net')
     ->set('config_file', '~/.ssh/config')
     ->set('remote_user', 'lagoonk')
     ->set('http_user', 'lagoonk')
