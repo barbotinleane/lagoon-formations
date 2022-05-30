@@ -6,7 +6,9 @@
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="{% block description %}{% endblock %}"/>
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+
+
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -46,12 +48,22 @@
                     </button>
 
                     <div class="collapse navbar-collapse justify-content-end text-end" id="navbarNav">
-                        <div class="nav navbar-nav pull-right">
+                        <div class="nav navbar-nav ms-auto me-4 mb-2 mb-lg-0">
                             <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">
                                 Accueil
                             </a>
                             <a class="nav-link" href="{{ path('app_formation') }}">Nos formations</a>
                             <a class="nav-link" href="{{ path('app_about_us') }}">A propos</a>
+                        </div>
+                        <div>
+                            <a class="btn btn-second fw-normal fs-6"
+                                    href="tel:0645771184"
+                                    title="Cliquez pour nous appeler">
+                                <div class="text-light">
+                                    <i class="fas fa-phone-alt fs-5"></i>
+                                    +33 6 45 77 11 84
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
