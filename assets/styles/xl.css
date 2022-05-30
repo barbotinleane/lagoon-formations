@@ -49,5 +49,12 @@
     margin: 40px 0px;
     width: 70%;
   }
+  .form-image {
+    height: 300px;
+    object-fit: cover;
+  }
+  .h-adaptative {
+    height: 400px;
+  }
 }
 /*# sourceMappingURL=xl.css.map */

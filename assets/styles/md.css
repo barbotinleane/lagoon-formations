@@ -54,5 +54,12 @@
     padding-right: 80px;
     padding-left: 80px;
   }
+  .form-image {
+    height: 220px;
+    object-fit: cover;
+  }
+  .h-adaptative {
+    height: 360px;
+  }
 }
 /*# sourceMappingURL=md.css.map */

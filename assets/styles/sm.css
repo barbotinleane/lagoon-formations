@@ -68,5 +68,12 @@
   .text-title h1 {
     font-size: 2.5em;
   }
+  .form-image {
+    height: 200px;
+    object-fit: cover;
+  }
+  .h-adaptative {
+    height: 330px;
+  }
 }
 /*# sourceMappingURL=sm.css.map */
