@@ -80,7 +80,7 @@ jobs:
       - run:
           name: init database
           command: |
-            cat .env.local
+            ls
             cat .env
             php bin/console doctrine:schema:update --force
       - run:
