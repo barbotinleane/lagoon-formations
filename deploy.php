@@ -31,7 +31,7 @@ before('deploy:symlink', 'database:migrate');
 task('deploy:build:assets', function (): void {
     run('yarn install');
     run('yarn encore production');
-})->local()->desc('Install front-end assets');
+});
 
 before('deploy:symlink', 'deploy:build:assets');
 
