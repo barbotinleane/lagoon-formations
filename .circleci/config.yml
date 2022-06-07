@@ -50,15 +50,6 @@ jobs:
           paths:
             - node_modules
       - run: yarn run encore production
-      - run:
-          name: init database
-          command: |
-            ./bin/console doctrine:database:create --env=test
-            ./bin/console doctrine:schema:create --env=test
-      - run:
-          name: migrate database
-          command: |
-            php bin/console doctrine:migrations:migrate
 
 workflows:
   version: 2
