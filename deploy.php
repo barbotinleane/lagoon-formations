@@ -13,11 +13,8 @@ add('writable_dirs', []);
 
 // Hosts
 
-host('lagoon-formations.com')
-    ->set('hostname', 'ssh.cluster031.hosting.ovh.net')
-    ->set('config_file', '~/.ssh/config')
+host('lagoonformations')
     ->set('remote_user', 'lagoonk')
-    ->set('http_user', 'lagoonk')
     ->set('deploy_path', '~/symfony')
     ->set('writable_mode', 'chmod');
 
