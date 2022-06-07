@@ -1,71 +1,29 @@
 version: 2
-
 jobs:
   build:
     docker:
-      - image: cimg/php:8.1.5-node
-        environment:
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
-      - image: mysql:5.7
-        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --innodb-large-prefix=true --innodb-file-format=Barracuda
-        environment:
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
-    working_directory: ~/symfony # directory where steps will run
-    steps: # a set of executable commands
-      - checkout # special step to check out source code to working directory
-      - run: sudo apt update
-      - run: sudo apt install -y libsqlite3-dev zlib1g-dev mariadb-client zlib1g-dev
-      - run: sudo composer self-update
-      - restore_cache: # special step to restore the dependency cache if `composer.lock` does not change
-          keys:
-            - composer-v1-{{ checksum "composer.lock" }}
-            # fallback to using the latest cache if no exact match is found (See https://circleci.com/docs/2.0/caching/)
-            - composer-v1-
-      - run: composer update
-      - run: composer install -n --prefer-dist --no-scripts
-      - save_cache: # special step to save the dependency cache with the `composer.lock` cache key template
-          key: composer-v1-{{ checksum "composer.lock" }}
-          paths:
-            - vendor
-      - restore_cache: # special step to restore the dependency cache if `package.json` does not change
-          keys:
-            - node-v1-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found (See https://circleci.com/docs/2.0/caching/)
-            - node-v1-
-      - run: cp .env .env.local
-      - run: yarn install
-      - save_cache: # special step to save the dependency cache with the `package.json` cache key template
-          key: node-v1-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - run: yarn run encore production
-  deploy:
-    docker:
-      - image: cimg/php:8.1.5-node
-    working_directory: ~/symfony
+      # Specify the version you desire here
+      - image: circleci/php:7.4-node-browsers
+
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - "db:1a:4b:50:71:c9:71:2d:1b:bb:04:4d:93:59:f5:16"
-            - "e1:47:71:bb:61:8f:d1:81:64:82:b3:d0:c6:df:db:ea"
-      - run:
-          name: Cache Clear
-          command: |
-            php bin/console cache:clear
-      - run:
-          name: Init database
-          command: | # Add our test server as "known host"
-            php bin/console doctrine:schema:create
 
-workflows:
-  version: 2
-  notify_deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: main # Only deploy builds on the main branch
+      - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
+      - run: sudo docker-php-ext-install zip
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            # "composer.lock" can be used if it is committed to the repo
+            - v1-dependencies-{{ checksum "composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: "Install Dependencies"
+          command: composer install -n --prefer-dist
+
+      - save_cache:
+          key: v1-dependencies-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
