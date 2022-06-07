@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Deployer;
 
-set('default_stage', 'test');
 
 require 'recipe/symfony4.php';
 
