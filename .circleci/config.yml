@@ -53,10 +53,8 @@ jobs:
       - run:
           name: init database
           command: |
-            echo $DATABASE_URL
-            php bin/console doctrine:schema:update --force
-          environment:
-            - DATABASE_URL: $DATABASE_URL
+            ./bin/console doctrine:database:create --env=test
+            ./bin/console doctrine:schema:create --env=test
       - run:
           name: migrate database
           command: |
