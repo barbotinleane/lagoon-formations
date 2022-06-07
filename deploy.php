@@ -20,7 +20,7 @@ host('lagoonformations')
     ->set('branch', 'prod')
     ->set('writable_mode', 'chmod');
 
-// Tasks
+// Taskss
 task('cache:clear', function () {
     run('php {{release_path}}/bin/console cache:clear');
 });
