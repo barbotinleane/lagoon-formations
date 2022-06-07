@@ -76,7 +76,7 @@ jobs:
       - run:
           name: init database
           command: |
-            php bin/console doctrine:schema:create --env=dev
+            php bin/console doctrine:schema:update --force
       - run:
           name: migrate database
           command: |
