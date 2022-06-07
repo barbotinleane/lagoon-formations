@@ -3,7 +3,7 @@ namespace Deployer;
 
 require 'recipe/symfony.php';
 
-// Configuration
+// Configurations
 
 set('repository', 'https://github.com/barbotinleane/lagoon-formations.git');
 
