@@ -55,6 +55,8 @@ jobs:
           command: |
             echo $DATABASE_URL
             php bin/console doctrine:schema:update --force
+          environment:
+            - DATABASE_URL: $DATABASE_URL
       - run:
           name: migrate database
           command: |
