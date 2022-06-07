@@ -10,6 +10,8 @@ jobs:
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --innodb-large-prefix=true --innodb-file-format=Barracuda
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: true
+          DATABASE_URL: $DATABASE_URL
+          APP_SECRET: $APP_SECRET
     working_directory: ~/symfony # directory where steps will run
     steps: # a set of executable commands
       - checkout # special step to check out source code to working directory
@@ -32,7 +34,12 @@ jobs:
             - node-v1-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found (See https://circleci.com/docs/2.0/caching/)
             - node-v1-
-      - run: cp .env .env.local
+      - run:
+          name: Adding env
+          command: cp .env .env.local
+          environment:
+            - DATABASE_URL: $DATABASE_URL
+            - APP_SECRET: $APP_SECRET
       - run: yarn install
       - save_cache: # special step to save the dependency cache with the `package.json` cache key template
           key: node-v1-{{ checksum "package.json" }}
