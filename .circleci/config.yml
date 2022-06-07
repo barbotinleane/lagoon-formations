@@ -58,10 +58,9 @@ jobs:
       - run:
           name: Deploy
           command: | # Add our test server as "known host"
-            echo '|1|khCPh4/rbwwU8p5gEw1QiXJrEV8=|oSQAytR17ibsG6/wU46gIYdTMvg= ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDgthWLAxOwq97+Wtohjnlrsv8GjpqBv1doY+fUKBZmafI4g4cPULeB2x0YnnzZUoEUrd8/boJotPk55M7YQLRok/gtNo/sUHvuq3R0ZyaaVMCwSdW+DCtHjmxYSA5hKLZuuowvk+QeXqrYDU+igrgC3acB6o5g4HOFqP4GYrnmG4eP4K51taT2Czp5r4jUMuFSigOHGoLx4VCmchDc1K7xfHEDrq/+WYHi5U2YbNg8ddeLZv5BMLsr+qQgumBSxXRwuYm7eMDMwxmLJFz8yrSq9SBBK5g3x5WpXcYTE+EwEj552KrX6/tmB4ph1IjncUPgsrxKyo1519L2aaxutHvn2WjoKlqwKuKkoFz4i4mjHEzWg82/QurtwPtIfNWlTslotaOqqGbo36uzT1EjpIZz3pkCQppuj345kvWEjkADL9+AijYFEFj29pM4ejYHPNL6fYkmGL0e5AEZaydTseidf4fzpGjIOFTbpMQlfLH/Zi7+g6NMPuzZoFhFU3B6OCMKRYE80vxRyZy7EtQYgbK6K0b4QtxksTATnO6ICZ6FWyCm/dK0zIO6qt5WTYDX9n/tOir6m+wd8541ouzBlO14B0kNIuTLhzaQ661qziUCyCl0M+pK2HAxUX8Fh4mxWpjXnU2oQX5iHhy4LLxdoTDLfqXa+RJQ2b5SHG+bSEF1Q==' >> ~/.ssh/known_hosts
-            echo '|1|yzmSV4kB6IHIIpg3PVBt25X3vtk=|dezJuV7R8rJRjR7q1MeSBFc4xfE= ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFsQKOu5B2nC2z50wCM/7wpKTGrT+yAPTpKqyiUDMvpm' >> ~/.ssh/known_hosts
+            echo '|1|WWcPo60CHAYcWlU6B6hBs/mPwYs=|psjhkHXqIGqTQWZ6flP00KAgPbo= ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDgthWLAxOwq97+Wtohjnlrsv8GjpqBv1doY+fUKBZmafI4g4cPULeB2x0YnnzZUoEUrd8/boJotPk55M7YQLRok/gtNo/sUHvuq3R0ZyaaVMCwSdW+DCtHjmxYSA5hKLZuuowvk+QeXqrYDU+igrgC3acB6o5g4HOFqP4GYrnmG4eP4K51taT2Czp5r4jUMuFSigOHGoLx4VCmchDc1K7xfHEDrq/+WYHi5U2YbNg8ddeLZv5BMLsr+qQgumBSxXRwuYm7eMDMwxmLJFz8yrSq9SBBK5g3x5WpXcYTE+EwEj552KrX6/tmB4ph1IjncUPgsrxKyo1519L2aaxutHvn2WjoKlqwKuKkoFz4i4mjHEzWg82/QurtwPtIfNWlTslotaOqqGbo36uzT1EjpIZz3pkCQppuj345kvWEjkADL9+AijYFEFj29pM4ejYHPNL6fYkmGL0e5AEZaydTseidf4fzpGjIOFTbpMQlfLH/Zi7+g6NMPuzZoFhFU3kB6OCMKRYE80vxRyZy7EtQYgbK6K0b4QtxksTATnO6ICZ6FWyCm/dK0zIO6qt5WTYDX9n/tOir6m+wd8541ouzBlO14B0kNIuTLhzaQ661qziUCyCl0M+pK2HAxUX8Fh4mxWpjXnU2oQX5iHhy4LLxdoTDLfqXa+RJQ2b5SHG+bSEF1Q==' >> ~/.ssh/known_hosts
+            echo '|1|f5xSyPUqBc5PKXlrTnJhD4QGFU4=|iItWbv0MtHktIac0z+2uzwdlASU= ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFsQKOu5B2nC2z50wCM/7wpKTGrT+yAPTpKqyiUDMvpm' >> ~/.ssh/known_hosts
             dep deploy
-
 workflows:
   version: 2
   notify_deploy:
