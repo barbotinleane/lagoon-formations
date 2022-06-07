@@ -1,6 +1,8 @@
 <?php
 namespace Deployer;
 
+require 'recipe/symfony.php';
+
 // Configurations
 
 set('repository', 'https://github.com/barbotinleane/lagoon-formations.git');
@@ -17,28 +19,50 @@ host('ssh.cluster031.hosting.ovh.net')
     ->set('writable_mode', 'chmod');
 
 // Tasks
-task('pwd', function (): void {
-    $result = run('pwd');
-    writeln("Current dir: {$result}");
+task('cache:clear', function () {
+    run('php {{release_path}}/bin/console cache:clear');
 });
 
-// [Optional]  Migrate database before symlink new release.
-before('deploy:symlink', 'database:migrate');
-
-// Build yarn locally
-task('deploy:build:assets', function (): void {
-    run('yarn install');
-    run('yarn encore production');
+task('init:database', function() {
+    run('{{bin/php}} {{bin/console}} doctrine:schema:create');
 });
 
-before('deploy:symlink', 'deploy:build:assets');
-
-// Upload assets
-task('upload:assets', function (): void {
-    upload(__DIR__.'/public/build/', '{{release_path}}/public/build');
+task('echo:options', function() {
+    writeln('OPTIONS: {{composer_options}}');
 });
 
-after('deploy:build:assets', 'upload:assets');
+task('build', function () {
+    cd('{{release_path}}');
+    run('npm run build');
+});
+
+task('initialize', [
+    'deploy:info',
+    'deploy:lock',
+    'deploy:release',
+    'deploy:update_code',
+    'deploy:shared',
+    'deploy:unlock',
+    'cleanup',
+]);
+
+task('mydeploy', [
+    'deploy:info',
+    'deploy:lock',
+    'deploy:release',
+    'deploy:update_code',
+    'deploy:shared',
+    'deploy:vendors',
+    'deploy:cache:clear',
+    'deploy:cache:warmup',
+    'deploy:unlock',
+    'cleanup',
+]);
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
+//after('deploy:unlock', 'copy:public');
+
+
+// Migrate database before symlink new release.
+//before('deploy:unlock', 'database:migrate');

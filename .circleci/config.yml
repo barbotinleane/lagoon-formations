@@ -49,17 +49,19 @@ jobs:
           fingerprints:
             - "2d:7c:6b:8b:ac:95:4b:52:66:87:31:1c:f8:4c:42:cb"
       - run:
-          name: Install Deployer
+          name: Git Clone
           command: |
-            curl -LO https://deployer.org/deployer.phar
-            sudo mv deployer.phar /usr/local/bin/dep
-            sudo chmod +x /usr/local/bin/dep
+            mkdir app
+            cd app
+            git clone https://github.com/barbotinleane/lagoon-formations.git
       - run:
-          name: Deploy
-          command: | # Add our test server as "known host"
-            echo '|1|HSf865x7QN/uUe0YiiKAFrv5Q4s=|dfANLvRceoi009Az5rc98THeu7E= ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDgthWLAxOwq97+Wtohjnlrsv8GjpqBv1doY+fUKBZmafI4g4cPULeB2x0YnnzZUoEUrd8/boJotPk55M7YQLRok/gtNo/sUHvuq3R0ZyaaVMCwSdW+DCtHjmxYSA5hKLZuuowvk+QeXqrYDU+igrgC3acB6o5g4HOFqP4GYrnmG4eP4K51taT2Czp5r4jUMuFSigOHGoLx4VCmchDc1K7xfHEDrq/+WYHi5U2YbNg8ddeLZv5BMLsr+qQgumBSxXRwuYm7eMDMwxmLJFz8yrSq9SBBK5g3x5WpXcYTE+EwEj552KrX6/tmB4ph1IjncUPgsrxKyo1519L2aaxutHvn2WjoKlqwKuKkoFz4i4mjHEzWg82/QurtwPtIfNWlTslotaOqqGbo36uzT1EjpIZz3pkCQppuj345kvWEjkADL9+AijYFEFj29pM4ejYHPNL6fYkmGL0e5AEZaydTseidf4fzpGjIOFTbpMQlfLH/Zi7+g6NMPuzZoFhFU3kB6OCMKRYE80vxRyZy7EtQYgbK6K0b4QtxksTATnO6ICZ6FWyCm/dK0zIO6qt5WTYDX9n/tOir6m+wd8541ouzBlO14B0kNIuTLhzaQ661qziUCyCl0M+pK2HAxUX8Fh4mxWpjXnU2oQX5iHhy4LLxdoTDLfqXa+RJQ2b5SHG+bSEF1Q==' >> ~/.ssh/known_hosts
-            echo '|1|Iv4A6fr8KbXDBlTx2zrpJ4c9vOk=|6Gws3jMQ95NmDXLC1SKqqe6rJo8= ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFsQKOu5B2nC2z50wCM/7wpKTGrT+yAPTpKqyiUDMvpm' >> ~/.ssh/known_hosts
-            dep deploy
+          name: composer install
+          command: | 
+            composer install
+      - run:
+          name: yarn build
+          command: |
+            yarn run encore production
 workflows:
   version: 2
   notify_deploy:
