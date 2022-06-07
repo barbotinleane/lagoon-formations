@@ -59,9 +59,21 @@ jobs:
           command: | 
             composer install
       - run:
+          name: yarn install
+          command: |
+            yarn
+      - run:
           name: yarn build
           command: |
             yarn run encore production
+      - run:
+          name: init database
+          command: |
+            php bin/console doctrine:schema:create
+      - run:
+          name: migrate database
+          command: |
+            php bin/console doctrine:migrations:migrate
 workflows:
   version: 2
   notify_deploy:
