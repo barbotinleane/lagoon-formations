@@ -9,10 +9,10 @@ set('default_stage', 'test');
 require 'recipe/symfony4.php';
 
 // Project name
-set('application', 'Sample app');
+set('application', 'Lagoon Formations');
 
 // Project repository
-set('repository', 'git@github.com:jeroendk/symfony-build-and-deploy.git');
+set('repository', 'https://github.com/barbotinleane/lagoon-formations.git');
 
 // Set composer options
 set('composer_options', '{{composer_action}} --verbose --prefer-dist --no-progress --no-interaction --optimize-autoloader --no-scripts');
