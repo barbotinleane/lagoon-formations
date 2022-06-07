@@ -48,6 +48,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "db:1a:4b:50:71:c9:71:2d:1b:bb:04:4d:93:59:f5:16"
+            - "e1:47:71:bb:61:8f:d1:81:64:82:b3:d0:c6:df:db:ea"
       - run:
           name: Install Deployer
           command: |
