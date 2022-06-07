@@ -49,6 +49,10 @@ jobs:
   deploy:
     docker:
       - image: cimg/php:8.1.5-node
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          DATABASE_URL: $DATABASE_URL
+          APP_SECRET: $APP_SECRET
     working_directory: ~/symfony
     steps:
       - checkout
