@@ -80,6 +80,8 @@ jobs:
       - run:
           name: init database
           command: |
+            cat .env.local
+            cat .env
             php bin/console doctrine:schema:update --force
       - run:
           name: migrate database
