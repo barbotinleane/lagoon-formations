@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Asks;
+use App\Entity\FormationAsks;
 use App\Form\AsksType;
 use App\Repository\DepartmentsRepository;
 use App\Service\AskSaver;
@@ -36,7 +36,7 @@ class AskController extends AbstractController
     #[Route('/demande-de-formation', name: 'app_ask')]
     public function ask(EntityManagerInterface $entityManager, Request $request, DepartmentsRepository $departmentsRepository, CustomMailer $mailer, AskSaver $askSaver)
     {
-        $ask = new Asks();
+        $ask = new FormationAsks();
         $departments = $departmentsRepository->findAll();
         $form = $this->createForm(AsksType::class, $ask, ['departments' => $departments]);
         $form->handleRequest($request);

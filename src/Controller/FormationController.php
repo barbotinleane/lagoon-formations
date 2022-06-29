@@ -2,38 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Artisan;
-use App\Entity\Asks;
-use App\Entity\AutoEntrepreneur;
-use App\Entity\CompanyDirector;
-use App\Entity\FormationAsk;
-use App\Entity\FormationAsks;
-use App\Entity\FormationSessions;
-use App\Entity\OtherStatus;
-use App\Entity\SearchingJob;
-use App\Entity\Stagiaires;
-use App\Form\ArtisanType;
-use App\Form\AsksType;
-use App\Form\AutoEntrepreneurType;
-use App\Form\CompanyDirectorType;
-use App\Form\FormationAsksType;
-use App\Form\FormationAskType;
-use App\Form\OtherStatusType;
-use App\Form\SearchingJobType;
-use App\Form\StatusType;
-use App\Repository\DepartmentsRepository;
 use App\Repository\FormationLibellesRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Uid\Uuid;
 
 /***
  * Controller used to display the formation's list and the details of each of them
