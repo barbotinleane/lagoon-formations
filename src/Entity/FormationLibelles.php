@@ -48,6 +48,9 @@ class FormationLibelles
     #[ORM\OneToMany(mappedBy: 'formationLibelle', targetEntity: FormationAsks::class)]
     private $asks;
 
+    #[ORM\ManyToOne(targetEntity: FormationCategories::class, inversedBy: 'formationLibelles')]
+    private $category;
+
     public function __construct()
     {
         $this->formationSessions = new ArrayCollection();
@@ -205,6 +208,18 @@ class FormationLibelles
                 $ask->setFormationLibelle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?FormationCategories
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?FormationCategories $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
