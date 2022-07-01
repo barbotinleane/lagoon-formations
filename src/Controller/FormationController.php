@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\FormationCategoriesRepository;
 use App\Repository\FormationLibellesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,9 +22,16 @@ class FormationController extends AbstractController
      * @return Response
      */
     #[Route('/formations', name: 'app_formation')]
-    public function index(FormationLibellesRepository $libellesRepository): Response
+    public function index(FormationLibellesRepository $libellesRepository, FormationCategoriesRepository $formationCategoriesRepository): Response
     {
-        $libelles = $libellesRepository->findAll();
+        $libelles = [];
+        $categories = $formationCategoriesRepository->findAll();
+
+        foreach ($categories as $category) {
+            $libelles[]['libelle'] = $category->getLibelle();
+            $libelles[array_key_last($libelles)]['list'] = $libellesRepository->findByCategory($category);
+        }
+        dump($libelles);
 
         return $this->render('formation/index.html.twig', [
             'formations' => $libelles

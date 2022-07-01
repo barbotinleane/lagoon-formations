@@ -2,32 +2,35 @@
     {% set color = ["second", "brand-dark", "brand"] %}
     {% set index = 0 %}
 
-    {% for formation in formations %}
-        <div class='col-12 col-sm-6'>
-            <div class="card box-shadow h-adaptative my-3
-                {% if formation.agrement == 0 %}
-                    btn-{{ color[index] }}-disabled">
-                {% else %}
-                    btn-{{ color[index] }}" onclick="location.href = '{{ path(formation.route) }}'">
-                {% endif %}
+    {% for category in formations %}
+        <h2 class="text-center pt-4 pb-2">{{ category.libelle }}</h2>
+        {% for formation in category.list %}
+            <div class='col-12 col-sm-6'>
+                <div class="card box-shadow h-adaptative my-3
+                    {% if formation.agrement == 0 %}
+                        btn-{{ color[index] }}-disabled">
+                    {% else %}
+                        btn-{{ color[index] }}" onclick="location.href = '{{ path(formation.route) }}'">
+                    {% endif %}
 
-                <picture>
-                    <source srcset="{{ asset('build/images/' ~ formation.image ~ '.webp') }}" type="image/webp" class="w-100">
-                    <source srcset="{{ asset('build/images/' ~ formation.image ~ '.jpg') }}" type="image/jpeg" class="w-100">
-                    <img src="{{ asset('build/images/' ~ formation.image ~ '.jpg') }}"
-                         alt="{{ formation.libelle }}"
-                         class="card-image w-100 form-image">
-                </picture>
-                <h3 class="pt-2">{{ formation.libelle }}</h3>
+                    <picture>
+                        <source srcset="{{ asset('build/images/' ~ formation.image ~ '.webp') }}" type="image/webp" class="w-100">
+                        <source srcset="{{ asset('build/images/' ~ formation.image ~ '.jpg') }}" type="image/jpeg" class="w-100">
+                        <img src="{{ asset('build/images/' ~ formation.image ~ '.jpg') }}"
+                             alt="{{ formation.libelle }}"
+                             class="card-image w-100 form-image">
+                    </picture>
+                    <h3 class="pt-2">{{ formation.libelle }}</h3>
 
-                {% if formation.agrement == 0 %}
-                    {% set info = "EN ATTENTE D'AGREMENT..." %}
-                    <div class="card-img-overlay d-flex align-items-center justify-content-center text-white fs-3">
-                        <div class="text-center">{{ info }}</div>
-                    </div>
-                {% endif %}
+                    {% if formation.agrement == 0 %}
+                        {% set info = "EN ATTENTE D'AGREMENT..." %}
+                        <div class="card-img-overlay d-flex align-items-center justify-content-center text-white fs-3">
+                            <div class="text-center">{{ info }}</div>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
-        </div>
+        {% endfor %}
 
         {% set index = index + 1 %}
 
