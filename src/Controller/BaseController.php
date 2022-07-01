@@ -23,7 +23,7 @@ class BaseController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function home(FormationLibellesRepository $libellesRepository): Response
     {
-        $libelles = $libellesRepository->findAll();
+        $libelles = $libellesRepository->findThree();
 
         return $this->render('base/home.html.twig', [
             'formations' => $libelles

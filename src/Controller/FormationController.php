@@ -31,7 +31,6 @@ class FormationController extends AbstractController
             $libelles[]['libelle'] = $category->getLibelle();
             $libelles[array_key_last($libelles)]['list'] = $libellesRepository->findByCategory($category);
         }
-        dump($libelles);
 
         return $this->render('formation/index.html.twig', [
             'formations' => $libelles

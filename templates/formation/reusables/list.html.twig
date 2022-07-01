@@ -30,12 +30,11 @@
                     {% endif %}
                 </div>
             </div>
+
+            {% set index = index + 1 %}
+            {% if index > 2 %}
+                {% set index = 0 %}
+            {% endif %}
         {% endfor %}
-
-        {% set index = index + 1 %}
-
-        {% if index > 2 %}
-            {% set index = 0 %}
-        {% endif %}
     {% endfor %}
 </div>

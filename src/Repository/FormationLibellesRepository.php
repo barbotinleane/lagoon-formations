@@ -58,6 +58,18 @@ class FormationLibellesRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return FormationLibelles[] Returns an array of 3 FormationLibelles objects
+     */
+    public function findThree()
+    {
+        return $this->createQueryBuilder('f')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     /*
     public function findOneBySomeField($value): ?FormationLibelles
     {
