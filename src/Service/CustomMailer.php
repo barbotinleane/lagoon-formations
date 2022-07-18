@@ -45,7 +45,7 @@ class CustomMailer
 
         $email = (new TemplatedEmail())
             ->from('form@lagoon-formations.com')
-            ->to('leaneb83@gmail.com')
+            ->to('formation@lagoon-piscines.com')
             ->subject('Nouvelle demande de formation !')
             ->htmlTemplate('email/email_ask.html.twig')
             ->context([
