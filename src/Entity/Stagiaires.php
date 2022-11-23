@@ -38,7 +38,7 @@ class Stagiaires
     #[ORM\Column(type: 'boolean')]
     private $handicap;
 
-    #[ORM\ManyToMany(targetEntity: FormationAsks::class, mappedBy: 'workers')]
+    #[ORM\ManyToMany(targetEntity: FormationAsks::class, mappedBy: 'stagiaires')]
     private $asks;
 
     public function __construct()

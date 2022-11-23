@@ -50,6 +50,7 @@ class AskController extends AbstractController
                         $entityManager->persist($stagiaire);
                     }
                 }
+
                 $entityManager->persist($ask);
                 $entityManager->flush();
 
