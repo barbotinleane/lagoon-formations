@@ -45,30 +45,22 @@ class FormationLibellesRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-    * @return FormationLibelles[] Returns an array of FormationLibelles objects
-    */
-    public function findByCategory($value)
+    // /**
+    //  * @return FormationLibelles[] Returns an array of FormationLibelles objects
+    //  */
+    /*
+    public function findByExampleField($value)
     {
         return $this->createQueryBuilder('f')
-            ->andWhere('f.category = :val')
+            ->andWhere('f.exampleField = :val')
             ->setParameter('val', $value)
+            ->orderBy('f.id', 'ASC')
+            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-
-    /**
-     * @return FormationLibelles[] Returns an array of 3 FormationLibelles objects
-     */
-    public function findThree()
-    {
-        return $this->createQueryBuilder('f')
-            ->setMaxResults(3)
-            ->getQuery()
-            ->getResult()
-            ;
-    }
+    */
 
     /*
     public function findOneBySomeField($value): ?FormationLibelles
