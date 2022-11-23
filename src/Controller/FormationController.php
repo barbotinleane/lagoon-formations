@@ -24,16 +24,10 @@ class FormationController extends AbstractController
     #[Route('/formations', name: 'app_formation')]
     public function index(FormationLibellesRepository $libellesRepository, FormationCategoriesRepository $formationCategoriesRepository): Response
     {
-        $libelles = [];
-        $categories = $formationCategoriesRepository->findAll();
-
-        foreach ($categories as $category) {
-            $libelles[]['libelle'] = $category->getLibelle();
-            $libelles[array_key_last($libelles)]['list'] = $libellesRepository->findByCategory($category);
-        }
+        $formations = $libellesRepository->findAll();
 
         return $this->render('formation/index.html.twig', [
-            'formations' => $libelles
+            'formations' => $formations,
         ]);
     }
 
