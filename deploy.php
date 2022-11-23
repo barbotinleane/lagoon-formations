@@ -16,7 +16,7 @@ add('writable_dirs', []);
 host('lagoonformations')
     ->set('remote_user', 'lagoonk')
     ->set('http_user', 'lagoonk')
-    ->set('deploy_path', '~/lagoonsymfony')
+    ->set('deploy_path', '~/testlagoonsymfony')
     ->set('branch', 'prod')
     ->set('writable_mode', 'chmod');
 
