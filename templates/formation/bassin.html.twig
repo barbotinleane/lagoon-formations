@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}LAGOON&reg; Formations - Installation de Bassin Paysager de type LAGOON&reg;{% endblock %}
+{% block title %}LAGOON&reg; Formations - Réalisation de Piscine ou Bassin écologique de type Lagon{% endblock %}
 
 {% block description %}Devenez installateur de piscines écologiques LAGOON&reg; en résine naturelle et EPDM.
     Vous apprendrez un concept révolutionnaire et durable breveté. Cette formation est certifiée Qualiopi.{% endblock %}
@@ -11,7 +11,7 @@
             <div class="bassin-title">
                 <div class="text-title section">
                     <h1 class="text-brand">
-                        Installation de bassin paysager de type LAGOON&reg;
+                        Réalisation de Piscine ou Bassin écologique de type Lagon
                     </h1>
                     <p>
                         Vous êtes paysagiste, applicateur indépendant, maçon, chef de chantiers, chef
@@ -24,7 +24,7 @@
                     <div class="d-flex">
                         <a
                                 class="btn btn-second btn-lg"
-                                href="{{ path('app_ask') }}"
+                                href="{{ path('app_ask', {formationId: 1}) }}"
                         >
                             <i class="fa fa-play" aria-hidden="true"></i>
                             &nbsp;Faire une demande de formation
@@ -74,7 +74,7 @@
                                     Vous faites une demande de formation en ligne
                                 </h3>
                                 <p>
-                                    En quelques clics, vous effectuez une <a href="{{ path('app_ask') }}">demande de formation en ligne</a> en
+                                    En quelques clics, vous effectuez une <a href="{{ path('app_ask', {formationId: 1}) }}">demande de formation en ligne</a> en
                                     nous indiquant vos compétences, et les dates auxquelles vous souhaitez
                                     effectuer votre formation.
                                 </p>
@@ -279,7 +279,7 @@
                     <a
                             type="button"
                             class="btn btn-second btn-lg"
-                            href="{{ path('app_ask') }}"
+                            href="{{ path('app_ask', {formationId: 1}) }}"
                     >
                         <i class="fa fa-play" aria-hidden="true"></i>
                         &nbsp;Faites une demande de formation en ligne

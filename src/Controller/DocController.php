@@ -45,7 +45,7 @@ class DocController extends AbstractController
     {
         return $this->render('doc/index.html.twig', [
             'fileName' => 'bassin',
-            'name' => 'Programme de la formation Installation de Bassin Paysager de type Lagoon'
+            'name' => 'Programme de la formation Réalisation de Piscine ou Bassin écologique de type Lagon'
         ]);
     }
 

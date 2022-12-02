@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\FormationAsks;
+use Doctrine\ORM\EntityManagerInterface;
 
 /***
  * Service used to save unmapped fields in the form to ask for a formation in a formation object
@@ -11,6 +12,15 @@ use App\Entity\FormationAsks;
  */
 class AskSaver
 {
+    private $em;
+    private $mailer;
+
+    public function __construct(EntityManagerInterface $em, CustomMailer $mailer)
+    {
+        $this->em = $em;
+        $this->mailer = $mailer;
+    }
+
     /***
      * If they exists, save the prerequisites in json in the ask object
      *
@@ -19,19 +29,14 @@ class AskSaver
      * @return void
      */
     public function savePrerequisites($data, FormationAsks $ask) {
-        if($data['asks']['prerequisites'] === "true") {
-            $prerequisites = [
-                'visseuse' => $data['visseuse'],
-                'perceuse' => $data['perceuse'],
-                'taloche' => $data['taloche'],
-                'malaxeur' => $data['malaxeur'],
-                'malaxeurv' => $data['malaxeurv'],
-                'commentaires-outils' => $data['commentaires-outils']
-            ];
-            $ask->setPrerequisites(json_encode($prerequisites));
-        } else {
-            $ask->setPrerequisites(null);
-        }
+        dump($data);
+        $prerequisites = [
+            'Visseuse' => $data['visseuse'],
+            'Perceuse' => $data['perceuse'],
+            'Taloche' => $data['taloche'],
+            'Commentaires' => $data['commentaires-outils']
+        ];
+        $ask->setPrerequisites(json_encode($prerequisites));
     }
 
     /***
@@ -79,5 +84,19 @@ class AskSaver
         $this->saveCustomValuesInFields($data, $ask);
 
         return $ask;
+    }
+
+    public function persistAndFlush(FormationAsks $ask, $formation) {
+        if ($ask->getStagiaires() !== null) {
+            foreach ($ask->getStagiaires() as $stagiaire) {
+                $this->em->persist($stagiaire);
+            }
+        }
+        $ask->setFormationLibelle($formation);
+        $this->em->persist($ask);
+        $this->em->flush();
+
+        //$asanaManager->addFormationTask($ask);
+        $this->mailer->sendAskMail($ask, $ask->getStatus());
     }
 }

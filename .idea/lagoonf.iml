@@ -92,6 +92,12 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/password-hasher" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/security-http" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/security-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/translation" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/validator" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/craue/formflow-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nategood/httpful" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/asana/asana" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/adoy/oauth2" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

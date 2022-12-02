@@ -101,6 +101,11 @@ $brand-colors: ("brand", #0072A3),
     background: linear-gradient(90deg, rgba(0,110,157,1) 0%, rgba(24,155,211,1) 76%);
 }
 
+.bg-grey
+{
+    background-color: #e0e0e0;
+}
+
 .text-disabled {
     position: absolute;
     width: 40%;
@@ -182,6 +187,10 @@ a {
 
 .h-330 {
     height: 330px;
+}
+
+.rounded-corners {
+    border-radius: 4em;
 }
 
 .raleway-black {
@@ -294,6 +303,12 @@ a {
     margin-left: -150px;
     margin-top: -50px;
     box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 100px 400px;
+}
+
+.legend {
+    float: left;
+    width: 100%;
+    padding: 0;
 }
 
 

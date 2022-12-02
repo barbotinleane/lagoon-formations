@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    LAGOON&reg; Piscines - Pré-inscription à la formation en ligne
+{% endblock %}
+
+{% block description %}
+    Augmentez en compétences ou faites une reconversion professionnelle en vous inscrivant à notre formation certifiée Qualiopi. Vous apprendrez les techniques et matériaux d'éco-construction de piscines.
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('formationAsk') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('formationAsk') }}
+{% endblock %}
+
+{% block body %}
+    <main id="corps" class="my-5 container bg-dark">
+        {{ form_start(form) }}
+
+        {% if not form.vars.valid %}
+            <div class="form-error">
+                {{ form_errors(form) }}
+            </div>
+        {% endif %}
+
+        {% if flow.getCurrentStepNumber() == 1 %}
+            <div id="intro">
+                {% include 'ask/steps/intro.html.twig' %}
+            </div>
+
+            <div id="step1" style="display: none;">
+                {% include 'ask/steps/step1.html.twig' %}
+            </div>
+
+        {% elseif flow.getCurrentStepNumber() == 2 %}
+            {% include 'ask/steps/step2.html.twig' %}
+
+        {% elseif flow.getCurrentStepNumber() == 3 %}
+            {% include 'ask/steps/step3.html.twig' %}
+
+        {% elseif flow.getCurrentStepNumber() == 4 %}
+            {% include 'ask/steps/step4.html.twig' %}
+
+        {% elseif flow.getCurrentStepNumber() == 5 %}
+            {% include 'ask/steps/step5.html.twig' %}
+
+        {% elseif flow.getCurrentStepNumber() == 6 %}
+            {% include 'ask/steps/step6.html.twig' %}
+
+        {% elseif flow.getCurrentStepNumber() == 7 %}
+            {% include 'ask/steps/step7.html.twig' %}
+        {% endif %}
+
+        {{ form_end(form) }}
+    </main>
+{% endblock %}

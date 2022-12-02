@@ -5,18 +5,17 @@ namespace App\Form;
 use App\Entity\FormationAsks;
 use App\Entity\FormationLibelles;
 use App\Entity\FormationSessions;
-use App\Repository\FormationLibellesRepository;
 use App\Entity\Status;
+use App\Repository\FormationLibellesRepository;
+use App\Repository\FormationSessionsRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -39,207 +38,473 @@ class AsksType extends AbstractType
             $departmentsNames[$department->getName()] = $department->getCode();
         }
 
-        $builder
-            ->add('status', EntityType::class, [
-                'class' => Status::class,
-                'label' => 'Statut',
-                'attr' => [
-                    'class' => 'buttons-group',
-                    'role' => 'group',
-                ],
-                'expanded' => true
-            ])
-            ->add('activityCategory', ChoiceType::class, [
-                'label' => 'Catégorie d\'Activité',
-                'choices' => [
-                    'Aménagement Paysager' => 'Aménagement Paysager',
-                    'Application de résine' => 'Application de résine',
-                    'Terrassement' => 'Terrassement',
-                    'Construction' => 'Construction',
-                    'Piscine' => 'Piscine',
-                    'Autre' => 'Autre',
-                ],
-                'expanded' => true
-            ])
-            ->add('goal', ChoiceType::class, [
-                'choices' => [
-                    'Reconversion professionnelle' => 'Reconversion professionnelle',
-                    'Création d\'une entreprise' => 'Création d\'une entreprise',
-                    'Création d\'un département LAGOON® dans votre entreprise' => 'Création d\'un département LAGOON® dans votre entreprise',
-                    'Simplement acquérir les compétences liées à cette formation' => 'Simplement acquérir les compétences liées à cette formation',
-                    'Autre' => 'Autre',
-                ],
-                'label' => 'Quel est votre objectif :',
-                'expanded' => true
-            ])
-            ->add('formationLibelle', EntityType::class, [
-                'class' => FormationLibelles::class,
-                'query_builder' => function (FormationLibellesRepository $flr) {
-                    return $flr->createQueryBuilder('fl')
-                        ->where('fl.agrement = 1');
-                },
-                'choice_label' => 'libelle',
-                'label' => 'Formation demandée : ',
-                'placeholder' => 'Choisissez une formation...'
-            ])
-            ->add('firstName', TextType::class, [
-                'label' => 'Prénom'
-            ])
-            ->add('lastName', TextType::class, [
-                'label' => 'Nom'
-            ])
-            ->add('email', EmailType::class, [
-                'label' => 'Email'
-            ])
-            ->add('phoneNumber', TelType::class, [
-                'label' => 'Numéro de téléphone'
-            ])
-            ->add('address',  TextType::class, [
-                'label' => 'Adresse'
-            ])
-            ->add('postalCode',  NumberType::class, [
-                'label' => 'Code Postal'
-            ])
-            ->add('city',  TextType::class, [
-                'label' => 'Ville'
-            ])
-            ->add('department',  ChoiceType::class, [
-                'label' => 'Département',
-                'choices' => $departmentsNames
-            ])
-            ->add('country', TextType::class, [
-                'label' => 'Pays',
-            ])
-            ->add('handicap', CheckboxType::class, [
-                'label' => 'Je suis en situation de handicap, je souhaite que vous étudiiez les solutions possibles pour que j\'accède à cette formation.',
-                'attr' => [
-                    'value' => 'null',
-                ],
-                'required' => false,
-            ])
-            ->add('knowsUs', ChoiceType::class, [
-                'label' => 'Comment avez-vous connu notre centre de formation ?',
-                'choices' => [
-                    'Recommandation par un proche/collègue' => 'Recommandation par un proche/collègue',
-                    'Article ou Publicité dans un magazine' => 'Article ou Publicité dans un magazine',
-                    'Lors d’un salon' => 'Lors d’un salon',
-                    'Par un site internet' => 'Par un site internet',
-                    'Dans une boutique' => 'Dans une boutique',
-                    'Autre' => 'Autre',
-                ],
-                'multiple' => true,
-                'expanded' => true
-            ])
-            ->add('consents', ChoiceType::class, [
-                'label' => 'Consentements',
-                'choices' => [
-                    'En soumettant ce formulaire, j’accepte que mes informations soient utilisées exclusivement dans 
-                    le cadre de ma demande et de la relation commerciale éthique et personnalisée qui pourrait en découler 
-                    si je le souhaite et je reconnais avoir pris connaissance de la politique de traitement et d\'utilisation 
-                    des données relative à la RGPD disponible en cliquant ici.' => 1,
-                    'J\'ai lu et j’accepte les Conditions Générales de Vente de LAGOON® DISTRIBUTION CORPORATION.' => 2,
-                    'J\'ai été informé que si ma candidature est retenue, 30% du montant total de la formation est 
-                    nécessaire pour valider définitivement mon inscription ; le solde total devant être réglé avant 
-                    le début de la formation. ' => 3
-                ],
-                'mapped' => false,
-                'multiple' => true,
-                'expanded' => true,
-                'required' => true
-            ])
+        $formationId = $options['formationId'];
 
+        switch ($options['flow_step']) {
+            case 1:
+                $builder->add('status', EntityType::class, [
+                    'class' => Status::class,
+                    'label' => 'Je suis... *',
+                    'attr' => [
+                        'class' => 'buttons-group',
+                        'role' => 'group',
+                    ],
+                    'expanded' => true
+                ])
+                    ->add('goal', ChoiceType::class, [
+                        'choices' => [
+                            'Acquérir les compétences liées à cette formation et postuler auprès d\'entreprise installatrice de piscine LAGON' => 'Acquérir les compétences liées à cette formation et postuler auprès d\'entreprise installatrice de piscine LAGON',
+                            'Créer une entreprise installatrice de piscine LAGON' => 'Créer une entreprise installatrice de piscine LAGON',
+                            'Créer un département LAGON dans mon entreprise et installer des piscines LAGON' => 'Créer un département LAGON dans mon entreprise et installer des piscines LAGON',
+                            'Créer une piscine LAGON chez moi' => 'Créer une piscine LAGON chez moi',
+                            'Autre' => 'Autre',
+                        ],
+                        'choice_attr' => function() {
+                            return ['class' => 'form_check_input'];
+                        },
+                        'row_attr' => [
+                            'class' => 'form-check',
+                        ],
+                        'label' => 'Mon objectif ',
+                        'expanded' => true
+                    ]);
+                break;
+            case 2:
+                $builder
+                    ->add('formationSession', EntityType::class, [
+                        'class' => FormationSessions::class,
+                        'query_builder' => function (FormationSessionsRepository $fsr) use($options) {
+                            return $fsr->createQueryBuilder('fs')
+                                ->where('fs.dateStart >= :now')
+                                ->setParameter('now', new \DateTimeImmutable())
+                                ->andWhere('fs.formation = :formationId')
+                                ->setParameter('formationId', $options['formationId']);
+                        },
+                        'expanded' => true,
+                        'label' => 'Date de formation souhaitée *',
+                        'placeholder' => 'Choisissez une date...',
+                        'attr' => [
+                            'class' => 'buttons-group',
+                            'role' => 'group',
+                        ],
+                        'choice_attr' => function($choice, $key, $value) {
+                            if($choice->getRegistered() === $choice->getCapacity()) {
+                                return ['disabled' => 1];
+                            }
+                            return [];
+                        },
+                    ]);
+                break;
+            case 3:
+                $builder->add('firstName', TextType::class, [
+                    'label' => 'Prénom *',
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
+                    'label_attr' => [
+                        'class' => 'form-label'
+                    ]
+                ])
+                    ->add('lastName', TextType::class, [
+                        'label' => 'Nom *',
+                        'attr' => [
+                            'class' => 'form-control'
+                        ],
+                        'label_attr' => [
+                            'class' => 'form-label'
+                        ]
+                    ])
+                    ->add('dateOfBirth', DateType::class, [
+                        'label' => 'Date de naissance *',
+                        'row_attr' => [
+                            'class' => 'col-12 col-sm-4'
+                        ],
+                        'attr' => [
+                            'class' => 'form-control',
+                            'max' => ( new \DateTime() )->format('Y-m-d'),
+                        ],
+                        'widget' => 'single_text',
+                        'input' => 'string',
+                        'html5' => true,
+                    ])
+                    ->add('placeOfBirth', TextType::class, [
+                        'label' => 'Lieu de naissance *',
+                        'attr' => [
+                            'class' => 'form-control'
+                        ],
+                        'label_attr' => [
+                            'class' => 'form-label'
+                        ]
+                    ])
+                    ->add('email', EmailType::class, [
+                        'label' => 'Email *',
+                        'attr' => [
+                            'class' => 'form-control'
+                        ],
+                        'label_attr' => [
+                            'class' => 'form-label'
+                        ]
+                    ])
+                    ->add('phoneNumber', NumberType::class, [
+                        'label' => 'Téléphone *',
+                        'attr' => [
+                            'class' => 'form-control'
+                        ],
+                        'label_attr' => [
+                            'class' => 'form-label'
+                        ],
+                    ])
+                    ->add('address',  TextType::class, [
+                        'label' => 'Adresse *',
+                        'attr' => [
+                            'class' => 'form-control'
+                        ],
+                        'label_attr' => [
+                            'class' => 'form-label'
+                        ]
+                    ])
+                    ->add('postalCode',  NumberType::class, [
+                        'label' => 'Code Postal *',
+                        'attr' => [
+                            'class' => 'form-control'
+                        ],
+                        'label_attr' => [
+                            'class' => 'form-label'
+                        ]
+                    ])
+                    ->add('city',  TextType::class, [
+                        'label' => 'Ville *',
+                        'attr' => [
+                            'class' => 'form-control'
+                        ],
+                        'label_attr' => [
+                            'class' => 'form-label'
+                        ]
+                    ])
+                    ->add('department',  ChoiceType::class, [
+                        'label' => 'Département *',
+                        'label_attr' => [
+                            'class' => 'form-label'
+                        ],
+                        'choices' => $departmentsNames,
+                        'attr' => [
+                            'class' => 'form-select'
+                        ]
+                    ])
+                    ->add('country', TextType::class, [
+                        'label' => 'Pays',
+                        'attr' => [
+                            'class' => 'form-control'
+                        ],
+                        'label_attr' => [
+                            'class' => 'form-label'
+                        ],
+                        'required' => false,
+                    ])
+                    ->add('activityCategory', ChoiceType::class, [
+                        'choices' => [
+                            'Piscinier' => 'Piscinier',
+                            'Paysagiste' => 'Paysagiste',
+                            'Etancheur' => 'Etancheur',
+                            'Façadier' => 'Façadier',
+                            'Carreleur' => 'Carreleur',
+                            'Plombier' => 'Plombier',
+                            'Applicateur de résine' => 'Applicateur de résine',
+                            'Terrassier' => 'Terrassier',
+                            'Autre' => 'Autre',
+                        ],
+                        'choice_attr' => function() {
+                            return ['class' => ''];
+                        },
+                        'row_attr' => [
+                            'class' => '',
+                        ],
+                        'expanded' => true,
+                        'multiple' => false,
+                    ])
+                    ->add('handicap', CheckboxType::class, [
+                        'attr' => [
+                            'class' => 'form-check-input',
+                        ],
+                        'row_attr' => [
+                            'class' => 'form-check',
+                        ],
+                        'label' => 'Je suis en situation de handicap, je souhaite que vous étudiiez les solutions possibles pour que j\'accède à cette formation.',
+                        'label_attr' => [
+                            'class' => 'form-check-label'
+                        ],
+                        'required' => false,
+                    ]);
 
-            ->add('companyName', TextType::class, [
-                'label' => 'Nom de l\'entreprise',
-                'attr' => [
-                    'value' => 'null',
-                ],
-                'required' => false,
-            ])
-            ->add('sirenOrRm', TextType::class, [
-                'label' => 'SIREN ou RM (facultatif)',
-                'attr' => [
-                    'value' => 'null',
-                ],
-                'required' => false,
-            ])
-            ->add('idPoleEmploi', TextType::class, [
-                'label' => 'Identifiant Pole Emploi (facultatif)',
-                'attr' => [
-                    'value' => 'null',
-                ],
-                'required' => false,
-            ])
-            ->add('siret', TextType::class, [
-                'label' => 'SIRET (facultatif)',
-                'attr' => [
-                    'value' => 'null',
-                ],
-                'required' => false,
-            ])
-            ->add('prerequisites', TextType::class, [
-                'attr' => [
-                    'value' => 'null',
-                ],
-                'required' => false,
-            ])
-            ->add('stagiaires', CollectionType::class, [
-                'entry_type' => StagiairesType::class,
-                'entry_options' => ['label' => 'Les stagiaires'],
-                'allow_add' => true,
-                'attr' => ['value' => 'null'],
-                'required' => false,
-            ])
+                switch($options['data']->getStatus()->getId()) {
+                    case 1 :
+                        $builder->add('sirenOrRm', TextType::class, [
+                            'label' => 'SIREN ou RM *',
+                            'attr' => [
+                                'class' => 'form-control'
+                            ],
+                            'label_attr' => [
+                                'class' => 'form-label'
+                            ]
+                        ])
+                            ->add('companyName', TextType::class, [
+                                'label' => 'Nom de l\'entreprise *',
+                                'attr' => [
+                                    'class' => 'form-control'
+                                ],
+                                'label_attr' => [
+                                    'class' => 'form-label'
+                                ],
+                                'required' => true,
+                            ])
+                            ->add('companyAddress', TextType::class, [
+                                'label' => 'Siège social *',
+                                'attr' => [
+                                    'class' => 'form-control'
+                                ],
+                                'label_attr' => [
+                                    'class' => 'form-label'
+                                ]
+                            ])
+                            ->add('companyPostalCode', NumberType::class, [
+                                'label' => 'Code Postal',
+                                'attr' => [
+                                    'class' => 'form-control'
+                                ],
+                                'label_attr' => [
+                                    'class' => 'form-label'
+                                ],
+                                'required' => false,
+                            ])
+                            ->add('companyCity', TextType::class, [
+                                'label' => 'Ville *',
+                                'attr' => [
+                                    'class' => 'form-control'
+                                ],
+                                'label_attr' => [
+                                    'class' => 'form-label'
+                                ]
+                            ])
+                            ->add('companyCountry', TextType::class, [
+                                'label' => 'Pays',
+                                'attr' => [
+                                    'class' => 'form-control'
+                                ],
+                                'label_attr' => [
+                                    'class' => 'form-label'
+                                ],
+                                'required' => false,
+                            ])
+                            ->remove('handicap')
+                            ->remove('address')
+                            ->remove('postalCode')
+                            ->remove('city')
+                            ->remove('country')
+                            ->remove('email')
+                            ->remove('phoneNumber')
+                            ->remove('department');
+                        break;
+                    case 2 :
+                        $builder->add('idPoleEmploi', TextType::class, [
+                            'label' => 'Identifiant Pole Emploi *',
+                            'attr' => [
+                                'class' => 'form-control'
+                            ],
+                            'label_attr' => [
+                                'class' => 'form-label'
+                            ]
+                        ])
+                            ->remove('activityCategory');
+                        break;
+                    case 3 :
+                        $builder->add('sirenOrRm', TextType::class, [
+                            'label' => 'SIREN ou RM *',
+                            'attr' => [
+                                'class' => 'form-control'
+                            ],
+                            'label_attr' => [
+                                'class' => 'form-label'
+                            ]
+                        ]);
+                        break;
+                    case 4 :
+                        $builder->add('siret', TextType::class, [
+                            'label' => 'SIRET *',
+                            'attr' => [
+                                'class' => 'form-control'
+                            ],
+                            'label_attr' => [
+                                'class' => 'form-label'
+                            ]
+                        ]);
+                        break;
+                    default :
+                        break;
+                }
+                break;
+            case 4 :
+                $builder->add('isStagiaireMultiple', ChoiceType::class, [
+                    'label' => 'Souhaitez-vous préinscrire plusieurs stagiaires de votre entreprise à cette formation ? *',
+                    'choices' => [
+                        'Oui' => 1,
+                        'Non, que moi' => 0,
+                    ],
+                    'attr' => [
+                        'class' => 'buttons-group',
+                        'role' => 'group',
+                    ],
+                    'expanded' => true
+                ]);
+                break;
+            case 5 :
+                $builder
+                    ->add('stagiaires', CollectionType::class, [
+                        'entry_type' => StagiairesType::class,
+                        'label' => ' ',
+                        'entry_options' => [
+                            'label' => ' ',
+                            'attr' => ['class' => 'row'],
+                        ],
+                        'allow_add' => true,
+                        'attr' => [
+                            'value' => 'null'
+                        ],
+                        'allow_delete' => true,
+                    ]);
+                break;
+            case 6 :
+                $builder->add('knowsUs', ChoiceType::class, [
+                    'label' => 'J\'ai connu le centre de formation LAGOON® par...',
+                    'choices' => [
+                        'Recommandation d\'un proche/collègue' => 'Recommandation d\'un proche/collègue',
+                        'Article ou Publicité dans un magazine' => 'Article ou Publicité dans un magazine',
+                        'Lors d’un salon' => 'Lors d’un salon',
+                        'Par un site internet' => 'Par un site internet',
+                        'Dans une boutique' => 'Dans une boutique',
+                        'J\'ai reçu un mail' => 'J\'ai reçu un mail',
+                        'Autre' => 'Autre',
+                    ],
+                    'choice_attr' => function() {
+                        return ['class' => ''];
+                    },
+                    'row_attr' => [
+                        'class' => '',
+                    ],
+                    'multiple' => true,
+                    'expanded' => true,
+                    'required' => false,
+                ])
+                    ->add('funding', ChoiceType::class, [
+                        'label' => 'Je pense financer la formation par... *',
+                        'choices' => [
+                            'Mes fonds personnels' => 'Mes fonds personnels',
+                            'Les fonds de formation des entreprises' => 'Les fonds de formation des entreprises',
+                            'Le financement Pôle Emploi/Région' => 'Le financement Pôle Emploi/Région',
+                            'Un financement mixte' => 'Un financement mixte',
+                            'Je ne sais pas encore' => 'Je ne sais pas encore',
+                        ],
+                        'choice_attr' => function() {
+                            return ['class' => ''];
+                        },
+                        'row_attr' => [
+                            'class' => '',
+                        ],
+                        'multiple' => false,
+                        'expanded' => true,
+                        'required' => true,
+                    ])
+                    ->add('prerequisites', TextType::class, [
+                        'attr' => [
+                            'value' => 'null',
+                            'class' => 'form-control'
+                        ],
+                        'label_attr' => [
+                            'class' => 'form-label'
+                        ]
+                    ]);
 
+                if($options['data']->getStatus()->getId() === 1 && $options['data']->isIsStagiaireMultiple() === false) {
+                    $builder->add('handicap', CheckboxType::class, [
+                        'attr' => [
+                            'class' => 'form-check-input',
+                        ],
+                        'row_attr' => [
+                            'class' => 'form-check',
+                        ],
+                        'label' => 'Je suis en situation de handicap, je souhaite que vous étudiiez les solutions possibles pour que j\'accède à cette formation.',
+                        'label_attr' => [
+                            'class' => 'form-check-label'
+                        ],
+                        'required' => false,
+                    ]);
+                }
 
-            ->add('save', SubmitType::class, [
-                'label' => 'Valider',
-                'disabled' => true,
-                'attr' => [
-                    'class' => 'btn btn-lg btn-brand mt-5',
-                ]
-            ])
-        ;
-
-        //display each sessions depending formation's choice
-        $addSession = function (FormInterface $form, FormationLibelles $formation = null) {
-            $sessions = null === $formation ? [] : $formation->getFormationSessions();
-
-            $form->add('formationSession', EntityType::class, [
-                'class' => FormationSessions::class,
-                'placeholder' => '',
-                'label' => 'Date de formation souhaitée : ',
-                'choices' => $sessions,
-                'expanded' => true
-            ]);
-        };
-
-        //get the sessions for the preselected formation
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) use ($addSession) {
-                $data = $event->getData();
-
-                $addSession($event->getForm(), $data->getFormationLibelle());
-            }
-        );
-
-        //get the sessions when selected formationLibelle change
-        $builder->get('formationLibelle')->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function (FormEvent $event) use ($addSession) {
-                $formation = $event->getForm()->getData();
-
-                $addSession($event->getForm()->getParent(), $formation);
-            }
-        );
+                if($options['data']->isIsStagiaireMultiple() === false) {
+                    $builder->add('mathematics', CheckboxType::class, [
+                        'attr' => [
+                            'class' => 'form-check-input',
+                        ],
+                        'row_attr' => [
+                            'class' => 'form-check',
+                        ],
+                        'label' => 'Je ne suis pas allergique aux mathématiques de base (+, -, x, :...)',
+                        'label_attr' => [
+                            'class' => 'form-check-label fw-bold'
+                        ],
+                        'required' => false,
+                    ]);
+                } else {
+                    $builder->add('mathematics', CheckboxType::class, [
+                        'attr' => [
+                            'class' => 'form-check-input',
+                        ],
+                        'row_attr' => [
+                            'class' => 'form-check',
+                        ],
+                        'label' => 'Les stagiaires ne sont pas allergiques aux mathématiques de base (+, -, x, :...)',
+                        'label_attr' => [
+                            'class' => 'form-check-label fw-bold'
+                        ],
+                        'required' => false,
+                    ]);
+                }
+                break;
+            case 7 :
+                $builder->add('consents', ChoiceType::class, [
+                    'label' => ' ',
+                    'choices' => [
+                        'En soumettant ce formulaire, j’accepte que mes informations soient utilisées exclusivement dans 
+                le cadre de ma demande et de la relation commerciale éthique et personnalisée qui pourrait en découler 
+                si je le souhaite et je reconnais avoir pris connaissance de la politique de traitement et d\'utilisation 
+                des données relative à la RGPD disponible en cliquant ici.' => 1,
+                        'J\'ai lu et j’accepte les Conditions Générales de Vente de LAGOON® DISTRIBUTION CORPORATION.' => 2,
+                        'J\'ai été informé que si ma candidature est retenue, 30% du montant total de la formation est 
+                nécessaire pour réserver ma (ou mes) place(s) ; le solde devant etre réglé au plus tard 15 jours avant le début de ma formation.' => 3
+                    ],
+                    'mapped' => false,
+                    'multiple' => true,
+                    'expanded' => true,
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-check'
+                    ],
+                    'label_attr' => [
+                        'class' => 'form-check-label'
+                    ],
+                ]);
+                break;
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => FormationAsks::class,
-            'departments' => null,
+            'departments' => [],
+            'formation' => null,
+            'formationId' => null,
+            'status' => null,
+            'allow_extra_fields' => true,
         ]);
     }
 }

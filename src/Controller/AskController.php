@@ -3,10 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\FormationAsks;
+use App\Entity\Stagiaires;
 use App\Form\AsksType;
 use App\Repository\DepartmentsRepository;
+use App\Repository\FormationLibellesRepository;
+use App\Repository\FormationPricesRepository;
+use App\Service\AsanaManager;
 use App\Service\AskSaver;
+use App\Service\AskSetter;
 use App\Service\CustomMailer;
+use App\Service\FormationAskFlow;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,46 +29,57 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AskController extends AbstractController
 {
-    /***
-     * Displays the form to ask for a formation, save the ask and send email
-     *
-     * @param EntityManagerInterface $entityManager
-     * @param Request $request
-     * @param DepartmentsRepository $departmentsRepository
-     * @param CustomMailer $mailer
-     * @param AskSaver $askSaver
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     */
-    #[Route('/demande-de-formation', name: 'app_ask')]
-    public function ask(EntityManagerInterface $entityManager, Request $request, DepartmentsRepository $departmentsRepository, CustomMailer $mailer, AskSaver $askSaver)
+    #[Route('/demande-de-formation/{formationId}', name: 'app_ask')]
+    public function ask($formationId, EntityManagerInterface $em, FormationAskFlow $flow, Request $request, FormationLibellesRepository $flRepo, FormationPricesRepository $fpRepo, DepartmentsRepository $dRepo, AskSetter $askSetter, AskSaver $askSaver)
     {
-        $ask = new FormationAsks();
-        $departments = $departmentsRepository->findAll();
-        $form = $this->createForm(AsksType::class, $ask, ['departments' => $departments]);
-        $form->handleRequest($request);
+        $formation = $flRepo->find($formationId);
+        $ask = new FormationAsks($formation);
+        $form = $askSetter->setForm($flow, $ask, $formationId);
 
-        if (!$request->isXmlHttpRequest()) {
-            if ($form->isSubmitted() && $form->isValid()) {
-                $askSaver->saveUnMappedFormFieldsToAsk($_POST, $ask);
+        $instance = $flow->getInstanceId();
+        $prerequisites = null;
+        $priceToShow = 0;
 
-                if($ask->getStagiaires() !== null) {
-                    foreach ($ask->getStagiaires() as $stagiaire) {
-                        $entityManager->persist($stagiaire);
+        $pricesArray = $askSetter->getPrices($flow, $request, $form);
+
+        if ($flow->isValid($form)) {
+            $flow->saveCurrentStepData($form);
+
+            if ($request->isXmlHttpRequest()) {
+                $form = $flow->createForm();
+            } else {
+                if ($flow->nextStep()) {
+                    if ($flow->getCurrentStepLabel() === 'CS') {
+                        $askSetter->createCompanyDirectorLearner($flow);
+                        $priceToShow = $askSetter->getPricesWhenNumberOfLearnersChange($flow, $priceToShow);
+                    } else if ($flow->getCurrentStepLabel() === 'R') {
+                        $askSaver->saveUnMappedFormFieldsToAsk($_POST, $ask);
+                        $prerequisites = json_decode($ask->getPrerequisites());
                     }
+
+                    // form for the next step
+                    $form = $flow->createForm();
+                } else {
+                    $askSaver->persistAndFlush($ask, $formation);
+
+                    $this->addFlash('success', 'Votre demande de formation a bien été envoyée.');
+                    return $this->redirectToRoute('app_home');
                 }
-
-                $entityManager->persist($ask);
-                $entityManager->flush();
-
-                $mailer->sendAskMail($ask, $ask->getStatus());
-
-                $this->addFlash('success', 'Votre demande de formation a bien été envoyée.');
-                return $this->redirectToRoute('app_home');
             }
         }
+        $prerequisites = json_decode($ask->getPrerequisites());
+        $prerequisites = (array) $prerequisites;
 
-        return $this->renderForm('ask/ask.html.twig', [
-            "form" => $form,
+        return $this->render('ask/index.html.twig', [
+            "form" => $form->createView(),
+            "flow" => $flow,
+            "prices" => $pricesArray,
+            "priceForStagiairesSaved" => $priceToShow,
+            "ask" => $ask,
+            "instance" => $instance,
+            "prerequisites" => $prerequisites,
+            "formation" => $formation,
+            "formationId" => $formationId,
         ]);
     }
 }

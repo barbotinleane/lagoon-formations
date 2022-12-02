@@ -32,7 +32,7 @@ class FormationController extends AbstractController
     }
 
     /***
-     * Display details of formation 'Installation de Bassin paysager de type Lagoon'
+     * Display details of formation 'Réalisation de Piscine ou Bassin écologique de type Lagon'
      *
      * @return Response
      */
@@ -41,7 +41,7 @@ class FormationController extends AbstractController
     {
         return $this->render('formation/bassin.html.twig', [
             'program' => 'bassin',
-            'formationName' => 'Installation de Bassin Paysager de type LAGOON',
+            'formationName' => 'Réalisation de Piscine ou Bassin écologique de type Lagon',
         ]);
     }
 

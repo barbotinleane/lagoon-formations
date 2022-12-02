@@ -22,22 +22,41 @@ class StagiairesType extends AbstractType
     {
         $builder
             ->add('firstName', TextType::class, [
-                'label' => 'Prénom'
+                'label' => 'Prénom',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'row_attr' => [
+                    'class' => 'col-10 col-md-5'
+                ],
+                'label_attr' => [
+                    'class' => 'form-label'
+                ]
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'Nom'
-            ])
-            ->add('email', TextType::class, [
-                'label' => 'Email'
-            ])
-            ->add('phoneNumber', NumberType::class, [
-                'label' => 'Numéro de Téléphone'
-            ])
-            ->add('currentJob', TextType::class, [
-                'label' => 'Poste occupé et depuis combien de temps'
+                'label' => 'Nom',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'row_attr' => [
+                    'class' => 'col-10 col-md-5'
+                ],
+                'label_attr' => [
+                    'class' => 'form-label'
+                ]
             ])
             ->add('handicap', CheckboxType::class, [
+                'attr' => [
+                    'value' => 'null',
+                    'class' => 'form-check-input'
+                ],
+                'row_attr' => [
+                    'class' => 'form-check'
+                ],
                 'label' => 'Stagiaire en situation de handicap, je souhaite que vous étudiiez les solutions possibles pour qu\'il accède à cette formation.',
+                'label_attr' => [
+                    'class' => 'form-check-label'
+                ],
                 'required' => false,
             ])
         ;

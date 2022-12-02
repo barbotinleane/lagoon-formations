@@ -23,7 +23,7 @@
                     <div class="d-flex">
                         <a
                                 class="btn btn-second btn-lg"
-                                href="{{ path('app_ask') }}"
+                                href="{{ path('app_ask', {formationId: 2}) }}"
                         >
                             <i class="fa fa-play" aria-hidden="true"></i>
                             &nbsp;Faire une demande de formation
@@ -93,7 +93,7 @@
             </div>
         </div>
 
-        {% include 'formation/reusables/call_to_action.html.twig' %}
+        {% include 'formation/reusables/call_to_action.html.twig' with {'formationId': 2} %}
     </div>
 
     {% include 'formation/reusables/documentation.html.twig' %}

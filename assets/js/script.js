@@ -1,8 +1,3 @@
-
-
-
-
-
 /*//for tooltips
 const tooltips = document.querySelectorAll('.tt')
 tooltips.forEach(t => {
@@ -89,9 +84,17 @@ $(document).ready(function() {
     $('#asks_formationSession').html('<div class="loader"></div>')
     // ... retrieve the corresponding form.
     var $form = $(this).closest('form');
+    var instance = $("#asks_flow_formationAsk_instance").val();
+    var step = $("#asks_flow_formationAsk_step").val();
+    console.log(instance);
+    console.log(step);
     // Simulate form data, but only include the selected formation value.
     var data = {};
     data[$formation.attr('name')] = $formation.val();
+    data["asks[_token]"] = $('#asks__token').val();
+    console.log($('input[name=\'asks[status]\']:checked').val());
+    data["asks[status]"] = $('input[name=\'asks[status]\']:checked').val();
+    data["asks[activityCategory]"] = $("input[name='asks[activityCategory]']").val();
 
     if($formation.val() == 1) {
       $('#asks_prerequisites').val('true');
@@ -102,15 +105,18 @@ $(document).ready(function() {
     }
     // Submit data via AJAX to the form's action path.
     $.ajax({
-      url: $form.attr('action'),
+      url: "demande-de-formation?instance="+instance+"&step="+step,
       type: $form.attr('method'),
       data: data,
       complete: function (html) {
         // Replace current session field ...
-        $('#asks_formationSession').replaceWith(
-            // ... with the returned one from the AJAX response.
-            $(html.responseText).find('#asks_formationSession')
-        );
+        console.log(html.responseText);
+        if($(html.responseText).find('#asks_formationSession').length > 0) {
+          $('#asks_formationSession').replaceWith(
+              // ... with the returned one from the AJAX response.
+              $(html.responseText).find('#asks_formationSession')
+          );
+        }
         // Session field now displays the appropriate positions.
       }
     });

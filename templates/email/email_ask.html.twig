@@ -1,7 +1,7 @@
 <h1>Nouvelle demande de formation !</h1>
 
 <p>
-    Une nouvelle demande de formation a été effectuée sur <a href="https://lagoon-formations.com">LAGOON&reg; Formations</a>
+    Une nouvelle demande de formation a été effectuée sur <a href="https://lagoon-piscines.com">LAGOON&reg; Piscines</a>
     le {{ 'now'|date("d/m/Y \\à H:i") }}.
 </p>
 
@@ -38,6 +38,28 @@
         {% if ask.companyName and ask.companyName != "null" %}
             <li>Nom de l'entreprise : {{ ask.companyName }}</li>
         {% endif %}
+        {% if ask.companyAddress and ask.companyAddress != "null" %}
+            <li>
+                Siège social : {{ ask.companyName }}
+                <br>
+                {% if ask.companyPostalCode and ask.companyPostalCode != "null" %}
+                    {{ ask.companyPostalCode }}
+                {% endif %}
+                {% if ask.companyCity and ask.companyCity != "null" %}
+                    {{ ask.companyCity }}
+                {% endif %}
+                <br>
+                {% if ask.companyCountry and ask.companyCountry != "null" %}
+                    {{ ask.companyCountry }}
+                {% endif %}
+            </li>
+        {% endif %}
+        {% if ask.companyPhone and ask.companyPhone != "null" %}
+            <li>Téléphone de l'entreprise : {{ ask.companyPhone }}</li>
+        {% endif %}
+        {% if ask.companyEmail and ask.companyEmail != "null" %}
+            <li>Email de l'entreprise : {{ ask.companyEmail }}</li>
+        {% endif %}
         {% if ask.idPoleEmploi and ask.idPoleEmploi != "null" %}
             <li>Identifiant Pole Emploi : {{ ask.idPoleEmploi}}</li>
         {% endif %}
@@ -52,6 +74,12 @@
         {% endif %}
         {% if ask.firstName %}
             <li>Prénom : {{ ask.firstName }}</li>
+        {% endif %}
+        {% if ask.dateOfBirth %}
+            <li>Date de naissance : {{ ask.dateOfBirth }}</li>
+        {% endif %}
+        {% if ask.placeOfBirth %}
+            <li>Lieu de naissance : {{ ask.placeOfBirth }}</li>
         {% endif %}
         {% if ask.email %}
             <li>Email : {{ ask.email }}</li>
@@ -75,7 +103,16 @@
             <li>Pays : {{ ask.country }}</li>
         {% endif %}
         {% if ask.activityCategory %}
-            <li>Catégorie d'activité : {{ ask.activityCategory }}</li>
+            <li>
+                Catégorie d'activité :
+                <ul>
+                    {% for item in ask.activityCategory %}
+                        <li>{{ item }}</li>
+                    {% else %}
+                        <i>Aucune donnée</i>
+                    {% endfor %}
+                </ul>
+            </li>
         {% endif %}
         {% if ask.handicap == 1 %}
             <li>Handicap : Oui</li>
@@ -88,6 +125,14 @@
 <div>
     <h2>Pré-requis : </h2>
     <ul>
+        <li>
+            Allergique aux mathématiques de base :
+            {% if ask.mathematics == 1 %}
+                 Oui
+            {% else %}
+                Non
+            {% endif %}
+        </li>
         {% for key, value in prerequisites %}
             <li>{{ key }} : {{ value }}</li>
         {% else %}
@@ -97,23 +142,23 @@
 </div>
 
 <div>
-    <h2>Les stagiaires : </h2>
-    {% for stagiaire in stagiaires %}
-    <ul>
-        <li>Prénom : {{ stagiaire.firstName }}</li>
-        <li>Nom : {{ stagiaire.lastName }}</li>
-        <li>Email : {{ stagiaire.email }}</li>
-        <li>Numéro de téléphone : {{ stagiaire.phoneNumber }}</li>
-        <li>Poste occupé et depuis combien de temps : {{ stagiaire.currentJob }}</li>
-        {% if stagiaire.handicap == 1 %}
-            <li>Handicap : Oui</li>
+    {% if ask.stagiaires %}
+        <h2>Les stagiaires : </h2>
+
+        {% for stagiaire in stagiaires %}
+        <ul>
+            <li>Prénom : {{ stagiaire.firstName }}</li>
+            <li>Nom : {{ stagiaire.lastName }}</li>
+            {% if stagiaire.handicap == 1 %}
+                <li>Handicap : Oui</li>
+            {% else %}
+                <li>Handicap : Non</li>
+            {% endif %}
+        </ul>
         {% else %}
-            <li>Handicap : Non</li>
-        {% endif %}
-    </ul>
-    {% else %}
-    <p><i>Pas de stagiaire</i></p>
-    {% endfor %}
+        <p><i>Pas de stagiaire</i></p>
+        {% endfor %}
+    {% endif %}
 </div>
 
 <div>
@@ -126,4 +171,7 @@
         <i>Aucune donnée</i>
         {% endfor %}
     </ul>
+
+    <h3>Pense financer la formation par...</h3>
+    <ul><li>{{ ask.funding }}</li></ul>
 </div>
