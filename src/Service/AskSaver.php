@@ -29,7 +29,6 @@ class AskSaver
      * @return void
      */
     public function savePrerequisites($data, FormationAsks $ask) {
-        dump($data);
         $prerequisites = [
             'Visseuse' => $data['visseuse'],
             'Perceuse' => $data['perceuse'],

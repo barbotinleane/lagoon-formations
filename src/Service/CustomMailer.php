@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Twig\Environment;
 
 /***
  * Service used to send custom emails
@@ -18,11 +19,13 @@ class CustomMailer
 {
     private $mailer;
     private $router;
+    private $twig;
 
-    public function __construct(MailerInterface $mailer, RouterInterface $router)
+    public function __construct(MailerInterface $mailer, RouterInterface $router, Environment $twig)
     {
         $this->mailer = $mailer;
         $this->router = $router;
+        $this->twig = $twig;
     }
 
     /***
@@ -43,23 +46,18 @@ class CustomMailer
             $prerequisites = json_decode($ask->getPrerequisites(), true);
         }
 
-        $email = (new TemplatedEmail())
-            ->from('form@lagoon-formations.com')
-            ->to('barbotinleane@gmail.com')
-            ->subject('Nouvelle demande de formation !')
-            ->htmlTemplate('email/email_ask.html.twig')
-            ->context([
-                'ask' => $ask,
-                'stagiaires' => $stagiaires,
-                'prerequisites' => $prerequisites,
-                'status' => $status,
-            ])
-        ;
+        $to = 'barbotinleane@gmail.com';
+        //$to = 'formation@lagoon-piscines.com';
+        $subject = 'Nouvelle demande de formation !';
+        $headers[] = 'MIME-Version: 1.0';
+        $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+        $content = $this->twig->render('email/email_ask.html.twig', [
+            'ask' => $ask,
+            'stagiaires' => $stagiaires,
+            'prerequisites' => $prerequisites,
+            'status' => $status,
+        ]);
 
-        try {
-            $this->mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            return new RedirectResponse($this->router->generate('app_404_error'));
-        }
+        mail($to, $subject, $content, implode("\r\n", $headers));
     }
 }
