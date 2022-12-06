@@ -53,13 +53,14 @@ class AskController extends AbstractController
                         $askSetter->createCompanyDirectorLearner($flow);
                         $priceToShow = $askSetter->getPricesWhenNumberOfLearnersChange($flow, $priceToShow);
                     } else if ($flow->getCurrentStepLabel() === 'R') {
-                        $askSaver->saveUnMappedFormFieldsToAsk($_POST, $ask);
+                        $ask = $askSaver->saveUnMappedFormFieldsToAsk($_POST, $ask);
                         $prerequisites = json_decode($ask->getPrerequisites());
                     }
 
                     // form for the next step
                     $form = $flow->createForm();
                 } else {
+                    $ask->setPrerequisites($_POST['prerequisites']);
                     $askSaver->persistAndFlush($ask, $formation);
 
                     $this->addFlash('success', 'Votre demande de formation a bien été envoyée.');
