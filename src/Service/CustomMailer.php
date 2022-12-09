@@ -46,8 +46,8 @@ class CustomMailer
             $prerequisites = json_decode($ask->getPrerequisites(), true);
         }
 
-        //$to = 'barbotinleane@gmail.com';
-        $to = 'formation@lagoon-piscines.com';
+        $to = 'barbotinleane@gmail.com';
+        //$to = 'formation@lagoon-piscines.com';
         $subject = 'Nouvelle demande de formation !';
         $headers[] = 'MIME-Version: 1.0';
         $headers[] = 'Content-type: text/html; charset=iso-8859-1';
