@@ -20,8 +20,6 @@ final class Version20221129150924 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP TABLE faq');
-        $this->addSql('DROP TABLE news');
         $this->addSql('ALTER TABLE formation_asks ADD mathematics TINYINT(1) DEFAULT NULL, DROP personnalized_session');
         $this->addSql('ALTER TABLE stagiaires DROP email, DROP phone_number, DROP current_job');
     }
