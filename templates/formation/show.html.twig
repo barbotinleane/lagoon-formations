@@ -1,0 +1,332 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LAGOON&reg; Piscines - Formation Réalisation de Piscine et Bassin écologique de type Lagon{% endblock %}
+
+{% block description %}
+    Devenez installateur de piscines écologiques LAGOON® en résine et EPDM au cours d'une formation certifiée
+    Qualiopi dans les Alpes Maritimes. Cette formation est financée par Pole Emploi.
+{% endblock %}
+
+{% block body %}
+    <div id="corps" class="mt-5">
+        <div class="row py-5 px-none px-md-4 px-lg-5">
+            <div class="text-title">
+                <div class="text-uppercase fw-light">Formation</div>
+                <h1 class="raleway-black size-1">
+                    {{ formation.libelle }}
+                </h1>
+                <p class="w-75">
+                    {{ formation.presentation }}
+                </p>
+                <a class="btn btn-brand btn-lg rounded-corners"
+                   href="{{ path('app_ask', {formationId: formation.id}) }}">
+                    <i class="fa fa-play" aria-hidden="true"></i>
+                    &nbsp;Faire une demande de formation
+                </a>
+            </div>
+        </div>
+
+        <div class="row bg-dark text-white">
+            <div class="col-12 col-md-8 p-2 p-md-5">
+                <div class="d-flex align-items-center">
+                    <div class="fs-1 pe-3">
+                        <i class="fas fa-crosshairs"></i>
+                    </div>
+                    <h2 class="baskerville">Objectifs de la formation</h2>
+                </div>
+                <div class="ps-5">
+                    A l'issue de la formation, les stagiaires seront capables :
+                    <ul>
+                        {% for goal in formation.formationGoals %}
+                            <li>{{ goal.goal }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 p-2 p-md-5">
+                <div class="bg-second rounded-corners p-5 fw-bold">
+                    <table>
+                        <tr>
+                            <td>
+                                <i class="fa fa-map-marker"></i>
+                            </td>
+                            <td>
+                                &nbsp;{{ formation.place }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i class="fa fa-euro"></i>
+                            </td>
+                            <td>
+                                &nbsp;{{ formation.cost }} €
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: top">
+                                <i class="fa fa-calendar"></i>
+                            </td>
+                            <td>
+                                &nbsp;{{ formation.duration }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row bg-dark py-5 justify-content-around">
+            {% for image in formation.formationImages %}
+                <div class="col-12 col-sm-6 col-md-4">
+                    <img src="{{ asset('uploads/images/formations/' ~ image.imageName) }}"
+                         alt="Image descriptive de la formation {{ formation.libelle }}"
+                         class="h-100 img-gallery">
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="row section big-spacing bg-brand-light">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-12 col-sm-2 pb-2 text-center">
+                    <i class="fa fa-university size-big" aria-hidden="true"></i>
+                </div>
+                <div class="col-12 col-sm-10 ps-none ps-sm-5">
+                    <h2 class="raleway-black size-2">
+                        Notre formation peut être financée en tout ou partie par l’état
+                    </h2>
+                    <p>
+                        N'hésitez pas à contacter votre organisme collecteur qui vous aidera pour son
+                        financement (<a href="https://www.fifpl.fr/" target="_blank">
+                            FIFPL</a>, <a href="https://www.ocapiat.fr/" target="_blank">
+                            OCAPIAT</a>, <a href="https://www.fafcea.com/" target="_blank">
+                            FAFCEA</a>, <a href="https://communication-agefice.fr/" target="_blank">
+                            AGEFICE</a>, <a href="https://vivea.fr/" target="_blank">Vivea</a>,
+                        <a href="https://www.pole-emploi.fr/accueil/" target="_blank">Pôle Emploi</a>...).
+                    </p>
+                    <div class="w-adaptative mx-auto bg-blue d-flex flex-column">
+                        <div class="d-flex align-items-center justify-content-around">
+                            <picture>
+                                <source srcset="{{ asset('build/images/datadock.webp') }}" type="image/webp" class="img-size">
+                                <source srcset="{{ asset('build/images/datadock.png') }}" type="image/png" class="img-size">
+                                <img src="{{ asset('build/images/datadock.png') }}" alt="Logo du datadock de la formation de piscine écologique LAGOON" class="img-size">
+                            </picture>
+                            <div class="d-flex">
+                                <picture>
+                                    <source srcset="{{ asset('build/images/qualiopi.webp') }}" type="image/webp" class="img-size">
+                                    <source srcset="{{ asset('build/images/qualiopi.png') }}" type="image/png" class="img-size">
+                                    <img src="{{ asset('build/images/qualiopi.png') }}" alt="Logo du qualiopi de la formation LAGOON" class="img-size">
+                                </picture>
+                                <a
+                                        href="https://certificats-attestations.afnor.org/certification=128289183752"
+                                        target="_blank"
+                                >
+                                    <picture>
+                                        <source srcset="{{ asset('build/images/qr-certif.webp') }}" type="image/webp" class="img-size">
+                                        <source srcset="{{ asset('build/images/qr-certif.png') }}" type="image/png" class="img-size">
+                                        <img src="{{ asset('build/images/qr-certif.png') }}" alt="QR code prouvant la validité du certificat afnor de la formation proposée par LAGOON" class="img-size">
+                                    </picture>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-around pt-3">
+                            <a
+                                    href="https://candidat.pole-emploi.fr/formations/detail/4158608/true"
+                                    target="_blank"
+                            >
+                                <picture>
+                                    <source srcset="{{ asset('build/images/logo_pole_emploi.webp') }}" type="image/webp" class="img-size">
+                                    <source srcset="{{ asset('build/images/logo_pole_emploi.png') }}" type="image/png" class="img-size">
+                                    <img src="{{ asset('build/images/logo_pole_emploi.png') }}"
+                                         alt="Logo pole emploi indiquant que la formation est finançable par pole emploi"
+                                         class="img-size bg-white">
+                                </picture>
+                            </a>
+                            <picture>
+                                <source srcset="{{ asset('build/images/logo_vivea.webp') }}" type="image/webp" class="img-size">
+                                <source srcset="{{ asset('build/images/logo_vivea.png') }}" type="image/png" class="img-size">
+                                <img src="{{ asset('build/images/logo_vivea.png') }}"
+                                     alt="Logo vivea indiquant que la formation est finançable par vivea"
+                                     class="img-size">
+                            </picture>
+                            <picture>
+                                <source srcset="{{ asset('build/images/ocapiat_logo.webp') }}" type="image/webp" class="img-size">
+                                <source srcset="{{ asset('build/images/ocapiat_logo.png') }}" type="image/png" class="img-size">
+                                <img src="{{ asset('build/images/ocapiat_logo.png') }}"
+                                     alt="Logo ocapiat indiquant que la formation est finançable par ocapiat"
+                                     class="img-size bg-white">
+                            </picture>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if formation.satisfactionRate is not empty or formation.companyApprovalRate is not empty or formation.individualSuccessRate is not empty %}
+            <div class="row section big-spacing bg-light">
+                <div class="row justify-content-around">
+                    <h2 class="text-center baskerville size-2 mb-5">Nos partenaires sont satisfaits de notre formation</h2>
+
+                    {% if formation.companyApprovalRate is not empty %}
+                        <div class="col-12 col-sm-4 text-center">
+                            <div class="raleway-black size-1">
+                                {{ formation.companyApprovalRate }}%
+                            </div>
+                            Taux d'agrément entreprise
+                        </div>
+                    {% endif %}
+
+                    {% if formation.individualSuccessRate is not empty %}
+                        <div class="col-12 col-sm-4 text-center">
+                            <div class="raleway-black size-1">
+                                {{ formation.individualSuccessRate }}%
+                            </div>
+                            Taux de réussite individuelle
+                        </div>
+                    {% endif %}
+
+                    {% if formation.satisfactionRate is not empty %}
+                        <div class="col-12 col-sm-4 text-center">
+                            <div class="raleway-black size-1">
+                                {{ formation.satisfactionRate }}%
+                            </div>
+                            Taux de satisfaction
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if formation.id == 1 %}
+            <div class="row section bg-dark text-light">
+                <h2 class="text-center baskerville">Des commentaires de stagiaires</h2>
+
+                <div id="carouselClients" class="carousel carousel-light slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active text-center mt-4" data-bs-interval="5000">
+                            <p class="w-75 mx-auto">
+                                <em>
+                                    Top ! L'équilibre temps de théorie et de pratique était très bien. De plus,
+                                    les formateurs savent très bien se mobiliser et s'adapter aux participants.
+                                </em>
+                            </p>
+
+                            <p class="w-75 mx-auto">
+                                <strong>Christophe<br></strong>
+                                Paris
+                            </p>
+                        </div>
+
+                        <div class="carousel-item text-center mt-4" data-bs-interval="5000">
+                            <p class="w-75 mx-auto">
+                                <em>Merci pour tout, super équipe, formateurs au top !</em>
+                            </p>
+                            <strong>Florian<br></strong>
+                            Alsace
+                        </div>
+
+                        <div class="carousel-item text-center mt-4" data-bs-interval="5000">
+                            <p class="w-75 mx-auto">
+                                <em>
+                                    Parfaits formateurs ! Les supports pédagogiques sont suffisants et clairs,
+                                    utilisables et exploitables pour la suite
+                                </em>
+                            </p>
+
+                            <p class="w-75 mx-auto">
+                                <strong>Ludovic<br></strong>
+                                Salon de Provence
+                            </p>
+                        </div>
+
+                        <div class="carousel-item text-center mt-4" data-bs-interval="5000">
+                            <p class="w-75 mx-auto">
+                                <em>
+                                    Un grand merci à toute l'équipe ! J'ai kiffé grave.
+                                </em>
+                            </p>
+
+                            <p class="w-75 mx-auto">
+                                <strong>Lancelot<br></strong>
+                                Alsace
+                            </p>
+                        </div>
+                    </div>
+
+                    <button
+                            class="carousel-control-prev"
+                            type="button"
+                            data-bs-target="#carouselClients"
+                            data-bs-slide="prev"
+                    >
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                            class="carousel-control-next"
+                            type="button"
+                            data-bs-target="#carouselClients"
+                            data-bs-slide="next"
+                    >
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+
+
+        <div class="row section big-spacing row justify-content-around align-items-center">
+            <div class="col-12 col-sm-4">
+                <picture>
+                    <source srcset="{{ asset('build/images/demarrer_metier.webp') }}" type="image/webp" class="w-100">
+                    <source srcset="{{ asset('build/images/demarrer_metier.jpg') }}" type="image/jpeg" class="w-100">
+                    <img src="{{ asset('build/images/demarrer_metier.jpg') }}" alt="Trois installateurs de piscine écologique souriant démarrant leur équipe et ayant été formées par LAGOON" class="w-100">
+                </picture>
+            </div>
+            <div class="col-12 col-sm-8">
+                <h2 class="raleway-black size-2">
+                    Prêts à démarrer votre <span class="underline-blue">nouveau métier</span> ?
+                </h2>
+                <div class="pt-5 d-flex justify-content-end">
+                    <div>
+                        <a type="button"
+                           class="btn btn-yellow btn-brand rounded-corners"
+                           href="{{ path('app_ask', {formationId: formation.id}) }}">
+                            <i class="fa fa-play" aria-hidden="true"></i>
+                            &nbsp;Faites une demande de formation en ligne
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row section d-flex justify-content-around align-items-center bg-second">
+            <div class="col-12 col-sm-8 order-2 order-sm-1 pt-4">
+                <h3 class="raleway-black size-3">
+                    Envie d'en savoir plus ?
+                </h3>
+                <p>
+                    Parcourez notre charte de qualité, les conditions de la formation, ou encore le
+                    programme de la formation proposée.
+                </p>
+                <div>
+                    <button
+                            type="button"
+                            class="btn btn-dark btn-lg rounded-corners"
+                            data-bs-toggle="modal"
+                            data-bs-target="#documentation"
+                            style="background-color:#212529; color:white"
+                    >
+                        <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                        &nbsp;Voir la documentation
+                    </button>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4 order-1 order-sm-2 text-center">
+                <i class="fas fa-file-alt size-big"></i>
+            </div>
+        </div>
+    </div>
+    {% include 'formation/documentation.html.twig' %}
+
+{% endblock %}

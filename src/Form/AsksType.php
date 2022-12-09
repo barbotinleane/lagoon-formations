@@ -3,10 +3,8 @@
 namespace App\Form;
 
 use App\Entity\FormationAsks;
-use App\Entity\FormationLibelles;
 use App\Entity\FormationSessions;
 use App\Entity\Status;
-use App\Repository\FormationLibellesRepository;
 use App\Repository\FormationSessionsRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -18,9 +16,6 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /***
@@ -439,35 +434,18 @@ class AsksType extends AbstractType
                     ]);
                 }
 
-                if($options['data']->isIsStagiaireMultiple() === false) {
-                    $builder->add('mathematics', CheckboxType::class, [
-                        'attr' => [
-                            'class' => 'form-check-input',
-                        ],
-                        'row_attr' => [
-                            'class' => 'form-check',
-                        ],
-                        'label' => 'Je ne suis pas allergique aux mathématiques de base (+, -, x, :...)',
-                        'label_attr' => [
-                            'class' => 'form-check-label fw-bold'
-                        ],
-                        'required' => false,
-                    ]);
-                } else {
-                    $builder->add('mathematics', CheckboxType::class, [
-                        'attr' => [
-                            'class' => 'form-check-input',
-                        ],
-                        'row_attr' => [
-                            'class' => 'form-check',
-                        ],
-                        'label' => 'Les stagiaires ne sont pas allergiques aux mathématiques de base (+, -, x, :...)',
-                        'label_attr' => [
-                            'class' => 'form-check-label fw-bold'
-                        ],
-                        'required' => false,
-                    ]);
-                }
+                $builder->add('mathematics', ChoiceType::class, [
+                    'label' => false,
+                    'choices' => [
+                        'Oui' => 1,
+                        'Non' => 0,
+                    ],
+                    'attr' => [
+                        'class' => 'buttons-group',
+                        'role' => 'group',
+                    ],
+                    'expanded' => true
+                ]);
                 break;
             case 7 :
                 $builder->add('consents', ChoiceType::class, [

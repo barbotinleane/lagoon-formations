@@ -8,16 +8,13 @@
                 {% if formation.agrement == 0 %}
                     btn-{{ color[index] }}-disabled">
                 {% else %}
-                    btn-{{ color[index] }}" onclick="location.href = '{{ path(formation.route) }}'">
+                    btn-{{ color[index] }}" onclick="location.href = '{{ path('app_formation_show', {formationId: formation.id}) }}'">
                 {% endif %}
 
-                <picture>
-                    <source srcset="{{ asset('build/images/' ~ formation.image ~ '.webp') }}" type="image/webp" class="w-100">
-                    <source srcset="{{ asset('build/images/' ~ formation.image ~ '.jpg') }}" type="image/jpeg" class="w-100">
-                    <img src="{{ asset('build/images/' ~ formation.image ~ '.jpg') }}"
-                         alt="{{ formation.libelle }}"
-                         class="card-image w-100 form-image">
-                </picture>
+
+                <img src="{{ asset('uploads/images/formations/'~formation.image) }}"
+                     alt="{{ formation.libelle }}"
+                     class="card-image w-100 form-image">
                 <h3 class="pt-2">{{ formation.libelle }}</h3>
 
                 {% if formation.agrement == 0 %}

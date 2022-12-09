@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\FormationLibellesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,6 +14,18 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DocController extends AbstractController
 {
+    #[Route('/documentation/programme/{formationId}', name: 'app_doc_program')]
+    public function program($formationId, FormationLibellesRepository $flRepo): Response
+    {
+        $formation = $flRepo->find($formationId);
+        $programFilename = $formation->getProgramName();
+
+        return $this->render('doc/program.html.twig', [
+            'fileName' => $programFilename,
+            'name' => 'Programme de la formation '.$formation->getLibelle(),
+        ]);
+    }
+
     #[Route('/documentation/rgpd', name: 'app_doc_rgpd')]
     public function rgpd(): Response
     {

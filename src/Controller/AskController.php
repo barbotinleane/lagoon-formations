@@ -52,6 +52,12 @@ class AskController extends AbstractController
                     if ($flow->getCurrentStepLabel() === 'CS') {
                         $askSetter->createCompanyDirectorLearner($flow);
                         $priceToShow = $askSetter->getPricesWhenNumberOfLearnersChange($flow, $priceToShow);
+                    } else if ($flow->getCurrentStepLabel() === 'AR') {
+                        if($flow->getFormData()->isIsStagiaireMultiple() === true) {
+                            $isStagiaireMultiple = true;
+                        } else {
+                            $isStagiaireMultiple = false;
+                        }
                     } else if ($flow->getCurrentStepLabel() === 'R') {
                         $ask = $askSaver->saveUnMappedFormFieldsToAsk($_POST, $ask);
                         $prerequisites = json_decode($ask->getPrerequisites());
@@ -81,6 +87,7 @@ class AskController extends AbstractController
             "prerequisites" => $prerequisites,
             "formation" => $formation,
             "formationId" => $formationId,
+            "isStagiaireMultiple" => $isStagiaireMultiple,
         ]);
     }
 }

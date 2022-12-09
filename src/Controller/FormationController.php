@@ -31,6 +31,16 @@ class FormationController extends AbstractController
         ]);
     }
 
+    #[Route('/nos-formations/{formationId}', name: 'app_formation_show')]
+    public function show($formationId, FormationLibellesRepository $flRepo): Response
+    {
+        $formation = $flRepo->find($formationId);
+
+        return $this->render('formation/show.html.twig', [
+            "formation" => $formation,
+        ]);
+    }
+
     /***
      * Display details of formation 'Réalisation de Piscine ou Bassin écologique de type Lagon'
      *

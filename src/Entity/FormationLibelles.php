@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\FormationLibellesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /***
@@ -30,16 +31,10 @@ class FormationLibelles
     private $agrement;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $slug;
-
-    #[ORM\Column(type: 'string', length: 255)]
     private $duration;
 
     #[ORM\Column(type: 'integer')]
     private $cost;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $route;
 
     #[ORM\OneToMany(mappedBy: 'formation', targetEntity: FormationSessions::class, orphanRemoval: true)]
     private $formationSessions;
@@ -47,11 +42,40 @@ class FormationLibelles
     #[ORM\OneToMany(mappedBy: 'formationLibelle', targetEntity: FormationAsks::class)]
     private $asks;
 
+    #[ORM\Column(length: 255)]
+    private ?string $programName = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $presentation = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $place = null;
+
+    #[ORM\Column]
+    private ?bool $displayOnLagoonPiscines = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $satisfactionRate = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $individualSuccessRate = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $companyApprovalRate = null;
+
+    #[ORM\OneToMany(mappedBy: 'formation', targetEntity: FormationGoals::class, cascade: ['persist'], orphanRemoval: true)]
+    private Collection $formationGoals;
+
+    #[ORM\OneToMany(mappedBy: 'formation', targetEntity: FormationImages::class, cascade: ['persist'], orphanRemoval: true)]
+    private Collection $formationImages;
+
     public function __construct()
     {
         $this->formationSessions = new ArrayCollection();
         $this->formationAsks = new ArrayCollection();
         $this->asks = new ArrayCollection();
+        $this->formationGoals = new ArrayCollection();
+        $this->formationImages = new ArrayCollection();
     }
 
     public function __toString()
@@ -100,18 +124,6 @@ class FormationLibelles
         return $this;
     }
 
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
     public function getDuration(): ?string
     {
         return $this->duration;
@@ -132,18 +144,6 @@ class FormationLibelles
     public function setCost(int $cost): self
     {
         $this->cost = $cost;
-
-        return $this;
-    }
-
-    public function getRoute(): ?string
-    {
-        return $this->route;
-    }
-
-    public function setRoute(string $route): self
-    {
-        $this->route = $route;
 
         return $this;
     }
@@ -202,6 +202,150 @@ class FormationLibelles
             // set the owning side to null (unless already changed)
             if ($ask->getFormationLibelle() === $this) {
                 $ask->setFormationLibelle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getProgramName(): ?string
+    {
+        return $this->programName;
+    }
+
+    public function setProgramName(string $programName): self
+    {
+        $this->programName = $programName;
+
+        return $this;
+    }
+
+    public function getPresentation(): ?string
+    {
+        return $this->presentation;
+    }
+
+    public function setPresentation(string $presentation): self
+    {
+        $this->presentation = $presentation;
+
+        return $this;
+    }
+
+    public function getPlace(): ?string
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?string $place): self
+    {
+        $this->place = $place;
+
+        return $this;
+    }
+
+    public function isDisplayOnLagoonPiscines(): ?bool
+    {
+        return $this->displayOnLagoonPiscines;
+    }
+
+    public function setDisplayOnLagoonPiscines(bool $displayOnLagoonPiscines): self
+    {
+        $this->displayOnLagoonPiscines = $displayOnLagoonPiscines;
+
+        return $this;
+    }
+
+    public function getSatisfactionRate(): ?int
+    {
+        return $this->satisfactionRate;
+    }
+
+    public function setSatisfactionRate(?int $satisfactionRate): self
+    {
+        $this->satisfactionRate = $satisfactionRate;
+
+        return $this;
+    }
+
+    public function getIndividualSuccessRate(): ?int
+    {
+        return $this->individualSuccessRate;
+    }
+
+    public function setIndividualSuccessRate(?int $individualSuccessRate): self
+    {
+        $this->individualSuccessRate = $individualSuccessRate;
+
+        return $this;
+    }
+
+    public function getCompanyApprovalRate(): ?int
+    {
+        return $this->companyApprovalRate;
+    }
+
+    public function setCompanyApprovalRate(?int $companyApprovalRate): self
+    {
+        $this->companyApprovalRate = $companyApprovalRate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FormationGoals>
+     */
+    public function getFormationGoals(): Collection
+    {
+        return $this->formationGoals;
+    }
+
+    public function addFormationGoal(FormationGoals $formationGoal): self
+    {
+        if (!$this->formationGoals->contains($formationGoal)) {
+            $this->formationGoals->add($formationGoal);
+            $formationGoal->setFormation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFormationGoal(FormationGoals $formationGoal): self
+    {
+        if ($this->formationGoals->removeElement($formationGoal)) {
+            // set the owning side to null (unless already changed)
+            if ($formationGoal->getFormation() === $this) {
+                $formationGoal->setFormation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FormationImages>
+     */
+    public function getFormationImages(): Collection
+    {
+        return $this->formationImages;
+    }
+
+    public function addFormationImage(FormationImages $formationImage): self
+    {
+        if (!$this->formationImages->contains($formationImage)) {
+            $this->formationImages->add($formationImage);
+            $formationImage->setFormation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFormationImage(FormationImages $formationImage): self
+    {
+        if ($this->formationImages->removeElement($formationImage)) {
+            // set the owning side to null (unless already changed)
+            if ($formationImage->getFormation() === $this) {
+                $formationImage->setFormation(null);
             }
         }
 

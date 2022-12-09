@@ -9,7 +9,7 @@
             <div class="my-3">
                 <label>Formation demandée :</label>
                 <div class="text-center d-grid gap-2">
-                    <div class="btn btn-dark" style="cursor:default;">
+                    <div class="btn btn-dark rounded-corners" style="cursor:default;">
                         <strong>
                             {{ formation.libelle }}
                         </strong><br>
@@ -26,11 +26,11 @@
 
 
 
-        {% if flow.formData.status.getId != 1 and formation.id == 1 %}
+        {% if flow.formData.status.getId != 1 and formation.displayOnLagoonPiscines == 1 %}
             <div class="text-end fw-bold mb-4">
                 Coût estimé :
                 <div class="size-2">
-                    2500 €
+                    {{ formation.cost }} €
                 </div>
             </div>
         {% endif %}
