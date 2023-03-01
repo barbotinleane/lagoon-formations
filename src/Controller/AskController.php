@@ -32,7 +32,7 @@ class AskController extends AbstractController
     #[Route('/demande-de-formation/{formationId}', name: 'app_ask')]
     public function ask($formationId, EntityManagerInterface $em, FormationAskFlow $flow, Request $request, FormationLibellesRepository $flRepo, FormationPricesRepository $fpRepo, DepartmentsRepository $dRepo, AskSetter $askSetter, AskSaver $askSaver)
     {
-        $formation = $flRepo->find($formationId);
+        /*$formation = $flRepo->find($formationId);
         $ask = new FormationAsks($formation);
         $form = $askSetter->setForm($flow, $ask, $formationId);
 
@@ -88,6 +88,7 @@ class AskController extends AbstractController
             "formation" => $formation,
             "formationId" => $formationId,
             "isStagiaireMultiple" => $isStagiaireMultiple,
-        ]);
+        ]);*/
+        return $this->redirect('https://lagoon-piscines.com');
     }
 }

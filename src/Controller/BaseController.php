@@ -23,11 +23,12 @@ class BaseController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function home(FormationLibellesRepository $libellesRepository): Response
     {
-        $libelles = $libellesRepository->findThree();
+        /*$libelles = $libellesRepository->findThree();
 
         return $this->render('base/home.html.twig', [
             'formations' => $libelles
-        ]);
+        ]);*/
+        return $this->redirect('https://lagoon-piscines.com');
     }
 
     /***
@@ -39,7 +40,8 @@ class BaseController extends AbstractController
     #[Route('/a_propos', name: 'app_about_us')]
     public function aboutUs(FormationLibellesRepository $libellesRepository) : Response
     {
-        return $this->render('base/about.html.twig');
+        /*return $this->render('base/about.html.twig');*/
+        return $this->redirect('https://lagoon-piscines.com');
     }
 
     /***
@@ -50,7 +52,8 @@ class BaseController extends AbstractController
     #[Route('/politique_de_confidentialite', name: 'app_politic')]
     public function politic()
     {
-        return $this->render('base/politic.html.twig');
+        /*return $this->render('base/politic.html.twig');*/
+        return $this->redirect('https://lagoon-piscines.com');
     }
 
     /***
@@ -61,6 +64,7 @@ class BaseController extends AbstractController
     #[Route('/404', name: 'app_404_error')]
     public function error()
     {
-        return $this->render('base/404.html.twig');
+        /*return $this->render('base/404.html.twig');*/
+        return $this->redirect('https://lagoon-piscines.com');
     }
 }
