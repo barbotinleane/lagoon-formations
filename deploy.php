@@ -16,7 +16,7 @@ add('writable_dirs', []);
 host('lagoonformations')
     ->set('remote_user', 'lagoonk')
     ->set('http_user', 'lagoonk')
-    ->set('deploy_path', '~/testfacilforma')
+    ->set('deploy_path', '~/facilforma')
     ->set('branch', 'facilforma')
     ->set('writable_mode', 'chmod');
 
