@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('dashboard') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('dashboard') }}
+{% endblock %}
+
+{% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="container pt-lg-4">
+            <div class="row flex-nowrap">
+                <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-brand-dark">
+                    {% include 'dashboard/reusables/sidebar.html.twig' %}
+                </div>
+                <div class="col py-3 bg-white text-dark">
+                    {% block dashboardBody %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>Vous n'avez pas accès à cette page.</p>
+        <div class="text-center">
+            <a class="btn btn-blue" href="{{ path('app_home') }}">
+                Retour à la page d'accueil
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}

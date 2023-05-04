@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %}</title>
-        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ asset('build/images/favicon.ico') }}" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="{% block description %}{% endblock %}"/>
 
@@ -34,12 +34,9 @@
             <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white p-0">
                 <div class="container">
                     <a class="navbar-brand" href="{{ path('app_home') }}">
-                        <img src="{{ asset('build/images/logo.svg') }}"
-                             alt="Logo lagoon piscines"
-                             height="45"
-                             width="120"
-                             style="object-fit: cover;"
-                        >
+                        <div class="vibes size-3">
+                            <span class="text-brand">facil</span>forma
+                        </div>
                     </a>
 
                     <button
@@ -55,22 +52,30 @@
                     </button>
 
                     <div class="collapse navbar-collapse justify-content-end text-end" id="navbarNav">
-                        <div class="nav navbar-nav mx-auto mb-2 mb-lg-0">
+                        <div class="nav navbar-nav mx-auto mb-2 mb-lg-0 kanit-bold fs-5">
                             <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">
                                 Accueil
                             </a>
                             <a class="nav-link" href="{{ path('app_formation') }}">Nos formations</a>
                             <a class="nav-link" href="{{ path('app_about_us') }}">A propos</a>
                         </div>
-                        <div>
-                            <a class="btn btn-second fw-normal fs-6"
-                                    href="tel:0645771184"
-                                    title="Cliquez pour nous appeler">
-                                <div class="text-light">
-                                    <i class="fas fa-phone-alt fs-5"></i>
-                                    +33 6 45 77 11 84
-                                </div>
-                            </a>
+                        <div class="d-flex">
+                            <div>
+                                <a class="btn btn-outline-brand kanit-light border-0 fs-6" href="{{ path('app_login') }}">
+                                    <i class="fa fa-user fs-5"></i>
+                                    &nbsp;Se connecter
+                                </a>
+                            </div>
+                            <div>
+                                <a class="btn btn-second fs-6"
+                                   href="tel:0645771184"
+                                   title="Cliquez pour nous appeler">
+                                    <div class="text-light">
+                                        <i class="fas fa-phone-alt fs-5"></i>
+                                        +33 6 45 77 11 84
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -79,7 +84,7 @@
 
         {% block body %}{% endblock %}
 
-        <footer class="bg-dark text-light section-x">
+        <footer class="bg-brand-dark text-light section-x">
             <div class="row py-5">
                 <div class="col-6">
                     <ul style="list-style:none">
@@ -122,13 +127,18 @@
                                 Nos formations
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ path('app_login') }}" class="footer-link">
+                                Se connecter
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
 
             <div class="text-center">
                 <i class="fa fa-copyright" aria-hidden="true"></i>
-                &nbsp;Copyright 2022 LAGOON&reg; DISTRIBUTION CORPORATION
+                &nbsp;Copyright 2022 facilforma
             </div>
         </footer>
     </body>

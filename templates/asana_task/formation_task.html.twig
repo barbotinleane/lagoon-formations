@@ -1,0 +1,52 @@
+<body>
+    <em>Une demande de formation a été effectuée le {{ 'now'|date("d/m/Y \\à H:i") }}</em>
+
+    <strong>Informations personnelles : </strong>
+    <ul>
+        {% if ask.lastName %}
+            <li>Nom : {{ ask.lastName }}</li>
+        {% endif %}
+        {% if ask.firstName %}
+            <li>Prénom : {{ ask.firstName }}</li>
+        {% endif %}
+        {% if ask.email %}
+            <li>Email : {{ ask.email }}</li>
+        {% endif %}
+        {% if ask.phoneNumber %}
+            <li>Numéro de téléphone : {{ ask.phoneNumber }}</li>
+        {% endif %}
+    </ul>
+
+    <strong>Statut : </strong>
+    <ul>
+        {% if ask.status %}
+            <li>Statut : {{ ask.status.statusName }}</li>
+        {% endif %}
+        {% if ask.companyName and ask.companyName != "null" %}
+            <li>Nom de l'entreprise : {{ ask.companyName }}</li>
+        {% endif %}
+        {% if ask.companyPostalCode and ask.companyPostalCode != "null" %}
+           <li>Code postal de l'entreprise : {{ ask.companyPostalCode }}</li>
+        {% endif %}
+    </ul>
+
+    <strong>La formation : </strong>
+    <ul>
+        {% if ask.formationLibelle.libelle %}
+            <li>Formation demandée : {{ ask.formationLibelle.libelle }}</li>
+        {% endif %}
+        {% if ask.numberOfLearners %}
+            <li>Nombre de personnes à pré-inscrire à la formation : {{ ask.numberOfLearners }}</li>
+        {% endif %}
+        <li>
+            A connu notre formation par...
+            <ul>
+                {% for item in ask.knowsUs %}
+                    <li>{{ item }}</li>
+                {% else %}
+                    <em>Aucune donnée</em>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+</body>

@@ -17,103 +17,93 @@ class DocController extends AbstractController
     #[Route('/documentation/programme/{formationId}', name: 'app_doc_program')]
     public function program($formationId, FormationLibellesRepository $flRepo): Response
     {
-        /*$formation = $flRepo->find($formationId);
+        $formation = $flRepo->find($formationId);
         $programFilename = $formation->getProgramName();
 
         return $this->render('doc/program.html.twig', [
             'fileName' => $programFilename,
             'name' => 'Programme de la formation '.$formation->getLibelle(),
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 
     #[Route('/documentation/rgpd', name: 'app_doc_rgpd')]
     public function rgpd(): Response
     {
-        /*return $this->render('doc/index.html.twig', [
+        return $this->render('doc/index.html.twig', [
             'fileName' => 'RGPD',
             'name' => 'Règlement Général pour la Protection des Données',
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 
     #[Route('/documentation/cgv', name: 'app_doc_cgv')]
     public function cgv(): Response
     {
-        /*return $this->render('doc/index.html.twig', [
+        return $this->render('doc/index.html.twig', [
             'fileName' => 'conditions_generales_vente',
             'name' => 'Conditions Générales de Vente',
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 
     #[Route('/documentation/charte-qualite', name: 'app_doc_quality')]
     public function quality(): Response
     {
-        /*return $this->render('doc/index.html.twig', [
+        return $this->render('doc/index.html.twig', [
             'fileName' => 'charte_qualite',
             'name' => 'Charte de qualité'
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 
     #[Route('/documentation/installation-bassin-paysager', name: 'app_doc_bassin')]
     public function bassin(): Response
     {
-        /*return $this->render('doc/index.html.twig', [
+        return $this->render('doc/index.html.twig', [
             'fileName' => 'bassin',
             'name' => 'Programme de la formation Réalisation de Piscine ou Bassin écologique de type Lagon'
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 
     #[Route('/documentation/gestes-postures-travail', name: 'app_doc_gestes')]
     public function gestes(): Response
     {
-        /*return $this->render('doc/index.html.twig', [
+        return $this->render('doc/index.html.twig', [
             'fileName' => 'gestes',
             'name' => 'Programme de la formation Gestes et Postures de Travail'
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 
     #[Route('/documentation/livret-accueil', name: 'app_doc_livret')]
     public function livret(): Response
     {
-        /*return $this->render('doc/index.html.twig', [
+        return $this->render('doc/index.html.twig', [
             'fileName' => 'livret_accueil',
             'name' => 'Livret d\'accueil'
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 
     #[Route('/documentation/domotique-traitement-eau-ecologique-environnemental', name: 'app_doc_domotique')]
     public function domotique(): Response
     {
-        /*return $this->render('doc/index.html.twig', [
+        return $this->render('doc/index.html.twig', [
             'fileName' => 'pompe_filtration',
             'name' => 'Programme de la formation Domotique et Traitement de l\'eau écologique et environnemental'
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 
     #[Route('/documentation/reglement-interieur', name: 'app_doc_reglement')]
     public function reglement(): Response
     {
-        /*return $this->render('doc/index.html.twig', [
+        return $this->render('doc/index.html.twig', [
             'fileName' => 'reglement_interieur',
             'name' => 'Règlement intérieur de LAGOON Formations'
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 
     #[Route('/documentation/sauveteur-secouriste-travail', name: 'app_doc_sst')]
     public function sst(): Response
     {
-        /*return $this->render('doc/index.html.twig', [
+        return $this->render('doc/index.html.twig', [
             'fileName' => 'sst',
             'name' => 'Programme de la formation Sauveteur Secouriste du Travail'
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 }

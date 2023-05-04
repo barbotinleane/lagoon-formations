@@ -1,5 +1,5 @@
 <div class="row">
-    {% set color = ["second", "brand-dark", "brand"] %}
+    {% set color = ["brand-light", "second-light", "brand"] %}
     {% set index = 0 %}
 
     {% for formation in formations %}
@@ -8,7 +8,7 @@
                 {% if formation.agrement == 0 %}
                     btn-{{ color[index] }}-disabled">
                 {% else %}
-                    btn-{{ color[index] }}" onclick="location.href = '{{ path('app_formation_show', {formationId: formation.id}) }}'">
+                    btn-{{ color[index] }} border-0" onclick="location.href = '{{ path('app_formation_show', {formationId: formation.id}) }}'">
                 {% endif %}
 
 

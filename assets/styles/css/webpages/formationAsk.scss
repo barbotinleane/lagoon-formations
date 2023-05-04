@@ -1,5 +1,32 @@
 /*For formation asks */
+#formation_asks_stagiaires {
+  > div {
+    padding: 1.5rem;
+    background-color: #e0e0e0;
+    border-radius: 4em;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem !important;
 
+    @media (min-width: 992px) {
+      flex-direction: row;
+    }
+  }
+}
+
+.bg-woman-in-formation {
+  background-image: url('../../../photos/woman_happy_in_formation.jpg');
+  background-position: center;
+  background-size: cover;
+}
+
+.h-xs-300px {
+  height: 300px;
+
+  @media (min-width: 768px) {
+    height: auto;
+  }
+}
 
 /*For form with steps*/
 // RESET
@@ -17,23 +44,24 @@ ol.craue_formflow_steplist {
 // TIMELINE ORDERED LIST
 ol.craue_formflow_steplist {
   $bullet-line-width: 3px;
-  $bullet-color: #adadad;
+  $bullet-color: lighten(#E29578, 20%);
   $bullet-border-width: $bullet-line-width;
-  $bullet-background-color: #212529;
+  $bullet-background-color: lighten(#E29578, 20%);
   $bullet-size: 30px;
   counter-reset: numbered-list;
-  border-left: 1px solid $bullet-color;
-  margin-left: 10px;
+  border-top: 4px solid lighten(#E29578, 20%);
+  margin-top: 10px;
   position: relative;
+  display: flex;
+  justify-content: space-between;
 
   li {
     font-size: 16px;
     line-height: 1.2;
     margin-bottom: 30px;
-    padding-left: 30px;
+    color: transparent;
 
     &:last-child {
-      border-left: 4px solid $bullet-background-color;
       margin-left: -$bullet-line-width;
     }
 
@@ -51,8 +79,6 @@ ol.craue_formflow_steplist {
       height: $bullet-size;
       margin-top: $half-of-font-size;
       line-height: $bullet-size;
-      position: absolute;
-      left: - (calc($bullet-size / 2) + calc($bullet-line-width / 2) - 1);
       text-align: center;
     }
   }
@@ -67,9 +93,9 @@ ol.craue_formflow_steplist {
     &:before {
       $bullet-size: 30px;
       $bullet-border-width: 5px;
-      background-color: #212529;
-      color: #212529;
-      border: $bullet-border-width solid #FFF;
+      background-color: #E29578;
+      color: #E29578;
+      border: $bullet-border-width solid #E29578;
       width: $bullet-size;
       height: $bullet-size;
       left: - (calc($bullet-size / 2) + calc($bullet-border-width / 2) - 2);
@@ -90,4 +116,8 @@ ol.craue_formflow_steplist {
   position: relative;
   top: -30px;
   right: -30px;
+}
+
+.consent > input {
+  border-color: #6c757d;
 }

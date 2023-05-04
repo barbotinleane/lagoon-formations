@@ -29,66 +29,58 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AskController extends AbstractController
 {
+    /***
+     * Displays the form to ask for a formation, save the ask and send email
+     *
+     * @param EntityManagerInterface $entityManager
+     * @param Request $request
+     * @param DepartmentsRepository $departmentsRepository
+     * @param CustomMailer $mailer
+     * @param AskSaver $askSaver
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
     #[Route('/demande-de-formation/{formationId}', name: 'app_ask')]
-    public function ask($formationId, EntityManagerInterface $em, FormationAskFlow $flow, Request $request, FormationLibellesRepository $flRepo, FormationPricesRepository $fpRepo, DepartmentsRepository $dRepo, AskSetter $askSetter, AskSaver $askSaver)
+    public function ask($formationId, EntityManagerInterface $em, FormationAskFlow $flow, FormationLibellesRepository $flRepo, CustomMailer $mailer, AsanaManager $asanaManager, AskSaver $askSaver)
     {
-        /*$formation = $flRepo->find($formationId);
+        $formation = $flRepo->find($formationId);
+
         $ask = new FormationAsks($formation);
-        $form = $askSetter->setForm($flow, $ask, $formationId);
-
+        $flow->setGenericFormOptions(['formationId' => $formationId]);
+        $flow->bind($ask);
+        $form = $flow->createForm();
         $instance = $flow->getInstanceId();
-        $prerequisites = null;
-        $priceToShow = 0;
-
-        $pricesArray = $askSetter->getPrices($flow, $request, $form);
 
         if ($flow->isValid($form)) {
             $flow->saveCurrentStepData($form);
 
-            if ($request->isXmlHttpRequest()) {
+            if ($flow->nextStep()) {
+                if ($flow->getCurrentStepLabel() === '3') {
+                    $ask = $askSaver->saveUnMappedFormFieldsToAsk($_POST, $ask);
+                }
                 $form = $flow->createForm();
             } else {
-                if ($flow->nextStep()) {
-                    if ($flow->getCurrentStepLabel() === 'CS') {
-                        $askSetter->createCompanyDirectorLearner($flow);
-                        $priceToShow = $askSetter->getPricesWhenNumberOfLearnersChange($flow, $priceToShow);
-                    } else if ($flow->getCurrentStepLabel() === 'AR') {
-                        if($flow->getFormData()->isIsStagiaireMultiple() === true) {
-                            $isStagiaireMultiple = true;
-                        } else {
-                            $isStagiaireMultiple = false;
-                        }
-                    } else if ($flow->getCurrentStepLabel() === 'R') {
-                        $ask = $askSaver->saveUnMappedFormFieldsToAsk($_POST, $ask);
-                        $prerequisites = json_decode($ask->getPrerequisites());
-                    }
+                $ask->setFormationLibelle($formation);
+                $em->persist($ask);
+                $em->flush();
 
-                    // form for the next step
-                    $form = $flow->createForm();
+                $asanaManager->addFormationTask($ask);
+                $mailer->sendAskMail($ask, $ask->getStatus());
+
+                if($ask->getStatus()->getId() == 1) {
+                    $this->addFlash('professional', 'Votre demande de formation a bien été envoyée.');
                 } else {
-                    $ask->setPrerequisites($_POST['prerequisites']);
-                    $askSaver->persistAndFlush($ask, $formation);
-
-                    $this->addFlash('success', 'Votre demande de formation a bien été envoyée.');
-                    return $this->redirectToRoute('app_home');
+                    $this->addFlash('individual', 'Votre demande de formation a bien été envoyée.');
                 }
+                return $this->redirectToRoute('app_home');
             }
         }
-        $prerequisites = json_decode($ask->getPrerequisites());
-        $prerequisites = (array) $prerequisites;
 
         return $this->render('ask/index.html.twig', [
             "form" => $form->createView(),
             "flow" => $flow,
-            "prices" => $pricesArray,
-            "priceForStagiairesSaved" => $priceToShow,
             "ask" => $ask,
             "instance" => $instance,
-            "prerequisites" => $prerequisites,
             "formation" => $formation,
-            "formationId" => $formationId,
-            "isStagiaireMultiple" => $isStagiaireMultiple,
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 }

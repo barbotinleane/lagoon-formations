@@ -22,25 +22,23 @@ class FormationController extends AbstractController
      * @return Response
      */
     #[Route('/formations', name: 'app_formation')]
-    public function index(FormationLibellesRepository $libellesRepository, FormationCategoriesRepository $formationCategoriesRepository): Response
+    public function index(FormationLibellesRepository $libellesRepository): Response
     {
-        /*$formations = $libellesRepository->findAll();
+        $formations = $libellesRepository->findAll();
 
         return $this->render('formation/index.html.twig', [
             'formations' => $formations,
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 
     #[Route('/nos-formations/{formationId}', name: 'app_formation_show')]
     public function show($formationId, FormationLibellesRepository $flRepo): Response
     {
-        /*$formation = $flRepo->find($formationId);
+        $formation = $flRepo->find($formationId);
 
         return $this->render('formation/show.html.twig', [
             "formation" => $formation,
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 
     /***
@@ -51,11 +49,10 @@ class FormationController extends AbstractController
     #[Route('/formations/installation-bassin-paysager', name: 'app_formation_bassin')]
     public function bassin(): Response
     {
-        /*return $this->render('formation/bassin.html.twig', [
+        return $this->render('formation/bassin.html.twig', [
             'program' => 'bassin',
             'formationName' => 'Réalisation de Piscine ou Bassin écologique de type Lagon',
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 
     /***
@@ -66,11 +63,10 @@ class FormationController extends AbstractController
     #[Route('/formations/sauveteur-secouriste-travail', name: 'app_formation_sst')]
     public function sst(): Response
     {
-        /*return $this->render('formation/sst.html.twig', [
+        return $this->render('formation/sst.html.twig', [
             'program' => 'sst',
             'formationName' => 'Sauveteur Secouriste du Travail'
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 
     /***
@@ -81,11 +77,10 @@ class FormationController extends AbstractController
     #[Route('/formations/domotique-traitement-eau-ecologique', name: 'app_formation_traitement')]
     public function treatment(): Response
     {
-        /*return $this->render('formation/treatment.html.twig', [
+        return $this->render('formation/treatment.html.twig', [
             'program' => 'domotique',
             'formationName' => 'Domotique et traitement de l\'eau écologique et environnemental'
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 
     /***
@@ -96,10 +91,9 @@ class FormationController extends AbstractController
     #[Route('/formations/gestes-postures', name: 'app_formation_gestes')]
     public function gestes(): Response
     {
-        /*return $this->render('formation/gestes.html.twig', [
+        return $this->render('formation/gestes.html.twig', [
             'program' => 'gestes',
             'formationName' => 'Gestes et Postures au travail'
-        ]);*/
-        return $this->redirect('https://lagoon-piscines.com');
+        ]);
     }
 }

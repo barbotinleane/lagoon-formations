@@ -6,34 +6,52 @@
 @import "xl.css";
 
 @font-face {
-    font-family: 'Raleway-Black';
-    src: url('./fonts/Raleway-Black.ttf') format('truetype');
+    font-family: 'Vibes';
+    src: url('./fonts/Vibes-Regular.ttf') format('truetype');
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Raleway-ExtraThin';
-    src: url('./fonts/Raleway-ExtraLight.ttf') format('truetype');
+    font-family: 'Kanit Bold';
+    src: url('./fonts/Kanit-Bold.ttf') format('truetype');
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Raleway-Bold';
-    src: url('./fonts/Raleway-ExtraBold.ttf') format('truetype');
+    font-family: 'Kanit Medium';
+    src: url('./fonts/Kanit-Medium.ttf') format('truetype');
     font-display: swap;
 }
 
-$brand-colors: ("brand", #0072A3),
-        ("brand-dark", #004766),
-        ("brand-light", lighten(#0072A3, 50%)),
-        ("second", #6FAB47),
-        ("second-light", #DFE9AF),
+@font-face {
+    font-family: 'Kanit Black';
+    src: url('./fonts/Kanit-ExtraBold.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Kanit Light';
+    src: url('./fonts/Kanit-Light.ttf') format('truetype');
+    font-display: swap;
+}
+
+$brand-colors: ("brand", #E29578),
+        ("brand-dark", #011627),
+        ("brand-light", #FFDDD2),
+        ("second", #17C3B2),
+        ("second-light", lighten(#17C3B2, 50%)),
         ("warning", #F71735);
 
 @mixin media-min($_min-width) {
     @media screen and (min-width: $_min-width) {
         &{ @content; }
     }
+}
+
+body {
+    font-family: 'Kanit Light', sans-serif;
+    background-color: #FFFDFC;
+    color: #011627;
 }
 
 @each $color in $brand-colors {
@@ -47,22 +65,24 @@ $brand-colors: ("brand", #0072A3),
 
     .btn-#{nth($color,1)} {
         background-color: nth($color,2);
-        color:white;
-        border-radius: 15px;
+        color: #011627;
+        font-family: 'Kanit Medium', sans-serif;
+        border-radius: 30px;
         cursor: pointer;
         font-weight: bold;
         font-size: 1.1em;
 
         &:hover {
-            background-color: lighten(nth($color,2), 8%);
-            color:white;
+            background-color: lighten(nth($color,2), 10%);
+            color: #011627;
         }
     }
 
     .btn-#{nth($color,1)}-disabled {
         background-color: transparentize(nth($color,2), 0.25);
         color:transparentize(white, 0.4);
-        border-radius: 15px;
+        font-family: 'Kanit Medium', sans-serif;
+        border-radius: 30px;
         cursor: not-allowed;
         font-weight: bold;
         font-size: 1.1em;
@@ -80,8 +100,9 @@ $brand-colors: ("brand", #0072A3),
     .btn-outline-#{nth($color,1)} {
         background-color: transparent;
         color: nth($color,2);
+        font-family: 'Kanit Medium', sans-serif;
         border: 1px solid nth($color,2);
-        border-radius: 15px;
+        border-radius: 30px;
         cursor: pointer;
         font-weight: bold;
         font-size: 1.1em;
@@ -145,27 +166,27 @@ body {
 }
 
 h1 {
-    font-family: 'Raleway-Black', sans-serif;
+    font-family: 'Kanit Black', sans-serif;
     font-size: 3em;
 }
 
 h2 {
-    font-family: 'Raleway-Bold', sans-serif;
+    font-family: 'Kanit Bold', sans-serif;
     font-size: 1.8em;
 }
 
 h3 {
-    font-family: 'Raleway-Bold', sans-serif;
+    font-family: 'Kanit Bold', sans-serif;
     font-size: 1.2em;
 }
 
 a {
-    color:lighten(#0c4767, 10%);
+    color: darken(#17C3B2, 20%);
     text-decoration: none;
 
     &:hover {
         text-decoration: none;
-        color:lighten(#d1ac00, 20%);
+        color:#17C3B2;
     }
 }
 
@@ -190,11 +211,23 @@ a {
 }
 
 .rounded-corners {
-    border-radius: 4em;
+    border-radius: 7em;
 }
 
-.raleway-black {
-    font-family: 'Raleway-Black', sans-serif;
+.vibes {
+    font-family: 'Vibes', sans-serif;
+}
+
+.kanit-light {
+    font-family: 'Kanit Light', sans-serif;
+}
+
+.kanit-medium {
+    font-family: 'Kanit Medium', sans-serif;
+}
+
+.kanit-bold {
+    font-family: 'Kanit Bold', sans-serif;
 }
 
 .number {
@@ -207,11 +240,11 @@ a {
 .footer-link {
     color: white;
     text-decoration:none;
-    font-family: 'Raleway-Black', sans-serif;
+    font-family: 'Kanit Medium', sans-serif;
     font-size: 1.1em;
 
     &:hover {
-        color: nth(nth($brand-colors, 5), 2);
+        color: #E29578;
     }
 }
 

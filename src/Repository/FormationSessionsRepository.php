@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\FormationLibelles;
 use App\Entity\FormationSessions;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -45,32 +46,62 @@ class FormationSessionsRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return FormationSessions[] Returns an array of FormationSessions objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return FormationSessions[] Returns an array of FormationSessions objects
+     */
+    public function findAllByFormation()
     {
         return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
+            ->where('f.dateEnd > CURRENT_DATE()')
+            ->orderBy('f.formation')
+            ->addOrderBy('f.formation', 'ASC')
+            ->addOrderBy('f.dateStart', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * @return FormationSessions[] Returns an array of FormationSessions objects
+     */
+    public function findAllSessionsInChronologicalOrder(int $id)
+    {
+        return $this->createQueryBuilder('f')
+            ->where('f.dateStart > CURRENT_DATE()')
+            ->andWhere('f.formation = :id')
+            ->orderBy('f.dateStart', 'ASC')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findAllEvents(int $id): ?array
+    {
+        $dates = $this->createQueryBuilder('f')
+            ->select('f.dateStart AS start', 'f.dateEnd AS end', 'f.registered', 'f.capacity')
+            ->where('f.dateStart > CURRENT_DATE()')
+            ->andWhere('f.formation = :id')
+            ->orderBy('f.dateStart', 'ASC')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
         ;
-    }
-    */
+        $datesFormated = [];
 
-    /*
-    public function findOneBySomeField($value): ?FormationSessions
-    {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        foreach($dates as $date) {
+            $description = "Remplissage : ".$date["registered"]."/".$date["capacity"]." pers.";
+            $title = $date["registered"] < $date["capacity"] ? "Reste ".$date["capacity"]-$date["registered"]." places" : "Complet !";
+            $color = $date["registered"] < $date["capacity"] ? "green" : "red";
+            $datesFormated[] = [
+                "start" => $date["start"]->format('Y-m-d'),
+                "end" => $date["end"]->modify('+1 day')->format('Y-m-d'),
+                "title" => $title,
+                "description" => $description,
+                "color" => $color,
+            ];
+        }
+
+        return $datesFormated;
     }
-    */
 }

@@ -57,16 +57,18 @@
                         <span class="fw-bold">Identifiant Pôle Emploi :</span>{{ ask.idPoleEmploi }}
                     </div>
                 {% endif %}
-                <div class="fw-bold">Catégorie d'activité : </div>
-                <ul>
-                    {% for activity in ask.activityCategory %}
-                        <li>{{ activity }}</li>
-                    {% endfor %}
-                </ul>
+                {% if ask.activityCategory != null %}
+                    <div class="fw-bold">Catégorie d'activité : </div>
+                    <ul>
+                        {% for activity in ask.activityCategory %}
+                            <li>{{ activity }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
         </div>
         <div class="text-end">
-            <a class="btn btn-success rounded-corners" href='/demande-de-formation/{{ formationId }}?instance={{ instance }}&step=3'>
+            <a class="btn btn-success rounded-corners" href='/demande-de-formation?instance={{ instance }}&step=3'>
                 <i class="fas fa-pen"></i>
             </a>
         </div>

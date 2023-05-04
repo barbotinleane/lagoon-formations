@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}LAGOON&reg; Piscines - Formation Réalisation de Piscine et Bassin écologique de type Lagon{% endblock %}
+{% block title %}facilforma - Formation Réalisation de Piscine et Bassin écologique de type Lagon{% endblock %}
 
 {% block description %}
     Devenez installateur de piscines écologiques LAGOON® en résine et EPDM au cours d'une formation certifiée
@@ -12,7 +12,7 @@
         <div class="row py-5 px-none px-md-4 px-lg-5">
             <div class="text-title">
                 <div class="text-uppercase fw-light">Formation</div>
-                <h1 class="raleway-black size-1">
+                <h1 class="size-1">
                     {{ formation.libelle }}
                 </h1>
                 <p class="w-75">
@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div class="row bg-dark text-white">
+        <div class="row bg-brand-dark text-white">
             <div class="col-12 col-md-8 p-2 p-md-5">
                 <div class="d-flex align-items-center">
                     <div class="fs-1 pe-3">
@@ -75,7 +75,7 @@
             </div>
         </div>
 
-        <div class="row bg-dark py-5 justify-content-around">
+        <div class="row bg-brand-dark py-5 justify-content-around">
             {% for image in formation.formationImages %}
                 <div class="col-12 col-sm-6 col-md-4">
                     <img src="{{ asset('uploads/images/formations/' ~ image.imageName) }}"
@@ -91,7 +91,7 @@
                     <i class="fa fa-university size-big" aria-hidden="true"></i>
                 </div>
                 <div class="col-12 col-sm-10 ps-none ps-sm-5">
-                    <h2 class="raleway-black size-2">
+                    <h2 class="size-2">
                         Notre formation peut être financée en tout ou partie par l’état
                     </h2>
                     <p>
@@ -168,7 +168,7 @@
 
                     {% if formation.companyApprovalRate is not empty %}
                         <div class="col-12 col-sm-4 text-center">
-                            <div class="raleway-black size-1">
+                            <div class="kanit-bold size-1">
                                 {{ formation.companyApprovalRate }}%
                             </div>
                             Taux d'agrément entreprise
@@ -177,7 +177,7 @@
 
                     {% if formation.individualSuccessRate is not empty %}
                         <div class="col-12 col-sm-4 text-center">
-                            <div class="raleway-black size-1">
+                            <div class="kanit-bold size-1">
                                 {{ formation.individualSuccessRate }}%
                             </div>
                             Taux de réussite individuelle
@@ -186,7 +186,7 @@
 
                     {% if formation.satisfactionRate is not empty %}
                         <div class="col-12 col-sm-4 text-center">
-                            <div class="raleway-black size-1">
+                            <div class="kanit-bold size-1">
                                 {{ formation.satisfactionRate }}%
                             </div>
                             Taux de satisfaction
@@ -197,7 +197,7 @@
         {% endif %}
 
         {% if formation.id == 1 %}
-            <div class="row section bg-dark text-light">
+            <div class="row section bg-brand-dark text-light">
                 <h2 class="text-center baskerville">Des commentaires de stagiaires</h2>
 
                 <div id="carouselClients" class="carousel carousel-light slide" data-bs-ride="carousel">
@@ -278,14 +278,14 @@
         <div class="row section big-spacing row justify-content-around align-items-center">
             <div class="col-12 col-sm-4">
                 <picture>
-                    <source srcset="{{ asset('build/images/demarrer_metier.webp') }}" type="image/webp" class="w-100">
-                    <source srcset="{{ asset('build/images/demarrer_metier.jpg') }}" type="image/jpeg" class="w-100">
-                    <img src="{{ asset('build/images/demarrer_metier.jpg') }}" alt="Trois installateurs de piscine écologique souriant démarrant leur équipe et ayant été formées par LAGOON" class="w-100">
+                    <source srcset="{{ asset('build/images/women_learning.webp') }}" type="image/webp" class="w-100">
+                    <source srcset="{{ asset('build/images/women_learning.jpg') }}" type="image/jpeg" class="w-100">
+                    <img src="{{ asset('build/images/women_learning.jpg') }}" alt="Deux femmes assises à une table en formation professionnelle avec facilforma" class="w-100 rounded-corners">
                 </picture>
             </div>
             <div class="col-12 col-sm-8">
-                <h2 class="raleway-black size-2">
-                    Prêts à démarrer votre <span class="underline-blue">nouveau métier</span> ?
+                <h2 class="size-2">
+                    Prêts à augmenter en <span class="underline-blue">compétences</span> ?
                 </h2>
                 <div class="pt-5 d-flex justify-content-end">
                     <div>
@@ -302,7 +302,7 @@
 
         <div class="row section d-flex justify-content-around align-items-center bg-second">
             <div class="col-12 col-sm-8 order-2 order-sm-1 pt-4">
-                <h3 class="raleway-black size-3">
+                <h3 class="kanit-bold size-3">
                     Envie d'en savoir plus ?
                 </h3>
                 <p>

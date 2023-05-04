@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\FormationAsks;
-use Doctrine\ORM\EntityManagerInterface;
 
 /***
  * Service used to save unmapped fields in the form to ask for a formation in a formation object
@@ -12,32 +11,6 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class AskSaver
 {
-    private $em;
-    private $mailer;
-
-    public function __construct(EntityManagerInterface $em, CustomMailer $mailer)
-    {
-        $this->em = $em;
-        $this->mailer = $mailer;
-    }
-
-    /***
-     * If they exists, save the prerequisites in json in the ask object
-     *
-     * @param $data
-     * @param FormationAsks $ask
-     * @return void
-     */
-    public function savePrerequisites($data, FormationAsks $ask) {
-        $prerequisites = [
-            'Visseuse' => $data['visseuse'],
-            'Perceuse' => $data['perceuse'],
-            'Taloche' => $data['taloche'],
-            'Commentaires' => $data['commentaires-outils']
-        ];
-        $ask->setPrerequisites(json_encode($prerequisites));
-    }
-
     /***
      * Check if some values from checkboxs or radios are not from defined values but are given from an 'other' field
      * Save the custom values in an ask object
@@ -50,15 +23,6 @@ class AskSaver
         foreach ($data['other'] as $key => $value) {
             if($value !== "") {
                 switch($key) {
-                    case 'status':
-                        $ask->setStatus($value);
-                        break;
-                    case 'goal':
-                        $ask->setGoal($value);
-                        break;
-                    case 'activityCategory':
-                        $ask->setActivityCategory($value);
-                        break;
                     case 'knowsUs':
                         $knowsUs = $ask->getKnowsUs();
                         $knowsUs[] = $value;
@@ -79,23 +43,8 @@ class AskSaver
      * @return FormationAsks
      */
     public function saveUnMappedFormFieldsToAsk($data, FormationAsks $ask) {
-        $this->savePrerequisites($data, $ask);
         $this->saveCustomValuesInFields($data, $ask);
 
         return $ask;
-    }
-
-    public function persistAndFlush(FormationAsks $ask, $formation) {
-        if ($ask->getStagiaires() !== null) {
-            foreach ($ask->getStagiaires() as $stagiaire) {
-                $this->em->persist($stagiaire);
-            }
-        }
-        $ask->setFormationLibelle($formation);
-        $this->em->persist($ask);
-        $this->em->flush();
-
-        //$asanaManager->addFormationTask($ask);
-        $this->mailer->sendAskMail($ask, $ask->getStatus());
     }
 }

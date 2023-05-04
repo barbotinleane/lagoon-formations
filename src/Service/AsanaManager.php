@@ -21,36 +21,26 @@ class AsanaManager
     private $asana;
     private $router;
     private $twig;
+    private $params;
 
     public function __construct(ContainerBagInterface $params, RouterInterface $router, Environment $twig)
     {
         $this->asana = Client::accessToken($params->get('asana_key'));
         $this->router = $router;
         $this->twig = $twig;
+        $this->params = $params;
     }
 
     public function addFormationTask(FormationAsks $ask)
     {
         $status = $ask->getStatus()->getId();
 
-        $stagiaires = [];
-        if($ask->getStatus()->getId() == 1) {
-            $stagiaires = $ask->getStagiaires();
-        }
-
-        $prerequisites = [];
-        if($ask->getFormationLibelle()->getId() == 1) {
-            $prerequisites = json_decode($ask->getPrerequisites(), true);
-        }
-
-        $workspaceId = '1201979099877005';
-        $projectId = "1202210789483832";
+        $workspaceId = $this->params->get('workspace_id');
+        $projectId = $this->params->get('formation_project_id');
 
         // Load Twig File
         $html = $this->twig->render('asana_task/formation_task.html.twig', [
             'ask' => $ask,
-            'stagiaires' => $stagiaires,
-            'prerequisites' => $prerequisites,
             'status' => $status,
         ]);
 
@@ -64,7 +54,7 @@ class AsanaManager
                 'html_notes' => $html
             ), array(
                 'headers' => [
-                    'Asana-Disable' => 'new_project_templates',
+                    'Asana-Disable' => 'new_memberships',
                     'Asana-Enable' => 'new_user_task_lists',
                 ],
                 'fields' => ['html_notes'],
@@ -78,11 +68,11 @@ class AsanaManager
 
     public function addProjectTask(ProjectAsk $ask)
     {
-        $workspaceId = '1201979099877005';
+        $workspaceId = $this->params->get('workspace_id');
 
         // Test department and change project and subtasks
         if($ask->getDepartment() === "06") {
-            $projectId = "1202086049265434";
+            $projectId = $this->params->get('paca_project_id');
             $subtasks = [
                 "Prise de contact par téléphone",
                 "Prise de RDV sur place",
@@ -90,7 +80,7 @@ class AsanaManager
                 "Présentation du devis"
             ];
         } else {
-            $projectId = "1202086049265444";
+            $projectId = $this->params->get('other_project_id');
             $subtasks = [
                 "Envoi à l'applicateur",
                 "Retour"
@@ -111,7 +101,7 @@ class AsanaManager
             'html_notes' => $html
         ), array(
             'headers' => [
-                'Asana-Disable' => 'new_project_templates',
+                'Asana-Disable' => 'new_memberships',
                 'Asana-Enable' => 'new_user_task_lists',
             ],
             'fields' => ['html_notes'],
@@ -125,7 +115,7 @@ class AsanaManager
             ), array(
                 'opt_pretty' => 'true',
                 'headers' => [
-                    'Asana-Disable' => 'new_project_templates',
+                    'Asana-Disable' => 'new_memberships',
                     'Asana-Enable' => 'new_user_task_lists',
                 ],
             ));

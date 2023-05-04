@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    LAGOON® Formations - Formations en éco-construction et prévention des risques au travail
+    facilforma - Formations en éco-construction et prévention des risques au travail
 {% endblock %}
 
 {% block description %}
@@ -19,11 +19,11 @@
             </div>
         {% endfor %}
 
-        <div class="row section bg-brand-gradient text-light align-items-center">
+        <div class="row section align-items-center">
             <div class="col-12 col-sm-7 order-2 order-sm-1 mt-4">
                 <h1>
                     Prêts à aller vers le monde
-                    <span class="text-brand-light">de demain</span> ?
+                    <span class="text-brand">de demain</span> ?
                 </h1>
                 <p>
                     Formation aux métiers d'avenir et prévention des risques
@@ -33,6 +33,7 @@
                         class="btn btn-second"
                         href="{{ path('app_formation') }}"
                 >
+                    <i class="fa fa-arrow-right"></i>
                     Découvrir nos formations
                 </a>
             </div>
@@ -43,15 +44,15 @@
                     <img
                             src="{{ asset('build/images/accueil.jpg') }}"
                             alt="Un homme et une femme heureux en situation de travail."
-                            class="w-100 rounded-circle"
+                            class="w-100 rounded-corners"
                     >
                 </picture>
             </div>
         </div>
 
-        <div class="row section">
+        <div class="row section bg-brand-light">
             <div class="col-12 col-sm-4 py-4">
-                <div class="text-center text-brand-dark">
+                <div class="text-center">
                     <i class="fas fa-hands-helping size-3"></i>
                     <h2>Main dans la main</h2>
                 </div>
@@ -60,7 +61,7 @@
                 </p>
             </div>
             <div class="col-12 col-sm-4 py-4">
-                <div class="text-center text-brand-dark">
+                <div class="text-center">
                     <i class="fas fa-thumbs-up size-3"></i>
                     <h2>Testées et approuvées</h2>
                 </div>
@@ -70,7 +71,7 @@
                 </p>
             </div>
             <div class="col-12 col-sm-4 py-4">
-                <div class="text-center text-brand-dark">
+                <div class="text-center">
                     <i class="fas fa-certificate size-3"></i>
                     <h2>Des formations certifiées Qualiopi</h2>
                 </div>
@@ -111,12 +112,12 @@
             </div>
         </div>
 
-        <div class="row section text-brand bg-second-light align-items-center justify-content-between">
+        <div class="row section text-light bg-brand align-items-center justify-content-between">
             <div class="col-12 col-sm-2 pb-2 text-center">
                 <i class="fa fa-university size-1" aria-hidden="true"></i>
             </div>
             <div class="col-12 col-sm-10 ps-none ps-sm-5">
-                <p class="size-3 raleway-black">
+                <p class="size-3 kanit-bold">
                     Nos formations peuvent être financées en tout ou partie par l’état
                 </p>
                 <p>
@@ -135,7 +136,7 @@
             {% include 'formation/reusables/list.html.twig' %}
 
             <div class="text-center pt-4">
-                <a class="btn btn-lg btn-brand">
+                <a class="btn btn-lg btn-second">
                     Voir plus
                 </a>
             </div>
