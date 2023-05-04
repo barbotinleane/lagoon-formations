@@ -17,7 +17,7 @@ host('lagoonformations')
     ->set('remote_user', 'lagoonk')
     ->set('http_user', 'lagoonk')
     ->set('deploy_path', '~/testfacilforma')
-    ->set('branch', 'prod')
+    ->set('branch', 'facilforma')
     ->set('writable_mode', 'chmod');
 
 // Taskss
